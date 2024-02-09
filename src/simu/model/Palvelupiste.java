@@ -5,10 +5,13 @@ import simu.framework.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import eduni.distributions.ContinuousGenerator;
+import simu.framework.Kello;
+import simu.framework.Tapahtuma;
+import simu.framework.Tapahtumalista;
+import simu.framework.Trace;
 
-// TODO:
-// Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
-
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Palvelupiste {
 
@@ -20,9 +23,9 @@ public class Palvelupiste {
 	private final ArrayList<TapahtumanTyyppi> palveupisteidenTyypit = new ArrayList<>();
 
 	private ArrayList<Double> palveluajat = new ArrayList<>();
-	
+
 	//JonoStartegia strategia; //optio: asiakkaiden järjestys
-	
+
 	private boolean varattu = false;
 
 
@@ -36,7 +39,7 @@ public class Palvelupiste {
 
 	public void lisaaJonoon(Asiakas a){   // Jonon 1. asiakas aina palvelussa
 		jono.add(a);
-		
+
 	}
 
 
@@ -47,13 +50,13 @@ public class Palvelupiste {
 
 
 	public void aloitaPalvelu(){  //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
-		
-		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu asiakkaalle " + jono.peek().getId());
-		
+
+		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + skeduloitavanTapahtumanTyyppi.name() + " asiakkaalle " + jono.peek().getId());
+
 		varattu = true;
 		double palveluaika = generator.sample();
 		palveluajat.add(palveluaika);
-		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi,Kello.getInstance().getAika()+palveluaika));
+		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika()+palveluaika));
 	}
 
 	public void raportti(){
