@@ -5,7 +5,7 @@ import simu.framework.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
@@ -21,13 +21,15 @@ public class Asiakas {
     private double saapumisaika;
     private double poistumisaika;
     private int id;
+    private static int asiakkadenMaara = 0;
+    private static long sum = 0;
     private int ika;
 
     private double spentMoney;
     private ArrayList<TapahtumanTyyppi> ruokalista;
 
     public Asiakas() {
-        id = i++;
+        id = ++asiakkadenMaara;
         ruokalista = new ArrayList<>();
         ika = (int) (ageRandom.sample());
         spentMoney = 0;
@@ -84,6 +86,14 @@ public class Asiakas {
 
     public double getSpentMoney() {
         return spentMoney;
+    }
+
+    public static int getAverageAge() {
+        int summa = 0;
+        for (Map.Entry<Integer, Integer> entry : ikaJakauma.entrySet()) {
+            summa += (entry.getKey() * entry.getValue());
+        }
+        return summa / asiakkadenMaara;
     }
 
     public int getId() {
