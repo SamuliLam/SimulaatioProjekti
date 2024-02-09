@@ -63,6 +63,8 @@ public class OmaMoottori extends Moottori{
 	protected void tulokset() {
 		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
 		System.out.println("Tulokset ... puuttuvat vielä");
+		System.out.println("Asiakkaiden ikien keskiarvo: " + Asiakas.getAverageAge());
+
 	}
 
 	
