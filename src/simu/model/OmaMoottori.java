@@ -24,12 +24,9 @@ public class OmaMoottori extends Moottori {
 		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
 		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
 
-        palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
-        palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
         //palvelupisteet[2]=new Palvelupiste(new Normal(5,3), tapahtumalista, TapahtumanTyyppi.DEP3);
 
         saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
-
     }
 
 
@@ -83,11 +80,21 @@ public class OmaMoottori extends Moottori {
 
     @Override
     protected void tulokset() {
+        System.out.println("Tulokset: ");
         System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
         System.out.println("Tulokset ... puuttuvat vielä");
+
+
+        // Tulostetaan palvelupisteiden raportit
         for (Palvelupiste p : palvelupisteet) {
             p.raportti();
         }
+        // Voidaan tulostaa myös raportti jokaisesta asiakkaasta tismaalleen samalla tavalla kuin palvelupisteistä
+
+
+        // Kutsumalla asiakas-luokan metodia completeRaportti saadaan kaikista asiakkaista raportti
+        // Tällä hetkellä raportti sisältää asiakkaiden määrän ja keskimääräisen rahankäytön
+        Asiakas.completeRaportti();
     }
 
 

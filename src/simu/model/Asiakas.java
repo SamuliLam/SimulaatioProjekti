@@ -5,18 +5,24 @@ import simu.framework.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
 public class Asiakas {
     private static Normal ageRandom = new Normal(40, 100);
+    private static List<Asiakas> asiakkaat = new ArrayList<>();
+    private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
+    private static long sum = 0;
+    private static int i = 1;
+
+    private static double totalMoneySpent = 0;
+
     private double saapumisaika;
     private double poistumisaika;
     private int id;
-    private static int i = 1;
-    private static long sum = 0;
     private int ika;
-    private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
+
     private double spentMoney;
     private ArrayList<TapahtumanTyyppi> ruokalista;
 
@@ -28,6 +34,11 @@ public class Asiakas {
         saapumisaika = Kello.getInstance().getAika();
         Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + saapumisaika + " ja on " + ika + " vuotias.");
         updateIkaJakauma(ika);
+        asiakkaat.add(this);
+    }
+
+    public static List<Asiakas> getAsiakkaat() {
+        return asiakkaat;
     }
 
     public double getPoistumisaika() {
@@ -46,8 +57,20 @@ public class Asiakas {
         this.saapumisaika = saapumisaika;
     }
 
-    public void setSpentMoney(double spentMoney) {
-        this.spentMoney = spentMoney;
+    public static void addTotalMoneySpent(double amount) {
+        totalMoneySpent += amount;
+    }
+
+    public void addSpentMoney(double amount) {
+        spentMoney += amount;
+    }
+
+    public static double getTotalMoneySpent() {
+        return totalMoneySpent;
+    }
+
+    public static double getAverageMoneySpent() {
+        return totalMoneySpent / asiakkaat.size();
     }
 
     public void updateIkaJakauma(int ikä) {
@@ -56,6 +79,11 @@ public class Asiakas {
         } else {
             ikaJakauma.put(ikä, 1);
         }
+
+    }
+
+    public double getSpentMoney() {
+        return spentMoney;
     }
 
     public int getId() {
@@ -67,8 +95,11 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + saapumisaika);
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " poistui: " + poistumisaika);
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (poistumisaika - saapumisaika));
-        sum += (poistumisaika - saapumisaika);
-        double keskiarvo = sum / id;
-        System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti " + keskiarvo);
+        Trace.out(Trace.Level.INFO, "Asiakas " + id + " kulutti: " + spentMoney);
+    }
+
+    public static void completeRaportti() {
+        Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
+        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa.");
     }
 }
