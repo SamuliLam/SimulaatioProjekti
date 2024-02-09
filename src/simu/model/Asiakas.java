@@ -6,6 +6,7 @@ import simu.framework.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
@@ -14,22 +15,20 @@ public class Asiakas {
     private static List<Asiakas> asiakkaat = new ArrayList<>();
     private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
     private static long sum = 0;
-    private static int i = 1;
 
     private static double totalMoneySpent = 0;
 
     private double saapumisaika;
     private double poistumisaika;
-    private int id;
-    private static int asiakkadenMaara = 0;
-    private static long sum = 0;
+    private static int id = 0;
+
     private int ika;
 
     private double spentMoney;
     private ArrayList<TapahtumanTyyppi> ruokalista;
 
     public Asiakas() {
-        id = ++asiakkadenMaara;
+        id++;
         ruokalista = new ArrayList<>();
         ika = (int) (ageRandom.sample());
         spentMoney = 0;
@@ -93,7 +92,7 @@ public class Asiakas {
         for (Map.Entry<Integer, Integer> entry : ikaJakauma.entrySet()) {
             summa += (entry.getKey() * entry.getValue());
         }
-        return summa / asiakkadenMaara;
+        return summa / asiakkaat.size();
     }
 
     public int getId() {
@@ -111,5 +110,6 @@ public class Asiakas {
     public static void completeRaportti() {
         Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa.");
+        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
     }
 }

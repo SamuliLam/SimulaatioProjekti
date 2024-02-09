@@ -10,17 +10,23 @@ public class OmaMoottori extends Moottori{
 
 	private Palvelupiste[] palvelupisteet;
 
-	public OmaMoottori(){
+	public OmaMoottori() {
 
-		palvelupisteet = new Palvelupiste[3];
+		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
-		palvelupisteet[0]=new Palvelupiste(new Normal(10,6), tapahtumalista, TapahtumanTyyppi.DEP1);
-		palvelupisteet[1]=new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.DEP2);
-		palvelupisteet[2]=new Palvelupiste(new Normal(5,3), tapahtumalista, TapahtumanTyyppi.DEP3);
+		palvelupisteet = new Palvelupiste[5];
 
-		saapumisprosessi = new Saapumisprosessi(new Negexp(15,5), tapahtumalista, TapahtumanTyyppi.ARR1);
+		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
+		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.BEERDEP);
+		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.FISHDEP);
+		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
+		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
+
+
+		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
 	}
+
 
 
 	@Override
@@ -29,24 +35,36 @@ public class OmaMoottori extends Moottori{
 	}
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t){  // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
+		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
+		Asiakas asiakas;
+		switch ((TapahtumanTyyppi) t.getTyyppi()) {
 
-		Asiakas a;
-		switch ((TapahtumanTyyppi)t.getTyyppi()){
-
-			case ARR1: palvelupisteet[0].lisaaJonoon(new Asiakas());
-				       saapumisprosessi.generoiSeuraava();
+			case ARRMARKET:
+				palvelupisteet[0].lisaaJonoon(new Asiakas());
+				saapumisprosessi.generoiSeuraava();
 				break;
-			case DEP1: a = (Asiakas)palvelupisteet[0].otaJonosta();
-				   	   palvelupisteet[1].lisaaJonoon(a);
+			case MEATDEP:
+				asiakas = (Asiakas) palvelupisteet[0].otaJonosta();
+				palvelupisteet[1].lisaaJonoon(asiakas);
 				break;
-			case DEP2: a = (Asiakas)palvelupisteet[1].otaJonosta();
-				   	   palvelupisteet[2].lisaaJonoon(a);
+			case BEERDEP:
+				asiakas = (Asiakas) palvelupisteet[1].otaJonosta();
+				palvelupisteet[2].lisaaJonoon(asiakas);
 				break;
-			case DEP3:
-				       a = (Asiakas)palvelupisteet[2].otaJonosta();
-					   a.setPoistumisaika(Kello.getInstance().getAika());
-			           a.raportti();
+			case FISHDEP:
+				asiakas = (Asiakas) palvelupisteet[2].otaJonosta();
+				palvelupisteet[3].lisaaJonoon(asiakas);
+				break;
+			case CANDYDEP:
+				asiakas = (Asiakas) palvelupisteet[3].otaJonosta();
+				palvelupisteet[4].lisaaJonoon(asiakas);
+				break;
+			case CHECKOUTDEP:
+				asiakas = (Asiakas) palvelupisteet[4].otaJonosta();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				break;
 		}
 	}
 
