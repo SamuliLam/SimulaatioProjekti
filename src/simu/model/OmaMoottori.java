@@ -144,10 +144,10 @@ public class OmaMoottori extends Moottori {
 	@Override
 	protected void tulokset() {
 		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-		System.out.println("Tulokset ... puuttuvat vielä");
 		for (Palvelupiste p : palvelupisteet) {
 			p.raportti();
 		}
+		Asiakas.completeRaportti();
 	}
 }
 
