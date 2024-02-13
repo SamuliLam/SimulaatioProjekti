@@ -4,6 +4,7 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
+import java.util.HashSet;
 import java.util.Random;
 
 public class OmaMoottori extends Moottori {
@@ -36,37 +37,96 @@ public class OmaMoottori extends Moottori {
 	}
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
-		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
-		Asiakas asiakas;
+	protected void suoritaTapahtuma(Tapahtuma t) {
+		// B-vaiheen tapahtumat
+		Asiakas asiakas = null;
+		int palvelupisteValitsin = 0;
 		switch ((TapahtumanTyyppi) t.getTyyppi()) {
-
 			case ARRMARKET:
-				palvelupisteet[0].lisaaJonoon(new Asiakas());
+				asiakas = new Asiakas();
+				if (asiakas != null) {
+					TapahtumanTyyppi servedType = checkEnum(asiakas);
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.ARRMARKET);
+					palvelupisteValitsin = checkForEnumType(asiakas,servedType);
+					palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+				}
 				saapumisprosessi.generoiSeuraava();
 				break;
 			case MEATDEP:
-				asiakas = (Asiakas) palvelupisteet[0].otaJonosta();
-				palvelupisteet[1].lisaaJonoon(asiakas);
+				asiakas = (Asiakas) palvelupisteet[palvelupisteValitsin].otaJonosta();
+				if (asiakas != null) {
+					TapahtumanTyyppi servedType = checkEnum(asiakas);
+					palvelupisteValitsin = checkForEnumType(asiakas,servedType);
+					palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.MEATDEP);
+				}
 				break;
 			case BEERDEP:
-				asiakas = (Asiakas) palvelupisteet[1].otaJonosta();
-				palvelupisteet[2].lisaaJonoon(asiakas);
+				asiakas = (Asiakas) palvelupisteet[palvelupisteValitsin].otaJonosta();
+				if (asiakas != null) {
+					TapahtumanTyyppi servedType = checkEnum(asiakas);
+					palvelupisteValitsin = checkForEnumType(asiakas,servedType);
+					palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.BEERDEP);
+				}
 				break;
 			case FISHDEP:
-				asiakas = (Asiakas) palvelupisteet[2].otaJonosta();
-				palvelupisteet[3].lisaaJonoon(asiakas);
+				asiakas = (Asiakas) palvelupisteet[palvelupisteValitsin].otaJonosta();
+				if (asiakas != null) {
+					TapahtumanTyyppi servedType = checkEnum(asiakas);
+					palvelupisteValitsin = checkForEnumType(asiakas,servedType);
+					palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.FISHDEP);
+				}
 				break;
 			case CANDYDEP:
-				asiakas = (Asiakas) palvelupisteet[3].otaJonosta();
-				palvelupisteet[4].lisaaJonoon(asiakas);
+				asiakas = (Asiakas) palvelupisteet[palvelupisteValitsin].otaJonosta();
+				if (asiakas != null) {
+					TapahtumanTyyppi servedType = checkEnum(asiakas);
+					palvelupisteValitsin = checkForEnumType(asiakas,servedType);
+					palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.CANDYDEP);
+				}
 				break;
 			case CHECKOUTDEP:
-				asiakas = (Asiakas) palvelupisteet[4].otaJonosta();
-				asiakas.setPoistumisaika(Kello.getInstance().getAika());
-				asiakas.raportti();
+				asiakas = (Asiakas) palvelupisteet[palvelupisteValitsin].otaJonosta();
+				if (asiakas != null) {
+					removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+					asiakas.setPoistumisaika(Kello.getInstance().getAika());
+					asiakas.raportti();
+				}
 				break;
 		}
+	}
+
+	private int checkForEnumType(Asiakas asiakas, TapahtumanTyyppi tapahtumanTyyppi) {
+		try {
+			HashSet<TapahtumanTyyppi> ruokalista = asiakas.getRuokalista();
+			int palvelupisteValitsija = 0;
+			if (ruokalista.contains(TapahtumanTyyppi.MEATDEP)) {
+				palvelupisteValitsija = 0;
+			} else if (ruokalista.contains(TapahtumanTyyppi.BEERDEP)) {
+				palvelupisteValitsija = 1;
+			} else if (ruokalista.contains(TapahtumanTyyppi.FISHDEP)) {
+				palvelupisteValitsija = 2;
+			} else if (ruokalista.contains(TapahtumanTyyppi.CANDYDEP)) {
+				palvelupisteValitsija = 3;
+			}
+			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
+			return palvelupisteValitsija;
+		} catch (NullPointerException e) {
+			// Virheen näyttääminen
+			System.out.println("Error: ruokalista is null.");
+			e.printStackTrace();
+			return -1; // palauttaa
+		}
+	}
+
+	private void removeEnumFromRuokalista(Asiakas asiakas, TapahtumanTyyppi servedType) {
+		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
+        asiakas.getRuokalista().remove(arrmarket);
+		asiakas.getRuokalista().remove(servedType);
+		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " poistettu ruokalistasta: " + servedType);
 	}
 
 	@Override
@@ -76,6 +136,15 @@ public class OmaMoottori extends Moottori {
 				p.aloitaPalvelu();
 			}
 		}
+	}
+
+	protected TapahtumanTyyppi checkEnum(Asiakas asiakas) {
+		HashSet<TapahtumanTyyppi> ruokalista = asiakas.getRuokalista();
+		TapahtumanTyyppi servedType = null;
+		for (TapahtumanTyyppi ruokalistaEnumType : ruokalista) {
+			servedType = ruokalistaEnumType;
+		}
+		return servedType;
 	}
 
 	@Override
