@@ -20,7 +20,8 @@ public class Asiakas {
 
     private double saapumisaika;
     private double poistumisaika;
-    private static int id = 0;
+    private int id;
+    private static int i = 1;
 
     private int ika;
 
@@ -28,7 +29,7 @@ public class Asiakas {
     private ArrayList<TapahtumanTyyppi> ruokalista;
 
     public Asiakas() {
-        id++;
+        id = i++;
         ruokalista = new ArrayList<>();
         ika = (int) (ageRandom.sample());
         spentMoney = 0;
