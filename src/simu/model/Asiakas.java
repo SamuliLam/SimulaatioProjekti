@@ -17,7 +17,8 @@ public class Asiakas {
 
 	private double saapumisaika;
 	private double poistumisaika;
-	private static int id = 0;
+	private int id;
+	private static int i = 1;
 
 	private int ika;
 
@@ -27,7 +28,7 @@ public class Asiakas {
 	private TapahtumanTyyppi[] ruokalistaEnumValues = TapahtumanTyyppi.values();
 	Random random = new Random();
 	public Asiakas() {
-		id++;
+		id = i++;
 		// Ruokalista määrätään asiakkaalle
 		ruokalista = new HashSet<>();
 		// Luodaan random ruokalista tyypettäin asiakkaalle
@@ -124,18 +125,17 @@ public class Asiakas {
 	{
 		// lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
 		ruokalista.add(TapahtumanTyyppi.ARRMARKET);
-
+		ruokalista.add(TapahtumanTyyppi.CHECKOUTDEP);
 		// asetetaan random määrä ruokatyyppejä asiakkaalle
-		int ruokalistaSize = random.nextInt(TapahtumanTyyppi.values().length) + 1;
-		System.out.println("Ruokalista koko: " + ruokalistaSize);
-		if(ruokalistaSize < 3)
-		{
-			ruokalistaSize = 3;
-		}
+		int randomRuokalistaSize = random.nextInt(3,TapahtumanTyyppi.values().length);
+
+		System.out.println("Ruokalista koko: " + randomRuokalistaSize);
+
 		// Random indexia käyttäen etsitään random enum asiakkaalle
-		while (ruokalista.size() < ruokalistaSize) {
+		while (ruokalista.size() < randomRuokalistaSize) {
 			// Random index luku jolla arvotaan enumi asiakkaalle
 			int randomIndex = random.nextInt(ruokalistaEnumValues.length);
+			System.out.println("Randomindeksi on: " + randomIndex);
 			TapahtumanTyyppi randomEnum = ruokalistaEnumValues[randomIndex];
 			// lisätään random enumtyyppi ruokalistaan.
 			if (!ruokalista.contains(randomEnum)) { // Tarkista onko olemassa
@@ -144,7 +144,11 @@ public class Asiakas {
 
 		}
 		// lisätään CHECKOUTDEP viimeiseksi ja varmistetaan sen olemassa olo
-		ruokalista.add(TapahtumanTyyppi.CHECKOUTDEP);
+
+		for (TapahtumanTyyppi tyyppi : ruokalista)
+		{
+			System.out.println("Nykyinen ruokalistan itemi: " + tyyppi);
+		}
 	}
 
 	public String printRuokalista() {
