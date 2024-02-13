@@ -135,19 +135,11 @@ public class Asiakas {
 		while (ruokalista.size() < randomRuokalistaSize) {
 			// Random index luku jolla arvotaan enumi asiakkaalle
 			int randomIndex = random.nextInt(ruokalistaEnumValues.length);
-			System.out.println("Randomindeksi on: " + randomIndex);
 			TapahtumanTyyppi randomEnum = ruokalistaEnumValues[randomIndex];
 			// lisätään random enumtyyppi ruokalistaan.
 			if (!ruokalista.contains(randomEnum)) { // Tarkista onko olemassa
 				ruokalista.add(randomEnum);
 			}
-
-		}
-		// lisätään CHECKOUTDEP viimeiseksi ja varmistetaan sen olemassa olo
-
-		for (TapahtumanTyyppi tyyppi : ruokalista)
-		{
-			System.out.println("Nykyinen ruokalistan itemi: " + tyyppi);
 		}
 	}
 
