@@ -53,7 +53,7 @@ public class Palvelupiste {
 	public void aloitaPalvelu() {
 		//Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
 
-		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + skeduloitavanTapahtumanTyyppi.name() + " asiakkaalle " + jono.peek().getId());
+		Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " asiakkaalle " + jono.peek().getId());
 
 		varattu = true;
 		double palveluaika = generator.sample();
@@ -83,8 +83,8 @@ public class Palvelupiste {
 			sum += d;
 		}
 		double keskiarvo = sum / palveluajat.size();
-		Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.name() + " palveltiin " + palveluajat.size() + " asiakasta");
-		Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.name() + " palveluaikojen keskiarvo oli " + keskiarvo);
+		Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
+		Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo);
 	}
 
 

@@ -1,5 +1,6 @@
 package simu.model;
 
+import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
@@ -12,7 +13,9 @@ public class OmaMoottori extends Moottori {
 	private Saapumisprosessi saapumisprosessi;
 	private Palvelupiste[] palvelupisteet;
 
-	public OmaMoottori() {
+	public OmaMoottori(IKontrolleriForM kontrolleri){
+
+		super(kontrolleri);
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
@@ -48,6 +51,7 @@ public class OmaMoottori extends Moottori {
 				palvelupisteet[ruokalistaValitsin].lisaaJonoon(asiakas);
 				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.ARRMARKET);
 				saapumisprosessi.generoiSeuraava();
+				kontrolleri.visualisoiAsiakas(); // UUSI
 				break;
 			case MEATDEP:
 				asiakas = (Asiakas) palvelupisteet[0].otaJonosta();
@@ -113,7 +117,7 @@ public class OmaMoottori extends Moottori {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
         asiakas.getRuokalista().remove(arrmarket);
 		asiakas.getRuokalista().remove(servedType);
-		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " poistettu ruokalistasta: " + servedType);
+		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " ruokalistasta poistettu: " + servedType.getRuokatuote());
 	}
 
 	@Override
@@ -157,6 +161,9 @@ public class OmaMoottori extends Moottori {
 			p.raportti();
 		}
 		Asiakas.completeRaportti();
+
+		// UUTTA graafista
+		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 	}
 }
 
