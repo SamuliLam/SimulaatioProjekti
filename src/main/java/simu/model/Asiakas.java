@@ -144,7 +144,19 @@ public class Asiakas {
 	}
 
 	public String printRuokalista() {
-		return ruokalista.toString();
+		StringBuilder sb = new StringBuilder();
+		for (TapahtumanTyyppi tyyppi : ruokalista) {
+			try {
+				sb.append(tyyppi.getRuokatuote());
+				if (tyyppi != ruokalista.toArray()[ruokalista.size() - 1]) {
+					sb.append(", ");
+				}
+			} catch (Exception e) {
+            }
+        }
+		return sb.toString();
 	}
+
+
 
 }
