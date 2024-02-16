@@ -5,6 +5,7 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
+
 import java.util.HashSet;
 import java.util.Random;
 
@@ -106,7 +107,7 @@ public class OmaMoottori extends Moottori {
 
 	private void removeEnumFromRuokalista(Asiakas asiakas, TapahtumanTyyppi servedType) {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-        asiakas.getRuokalista().remove(arrmarket);
+		asiakas.getRuokalista().remove(arrmarket);
 		asiakas.getRuokalista().remove(servedType);
 		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " ruokalistasta poistettu: " + servedType.getRuokatuote());
 	}
@@ -157,4 +158,3 @@ public class OmaMoottori extends Moottori {
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 	}
 }
-

@@ -14,6 +14,7 @@ public class Asiakas {
 	private static long sum = 0;
 
 	private static double totalMoneySpent = 0;
+	private double jonotusaika;
 
 	private double saapumisaika;
 	private double poistumisaika;
@@ -60,6 +61,12 @@ public class Asiakas {
 
 	public void setSaapumisaika(double saapumisaika) {
 		this.saapumisaika = saapumisaika;
+	}
+	public void lisaaJonotusaika(double aika) {
+		jonotusaika += aika;
+	}
+	public double getJonotusaika() {
+		return jonotusaika;
 	}
 
 	public static void addTotalMoneySpent(double amount) {
@@ -152,8 +159,8 @@ public class Asiakas {
 					sb.append(", ");
 				}
 			} catch (Exception e) {
-            }
-        }
+			}
+		}
 		return sb.toString();
 	}
 
