@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import simu.framework.Trace;
@@ -18,10 +17,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
-
-
-import simu.model.Asiakas;
-import simu.model.Palvelupiste;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
@@ -36,7 +31,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button kaynnistaButton;
     private Button hidastaButton;
     private Button nopeutaButton;
-    private Button uusiSivu;
+    private Button avaaStatistics;
 
     Label asiakasIdLabel;
     Label ruokalistaLabel;
@@ -83,9 +78,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             nopeutaButton.setText("Nopeuta");
             nopeutaButton.setOnAction(e -> kontrolleri.nopeuta());
 
-            uusiSivu = new Button();
-            uusiSivu.setText("Avaa uusi paska");
-            uusiSivu.setOnAction(e -> openStatisticsPage(primaryStage));
+            avaaStatistics = new Button();
+            avaaStatistics.setText("Avaa statistiikka sivun");
+            avaaStatistics.setOnAction(e -> openStatisticsPage(primaryStage));
 
             aikaLabel = new Label("Simulointiaika:");
             aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -125,7 +120,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             grid.add(kaynnistaButton, 0, 3);
             grid.add(nopeutaButton, 0, 4);
             grid.add(hidastaButton, 1, 4);
-            grid.add(uusiSivu, 2,5);
+            grid.add(avaaStatistics, 2,5);
 
             naytto = new Visualisointi(400, 200);
 
@@ -181,17 +176,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     public void setLoppuaika(double aika) {
         DecimalFormat formatter = new DecimalFormat("#0.00");
         this.tulos.setText(formatter.format(aika));
-    }
-
-    // Update the labels with customer information
-    public void updateCustomerInfo(int customerId, String menu, int visits, double spending, double servicePointSpending) {
-        // Set the text of the labels with the provided data
-        // For example:
-        asiakasIdLabel.setText("Asiakas ID: " + "1");
-        ruokalistaLabel.setText("Ruokalista: " + "Homo");
-        asiakasVisitsLabel.setText("Asiakkaan vierailut: " + visits);
-        asiakasSpendingLabel.setText("Asiakkaan kulutus: " + Asiakas.getTotalMoneySpent());
-        palvelupisteSpendingLabel.setText("Palvelupisteen kulutus: " + Asiakas.getAverageAge());
     }
 
     @Override
