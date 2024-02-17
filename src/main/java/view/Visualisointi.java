@@ -3,11 +3,12 @@ package view;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import simu.model.Asiakas;
 
 public class Visualisointi extends Canvas implements IVisualisointi{
 
 	private final GraphicsContext gc;
-	
+	private Asiakas asiakas;
 	double i = 0;
 	double j = 10;
 	
