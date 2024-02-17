@@ -89,13 +89,15 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
             aikaLabel = new Label("Simulointiaika:");
             aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            aika = new TextField("Syötä aika");
+            aika = new TextField();
+            aika.setPromptText("Syötä aika");
             aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             aika.setPrefWidth(150);
 
             viiveLabel = new Label("Viive:");
             viiveLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            viive = new TextField("Syötä viive");
+            viive = new TextField();
+            viive.setPromptText("Syötä viive");
             viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             viive.setPrefWidth(150);
 
@@ -104,18 +106,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             tulos = new Label();
             tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos.setPrefWidth(150);
-
-            // New labels for customer information
-            asiakasIdLabel = new Label("Asiakas ID:");
-            asiakasIdLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            ruokalistaLabel = new Label("Ruokalista:");
-            ruokalistaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            asiakasVisitsLabel = new Label("Asiakkaan vierailut:");
-            asiakasVisitsLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            asiakasSpendingLabel = new Label("Asiakkaan kulutus:");
-            asiakasSpendingLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            palvelupisteSpendingLabel = new Label("Palvelupisteen kulutus:");
-            palvelupisteSpendingLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
@@ -136,13 +126,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             grid.add(nopeutaButton, 0, 4);
             grid.add(hidastaButton, 1, 4);
             grid.add(uusiSivu, 2,5);
-
-            // Add new labels to the grid
-            grid.add(asiakasIdLabel, 0, 5);
-            grid.add(ruokalistaLabel, 0, 6);
-            grid.add(asiakasVisitsLabel, 0, 7);
-            grid.add(asiakasSpendingLabel, 0, 8);
-            grid.add(palvelupisteSpendingLabel, 0, 9);
 
             naytto = new Visualisointi(400, 200);
 
