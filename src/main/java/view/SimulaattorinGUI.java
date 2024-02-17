@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;
@@ -84,7 +85,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
             uusiSivu = new Button();
             uusiSivu.setText("Avaa uusi paska");
-            uusiSivu.setOnAction(e -> openNewPage(primaryStage));
+            uusiSivu.setOnAction(e -> openStatisticsPage(primaryStage));
 
             aikaLabel = new Label("Simulointiaika:");
             aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -156,31 +157,30 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         }
     }
 
-    private void openNewPage(Stage primaryStage) {
+    private void openStatisticsPage(Stage primaryStage) {
+        BorderPane layout = new BorderPane();
 
-        // Create the layout for the new scene
-        StackPane newLayout = new StackPane();
+        TilePane searchElements = new TilePane();
+        ComboBox<String> categories = new ComboBox<>();
+        categories.getItems().addAll("placeholder", "placeholder", "placeholder", "placeholder", "placeholder");
+        Button searchButton = new Button("Search");
+
+        searchElements.setAlignment(Pos.CENTER);
         Button backButton = new Button("Go Back");
-        PieChart.Data slice1 = new PieChart.Data("Lihatiski", 25);
-        PieChart.Data slice2 = new PieChart.Data("Kalatiski", 20);
-        PieChart.Data slice3 = new PieChart.Data("Karkkitiski", 30);
-        PieChart.Data slice4 = new PieChart.Data("Kaljatiski", 25);
+        backButton.setAlignment(Pos.TOP_LEFT);
+        BorderPane.setMargin(backButton, new Insets(10, 10, 10, 10));
+        searchElements.getChildren().addAll(categories, searchButton);
 
-        PieChart pieChart = new PieChart();
-        pieChart.getData().addAll(slice1, slice2, slice3,slice4);
-
-
-        newLayout.getChildren().add(pieChart);
+        layout.setCenter(searchElements);
+        layout.setTop(backButton);
+        Visualisointi statisticCanvas = new Visualisointi(400, 200);
+        layout.setBottom(statisticCanvas);
         backButton.setOnAction(event -> {
-            // When the "Go Back" button is clicked, switch back to the initial scene
-            primaryStage.setScene(mainScene); // Assuming 'scene' is the initial scene
+            primaryStage.setScene(mainScene);
         });
-        newLayout.getChildren().add(backButton);
 
-        // Create the new scene with the layout
-        Scene newScene = new Scene(newLayout, 1080, 860);
+        Scene newScene = new Scene(layout, 400, 400);
 
-        // Set the new scene to the stage
         primaryStage.setScene(newScene);
     }
 
@@ -216,8 +216,3 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         return naytto;
     }
 }
-
-
-
-
-
