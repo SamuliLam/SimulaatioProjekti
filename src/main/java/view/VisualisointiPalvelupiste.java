@@ -1,5 +1,6 @@
 package view;
 
+import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,4 +48,5 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
     public Node getStyleableNode() {
         return super.getStyleableNode();
     }
+
 }
