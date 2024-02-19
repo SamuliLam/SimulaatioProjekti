@@ -17,6 +17,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
+import simu.model.Palvelupiste;
+import simu.model.TapahtumanTyyppi;
+
+import java.util.HashMap;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
@@ -32,12 +36,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button hidastaButton;
     private Button nopeutaButton;
     private Button avaaStatistics;
-
-    Label asiakasIdLabel;
-    Label ruokalistaLabel;
-    Label asiakasVisitsLabel;
-    Label asiakasSpendingLabel;
-    Label palvelupisteSpendingLabel;
     Scene mainScene;
     private IVisualisointi naytto;
 
@@ -140,7 +138,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
         TilePane searchElements = new TilePane();
         ComboBox<String> categories = new ComboBox<>();
-        categories.getItems().addAll("placeholder", "placeholder", "placeholder", "placeholder", "placeholder");
+        categories.getItems().addAll("Ikäjakauma", "Palvelupiste", "Myynti", "Aika", "Ruokalista");
         Button searchButton = new Button("Search");
 
         searchElements.setAlignment(Pos.CENTER);
@@ -151,13 +149,30 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
         layout.setCenter(searchElements);
         layout.setTop(backButton);
-        Visualisointi statisticCanvas = new Visualisointi(400, 200);
-        layout.setBottom(statisticCanvas);
+        VisualisointiStatistiikka statisticCanvas = new VisualisointiStatistiikka(700, 600);
+        VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 600);
+
         backButton.setOnAction(event -> {
             primaryStage.setScene(mainScene);
         });
-
-        Scene newScene = new Scene(layout, 400, 400);
+        searchButton.setOnAction(event -> {
+            String selectedCategory = categories.getValue();
+            if (selectedCategory != null && selectedCategory.equals("Ikäjakauma")) {
+                // Hae ikäjakauman kontrollerista
+                HashMap<Integer, Integer> ageDistribution = kontrolleri.getAgeDistribution();
+                // Lisää tiedot kanvasiin
+                statisticCanvas.updateAgeDistributionData(ageDistribution);
+                layout.setBottom(statisticCanvas);
+            }
+            else if (selectedCategory != null && selectedCategory.equals("Palvelupiste")) {
+                // Hae palvelupiste jakauma
+                HashMap<String , Integer> palvelupisteDistribution = kontrolleri.getPalvelupisteDistribution();
+                // Lisää tiedot kanvasiin
+                palveluCanvas.updateServicePointVisitData(palvelupisteDistribution);
+                layout.setBottom(palveluCanvas);
+            }
+        });
+        Scene newScene = new Scene(layout, 900, 900);
 
         primaryStage.setScene(newScene);
     }
@@ -176,6 +191,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     public void setLoppuaika(double aika) {
         DecimalFormat formatter = new DecimalFormat("#0.00");
         this.tulos.setText(formatter.format(aika));
+    }
+
+    @Override
+    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
+
     }
 
     @Override

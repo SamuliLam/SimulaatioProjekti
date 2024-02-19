@@ -1,5 +1,9 @@
 package simu.model;
 
+import simu.framework.*;
+
+import java.util.*;
+
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
@@ -12,13 +16,12 @@ import java.util.LinkedList;
 
 public class Palvelupiste {
 
-    private final LinkedList<Asiakas> jono = new LinkedList<>(); // Tietorakennetoteutus
-    private final ContinuousGenerator generator;
-    private final Tapahtumalista tapahtumalista;
-    private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
-
-
-    private ArrayList<Double> palveluajat = new ArrayList<>();
+	private final LinkedList<Asiakas> jono = new LinkedList<>(); // Tietorakennetoteutus
+	private final ContinuousGenerator generator;
+	private final Tapahtumalista tapahtumalista;
+	private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
+	private static final HashMap<String, Integer> palvelupisteidenKaynti = new HashMap<>();
+	private ArrayList<Double> palveluajat = new ArrayList<>();
 
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
 
@@ -67,9 +70,10 @@ public class Palvelupiste {
             }
         }
 
-        palveluajat.add(palveluaika);
-        tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
-    }
+		palveluajat.add(palveluaika);
+		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
+		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
+	}
 
     public void raportti() {
         double sum = 0;
@@ -90,5 +94,10 @@ public class Palvelupiste {
     public boolean onJonossa() {
         return !jono.isEmpty();
     }
+
+	public static HashMap<String, Integer> getPalveluLuku()
+	{
+		return palvelupisteidenKaynti;
+	}
 
 }
