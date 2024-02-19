@@ -51,8 +51,11 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 	}
 
 	public HashMap<String, Integer> getPalvelupisteDistribution() {
-		HashMap<String, Integer> palvelupisteDistribution = Palvelupiste.getPalveluLuku();
-		return palvelupisteDistribution;
+        return Palvelupiste.getPalveluLuku();
+	}
+
+	public HashMap<Asiakas, Double> getSpentMoneyDistribution() {
+        return Asiakas.getSpentmoneyPerAsiakas();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package controller;
 
+import simu.model.Asiakas;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
 
@@ -17,4 +18,6 @@ public interface IKontrolleriForV {
     HashMap<Integer, Integer> getAgeDistribution();
 
     HashMap<String, Integer> getPalvelupisteDistribution();
+
+    HashMap<Asiakas, Double> getSpentMoneyDistribution();
 }

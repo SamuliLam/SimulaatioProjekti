@@ -17,8 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
-import simu.model.Palvelupiste;
-import simu.model.TapahtumanTyyppi;
+import simu.model.Asiakas;
 
 import java.util.HashMap;
 
@@ -151,9 +150,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
         layout.setCenter(searchElements);
         layout.setTop(backButton);
-        VisualisointiStatistiikka statisticCanvas = new VisualisointiStatistiikka(700, 600);
+        VisualisointiIkajakauma statisticCanvas = new VisualisointiIkajakauma(700, 600);
         VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 600);
-
+        VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 600);
         backButton.setOnAction(event -> {
             primaryStage.setScene(mainScene);
         });
@@ -172,6 +171,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 // Lisää tiedot kanvasiin
                 palveluCanvas.updateServicePointVisitData(palvelupisteDistribution);
                 layout.setBottom(palveluCanvas);
+            }
+            else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
+                // Hae rahankäyttö jakauma
+                HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
+                // Lisää tiedot kanvasiin
+                rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
+                layout.setBottom(rahaCanvas);
             }
         });
         Scene newScene = new Scene(layout, 900, 900);
