@@ -108,7 +108,7 @@ public class OmaMoottori extends Moottori {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
         asiakas.getpalvelupisteLista().remove(arrmarket);
 		asiakas.getpalvelupisteLista().remove(servedType);
-		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType.getRuokatuote());
+		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType);
 	}
 
 	@Override

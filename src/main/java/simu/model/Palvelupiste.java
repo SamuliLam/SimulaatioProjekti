@@ -20,6 +20,8 @@ public class Palvelupiste {
     private final Tapahtumalista tapahtumalista;
     private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
 
+
+
     private final ArrayList<TapahtumanTyyppi> palveupisteidenTyypit = new ArrayList<>();
 
     private ArrayList<Double> palveluajat = new ArrayList<>();
@@ -61,18 +63,14 @@ public class Palvelupiste {
 
         // Haetaan asiakas jonosta ja tallennetaan se muuttujaan
         Asiakas asiakas = jono.peek();
-        TapahtumanTyyppi ruokatyyppiEnum = asiakas.getTuoteEnum();
-        double asiakkaanKuluttamaRaha = 0;
-        // Lisätään asiakkaalle spentMoney-instanssimuuttujaan palvelupisteellä kulunut rahamäärä
-        if (asiakas != null) {
 
-            if (ruokatyyppiEnum == skeduloitavanTapahtumanTyyppi) {
-               asiakkaanKuluttamaRaha = asiakas.getTuoteHinta() * asiakas.getTuoteMaara();
+        if (asiakas != null){
+            for (GroceryCategory category : asiakas.getGroceryList()){
+                if (category.getCategory() == skeduloitavanTapahtumanTyyppi){
+                    asiakas.addSpentMoney(category.getTotalItemPrice());
+                    Asiakas.addTotalMoneySpent(category.getTotalItemPrice());
+                }
             }
-            System.out.println("Asiakas id: " + asiakas.getId() + " tuotemäärä: " + asiakas.getTuoteMaara());
-            System.out.println("Asiakas id: " + asiakas.getId() + " tuotehinta: " + asiakas.getTuoteHinta());
-            asiakas.addSpentMoney(asiakkaanKuluttamaRaha);
-            Asiakas.addTotalMoneySpent(asiakkaanKuluttamaRaha);
         }
 
         palveluajat.add(palveluaika);
