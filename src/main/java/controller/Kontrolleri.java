@@ -34,7 +34,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		ui.getVisualisointi().tyhjennaNaytto();
 		((Thread)moottori).start();
 		//((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?
-		HashMap<Integer, Integer> ageDistribution = asiakas.getAgeDistribution();
+		HashMap<Integer, Integer> ageDistribution = Asiakas.getAgeDistribution();
 		// Lähetä ikäjakauma view modeliin
 		ui.updateAgeDistribution(ageDistribution);
 	}
