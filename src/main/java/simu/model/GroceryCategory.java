@@ -26,10 +26,14 @@ public class GroceryCategory {
         return category;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public String getItems() {
+        StringBuilder sb = new StringBuilder();
+        for (Item item : items) {
+            sb.append(item.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
-
 
 
     public double getTotalItemPrice() {
@@ -99,10 +103,9 @@ public class GroceryCategory {
 
     @Override
     public String toString() {
-        return "GroceryCategory{" +
-                "category=" + category +
-                ", items=" + items.toString() +
-                '}';
+        return "GroceryCategory:" +
+                category +
+                ", items: " + items.toString();
     }
 
 }

@@ -27,11 +27,9 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", amount=" + amount +
-                '}';
+        return "Tuote: "+ name +
+                ", hinta " + price +
+                ", määrä " + amount;
     }
 
     public void generateRandomItemAmount(){
