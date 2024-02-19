@@ -1,4 +1,4 @@
-package simu.model;
+package simu.model.Tuotehallinta;
 import java.util.Random;
 
 public class Item {

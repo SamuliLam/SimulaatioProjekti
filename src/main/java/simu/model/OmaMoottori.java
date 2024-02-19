@@ -43,7 +43,7 @@ public class OmaMoottori extends Moottori {
 	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas asiakas;
-		switch ((TapahtumanTyyppi) t.getTyyppi()) {
+		switch (t.getTyyppi()) {
 
 			case ARRMARKET:
 				asiakas = new Asiakas();
@@ -53,27 +53,27 @@ public class OmaMoottori extends Moottori {
 				kontrolleri.visualisoiAsiakas(); // UUSI
 				break;
 			case MEATDEP:
-				asiakas = (Asiakas) palvelupisteet[0].otaJonosta();
+				asiakas = palvelupisteet[0].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.MEATDEP);
 				palvelupisteet[1].lisaaJonoon(asiakas);
 				break;
 			case BEERDEP:
-				asiakas = (Asiakas) palvelupisteet[1].otaJonosta();
+				asiakas = palvelupisteet[1].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.BEERDEP);
 				palvelupisteet[2].lisaaJonoon(asiakas);
 				break;
 			case FISHDEP:
-				asiakas = (Asiakas) palvelupisteet[2].otaJonosta();
+				asiakas = palvelupisteet[2].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.FISHDEP);
 				palvelupisteet[3].lisaaJonoon(asiakas);
 				break;
 			case CANDYDEP:
-				asiakas = (Asiakas) palvelupisteet[3].otaJonosta();
+				asiakas = palvelupisteet[3].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CANDYDEP);
 				palvelupisteet[4].lisaaJonoon(asiakas);
 				break;
 			case CHECKOUTDEP:
-				asiakas = (Asiakas) palvelupisteet[4].otaJonosta();
+				asiakas = palvelupisteet[4].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
 				asiakas.setPoistumisaika(Kello.getInstance().getAika());
 				asiakas.raportti();
@@ -96,30 +96,6 @@ public class OmaMoottori extends Moottori {
 			}
 		}
 	}
-
-	protected TapahtumanTyyppi checkEnum(Asiakas asiakas) {
-		HashSet<TapahtumanTyyppi> palvelupisteLista = asiakas.getpalvelupisteLista();
-		TapahtumanTyyppi servedType = null;
-		boolean hasNonCheckoutDep = false;
-
-		for (TapahtumanTyyppi palvelupisteListaEnumType : palvelupisteLista) {
-			if (palvelupisteListaEnumType != TapahtumanTyyppi.CHECKOUTDEP) {
-				servedType = palvelupisteListaEnumType;
-				System.out.println("Served type: " + servedType);
-			}
-			hasNonCheckoutDep = true;
-		}
-
-		// jos ei ole muuta kuin checkoutdep jäljellä palauta se
-		if (!hasNonCheckoutDep) {
-			servedType = TapahtumanTyyppi.CHECKOUTDEP;
-			System.out.println("Served type: " + servedType);
-		}
-
-		System.out.println("Lonely served: " + servedType);
-		return servedType;
-	}
-
 
 	@Override
 	protected void tulokset() {

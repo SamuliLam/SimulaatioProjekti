@@ -1,14 +1,11 @@
 package simu.model;
 
-import simu.framework.*;
-
-import java.util.*;
-
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
 import simu.framework.Tapahtumalista;
 import simu.framework.Trace;
+import simu.model.Tuotehallinta.GroceryCategory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,9 +17,6 @@ public class Palvelupiste {
     private final Tapahtumalista tapahtumalista;
     private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
 
-
-
-    private final ArrayList<TapahtumanTyyppi> palveupisteidenTyypit = new ArrayList<>();
 
     private ArrayList<Double> palveluajat = new ArrayList<>();
 
@@ -94,7 +88,7 @@ public class Palvelupiste {
 
 
     public boolean onJonossa() {
-        return jono.size() != 0;
+        return !jono.isEmpty();
     }
 
 }

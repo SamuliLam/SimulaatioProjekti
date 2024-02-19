@@ -1,4 +1,4 @@
-package simu.model;
+package simu.model.Tuotehallinta;
 
 import java.util.HashMap;
 import java.util.Random;

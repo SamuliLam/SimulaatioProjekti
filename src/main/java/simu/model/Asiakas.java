@@ -2,6 +2,7 @@ package simu.model;
 
 import eduni.distributions.Normal;
 import simu.framework.*;
+import simu.model.Tuotehallinta.GroceryCategory;
 
 import java.util.*;
 
@@ -12,13 +13,13 @@ public class Asiakas {
     private static List<Asiakas> asiakkaat = new ArrayList<>();
     private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
 
-    private HashSet<TapahtumanTyyppi> palvelupisteLista;
-
     private ArrayList<GroceryCategory> groceryList;
     private GroceryCategory groceryCategory;
 
     private TapahtumanTyyppi palvelupisteListaEnumType;
     private TapahtumanTyyppi[] palvelupisteListaEnumValues = TapahtumanTyyppi.values();
+
+    private HashSet<TapahtumanTyyppi> palvelupisteLista;
     private static long sum = 0;
 
     private static double totalMoneySpent = 0;
@@ -28,7 +29,7 @@ public class Asiakas {
     private int id;
     private static int i = 1;
 
-    private int ika;
+    private final int ika;
 
     private double spentMoney;
 

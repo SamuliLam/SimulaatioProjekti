@@ -1,5 +1,7 @@
-package simu.model;
+package simu.model.Tuotehallinta;
 
+
+import simu.model.TapahtumanTyyppi;
 
 import java.util.ArrayList;
 import java.util.List;
