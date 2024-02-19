@@ -157,6 +157,8 @@ public class Asiakas {
 		return sb.toString();
 	}
 
-
+	public static HashMap<Integer, Integer> getAgeDistribution() {
+		return ikaJakauma;
+	}
 
 }

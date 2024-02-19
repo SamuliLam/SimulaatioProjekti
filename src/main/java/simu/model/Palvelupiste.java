@@ -2,8 +2,7 @@ package simu.model;
 
 import simu.framework.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
@@ -20,9 +19,7 @@ public class Palvelupiste {
 	private final ContinuousGenerator generator;
 	private final Tapahtumalista tapahtumalista;
 	private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
-
-	private final ArrayList<TapahtumanTyyppi> palveupisteidenTyypit = new ArrayList<>();
-
+	private static final HashMap<String, Integer> palvelupisteidenKaynti = new HashMap<>();
 	private ArrayList<Double> palveluajat = new ArrayList<>();
 
 	//JonoStartegia strategia; //optio: asiakkaiden järjestys
@@ -74,6 +71,7 @@ public class Palvelupiste {
 		}
 
 		palveluajat.add(palveluaika);
+		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
@@ -95,6 +93,11 @@ public class Palvelupiste {
 
 	public boolean onJonossa() {
 		return jono.size() != 0;
+	}
+
+	public static HashMap<String, Integer> getPalveluLuku()
+	{
+		return palvelupisteidenKaynti;
 	}
 
 }
