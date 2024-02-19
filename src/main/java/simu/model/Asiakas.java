@@ -32,7 +32,7 @@ public class Asiakas {
 		// Ruokalista määrätään asiakkaalle
 		ruokalista = new HashSet<>();
 		// Luodaan random ruokalista tyypettäin asiakkaalle
-		generateRandomEnums();
+		generateRandomRuokalista();
 		ika = (int) (ageRandom.sample());
 		spentMoney = 0;
 		saapumisaika = Kello.getInstance().getAika();
@@ -121,7 +121,7 @@ public class Asiakas {
 		return ruokalista;
 	}
 
-	public  void generateRandomEnums()
+	public  void generateRandomRuokalista()
 	{
 		// lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
 		ruokalista.add(TapahtumanTyyppi.ARRMARKET);
