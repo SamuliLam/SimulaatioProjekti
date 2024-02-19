@@ -1,0 +1,26 @@
+Index: src/main/java/controller/Kontrolleri.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\r\n\r\nimport javafx.application.Platform;\r\nimport simu.framework.IMoottori;\r\nimport simu.model.OmaMoottori;\r\nimport view.ISimulaattorinUI;\r\n\r\npublic class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUSI\r\n\t\r\n\tprivate IMoottori moottori; \r\n\tprivate ISimulaattorinUI ui;\r\n\t\r\n\tpublic Kontrolleri(ISimulaattorinUI ui) {\r\n\t\tthis.ui = ui;\r\n\t\t\r\n\t}\r\n\r\n\t\r\n\t// Moottorin ohjausta:\r\n\t\t\r\n\t@Override\r\n\tpublic void kaynnistaSimulointi() {\r\n\t\tmoottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten\r\n\t\tmoottori.setSimulointiaika(ui.getAika());\r\n\t\tmoottori.setViive(ui.getViive());\r\n\t\tui.getVisualisointi().tyhjennaNaytto();\r\n\t\t((Thread)moottori).start();\r\n\t\t//((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?\t\t\r\n\t}\r\n\t\r\n\t@Override\r\n\tpublic void hidasta() { // hidastetaan moottorisäiettä\r\n\t\tmoottori.setViive((long)(moottori.getViive()*1.10));\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void nopeuta() { // nopeutetaan moottorisäiettä\r\n\t\tmoottori.setViive((long)(moottori.getViive()*0.9));\r\n\t}\r\n\t\r\n\t\r\n\t\r\n\t// Simulointitulosten välittämistä käyttöliittymään.\r\n\t// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:\r\n\t\t\r\n\t@Override\r\n\tpublic void naytaLoppuaika(double aika) {\r\n\t\tPlatform.runLater(()->ui.setLoppuaika(aika)); \r\n\t}\r\n\r\n\t\r\n\t@Override\r\n\tpublic void visualisoiAsiakas() {\r\n\t\tPlatform.runLater(new Runnable(){\r\n\t\t\tpublic void run(){\r\n\t\t\t\tui.getVisualisointi().uusiAsiakas();\r\n\t\t\t}\r\n\t\t});\r\n\t}\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/controller/Kontrolleri.java b/src/main/java/controller/Kontrolleri.java
+--- a/src/main/java/controller/Kontrolleri.java	
++++ b/src/main/java/controller/Kontrolleri.java	
+@@ -6,7 +6,6 @@
+ import view.ISimulaattorinUI;
+ 
+ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUSI
+-	
+ 	private IMoottori moottori; 
+ 	private ISimulaattorinUI ui;
+ 	
+@@ -57,7 +56,4 @@
+ 			}
+ 		});
+ 	}
+-
+-
+-
+ }
