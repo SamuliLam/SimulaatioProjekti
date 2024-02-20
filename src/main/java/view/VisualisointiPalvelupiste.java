@@ -30,7 +30,9 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
             pieChartData.add(new PieChart.Data(label, entry.getValue()));
         }
 
+        pieChart.getData().clear();
         pieChart.setData(pieChartData);
+        pieChart.layout();
     }
 
 

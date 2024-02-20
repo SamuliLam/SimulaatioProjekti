@@ -1,7 +1,5 @@
 package simu.model;
 
-import simu.framework.*;
-
 import java.util.*;
 
 import eduni.distributions.ContinuousGenerator;
@@ -21,7 +19,10 @@ public class Palvelupiste {
 	private final Tapahtumalista tapahtumalista;
 	private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
 	private static final HashMap<String, Integer> palvelupisteidenKaynti = new HashMap<>();
-	private ArrayList<Double> palveluajat = new ArrayList<>();
+	private static ArrayList<Double> palveluajat = new ArrayList<>();
+
+    private double totalTimeServiced = 0.0;
+    private static final HashMap<Palvelupiste, Double> palveluAjatPerPalvelupiste = new HashMap<>();
 
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
 
@@ -35,18 +36,15 @@ public class Palvelupiste {
 
     }
 
-
     public void lisaaJonoon(Asiakas a) {   // Jonon 1. asiakas aina palvelussa
         jono.add(a);
 
     }
 
-
     public Asiakas otaJonosta() {  // Poistetaan palvelussa ollut
         varattu = false;
         return jono.poll();
     }
-
 
     public void aloitaPalvelu() {
         //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
@@ -72,6 +70,7 @@ public class Palvelupiste {
 
 		palveluajat.add(palveluaika);
 		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
+        palveluAjatPerPalvelupiste.put(this, totalTimeServiced);
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
@@ -81,11 +80,18 @@ public class Palvelupiste {
             sum += d;
         }
         double keskiarvo = sum / palveluajat.size();
+        calculateTotalTimePerPalvelupiste();
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo);
     }
 
 
+    public void calculateTotalTimePerPalvelupiste()
+    {
+        for (int i = 0; i < palveluajat.size(); i++) {
+            totalTimeServiced += palveluajat.get(i);
+        }
+    }
     public boolean onVarattu() {
         return varattu;
     }
@@ -99,5 +105,7 @@ public class Palvelupiste {
 	{
 		return palvelupisteidenKaynti;
 	}
+
+    public static HashMap<Palvelupiste, Double> getAjatPerPalvelupiste() { return palveluAjatPerPalvelupiste;}
 
 }

@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import simu.model.Asiakas;
+import simu.model.Palvelupiste;
 
 import java.util.HashMap;
 
@@ -148,9 +149,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
         layout.setCenter(searchElements);
         layout.setTop(backButton);
-        VisualisointiIkajakauma statisticCanvas = new VisualisointiIkajakauma(700, 600);
-        VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 600);
-        VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 600);
+        VisualisointiIkajakauma statisticCanvas = new VisualisointiIkajakauma(700, 800);
+        VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 800);
+        VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 800);
+        VisualisointiPalveluajat aikaCanvas = new VisualisointiPalveluajat(700, 800);
         backButton.setOnAction(event -> {
             primaryStage.setScene(mainScene);
         });
@@ -177,8 +179,15 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
                 layout.setBottom(rahaCanvas);
             }
+            else if (selectedCategory != null && selectedCategory.equals("Aika")) {
+                // Hae aikakäyttö jakauma
+                HashMap<Palvelupiste, Double> servicePointTimeData = kontrolleri.getPalvelupisteAikaDistribution();
+                // Lisää tiedot kanvasiin
+                aikaCanvas.updateServicePointTimeData(servicePointTimeData);
+                layout.setBottom(aikaCanvas);
+            }
         });
-        Scene newScene = new Scene(layout, 900, 900);
+        Scene newScene = new Scene(layout, 1080, 900);
 
         primaryStage.setScene(newScene);
     }
