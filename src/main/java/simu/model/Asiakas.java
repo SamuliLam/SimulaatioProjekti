@@ -60,6 +60,9 @@ public class Asiakas {
         return asiakkaat;
     }
 
+    public static HashMap<Integer, Integer> getAgeDistribution() {
+        return ikaJakauma;
+    }
 
     public double getPoistumisaika() {
         return poistumisaika;
@@ -98,10 +101,6 @@ public class Asiakas {
         return summa / asiakkaat.size();
     }
 
-    public static HashMap<Integer, Integer> getAgeDistribution() {
-        return ikaJakauma;
-    }
-
     public HashSet<TapahtumanTyyppi> getpalvelupisteLista() {
         return palvelupisteLista;
     }
@@ -109,6 +108,7 @@ public class Asiakas {
     public ArrayList<GroceryCategory> getGroceryList() {
         return groceryList;
     }
+
 
     public void setPoistumisaika(double poistumisaika) {
         this.poistumisaika = poistumisaika;
@@ -129,6 +129,7 @@ public class Asiakas {
     public void addSpentMoney(double amount) {
         spentMoney += amount;
     }
+
 
     public void updateIkaJakauma(int age) {
         if (ikaJakauma.containsKey(age)) {
@@ -183,11 +184,17 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printRuokalista());
     }
 
-    public static void completeRaportti() {
+    public static String completeRaportti() {
+        StringBuilder sb = new StringBuilder();
         Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
+        sb.append("Asiakkaita yhteensä: " + asiakkaat.size() + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa.");
+        sb.append("Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa." + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
+        sb.append("Asiakkaiden keskimääräinen ikä: " + getAverageAge() + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa.");
+        sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa." + "\n");
+        return sb.toString();
     }
 
 }

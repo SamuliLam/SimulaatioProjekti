@@ -38,6 +38,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button avaaStatistics;
     Scene mainScene;
     private IVisualisointi naytto;
+    private TextArea console;
 
     @Override
     public void init() {
@@ -100,31 +101,32 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos.setPrefWidth(150);
 
-            VBox vBox = new VBox();
-            vBox.setAlignment(Pos.CENTER);
-            vBox.setSpacing(10);
+            GridPane main = new GridPane();
+            VBox vBoxButtons = new VBox();
+            vBoxButtons.setSpacing(10);
+            vBoxButtons.setAlignment(Pos.CENTER);
 
-            GridPane grid = new GridPane();
-            grid.setAlignment(Pos.CENTER);
-            grid.setVgap(10);
-            grid.setHgap(5);
+            VBox consoles = new VBox();
+            consoles.setSpacing(10);
+            consoles.setAlignment(Pos.CENTER);
+            vBoxButtons.getChildren().addAll(aika, viive, kaynnistaButton, hidastaButton, nopeutaButton, avaaStatistics);
 
-            grid.add(aikaLabel, 0, 0);
-            grid.add(aika, 1, 0);
-            grid.add(viiveLabel, 0, 1);
-            grid.add(viive, 1, 1);
-            grid.add(tulosLabel, 0, 2);
-            grid.add(tulos, 1, 2);
-            grid.add(kaynnistaButton, 0, 3);
-            grid.add(nopeutaButton, 0, 4);
-            grid.add(hidastaButton, 1, 4);
-            grid.add(avaaStatistics, 2,5);
+            naytto = new Visualisointi2(600, 200);
+            console = new TextArea();
+            console.setEditable(false);
+            Label consoleLabel = new Label("Simulaattorin konsoli:");
+            Label tulosteLabel = new Label("Tuloste:");
+            console.setPrefWidth(600); console.setPrefHeight(200);
+            consoles.getChildren().addAll(consoleLabel, (Canvas) naytto, tulosteLabel, console);
 
-            naytto = new Visualisointi(400, 200);
+            main.add(vBoxButtons, 0, 0);
+            main.add(consoles, 1, 0);
+            main.setHgap(10);
 
-            vBox.getChildren().addAll(grid, (Canvas) naytto);
+            GridPane.setMargin(vBoxButtons, new Insets(10, 10, 10, 10));
+            GridPane.setMargin(consoles, new Insets(30, 10, 30, 10));
 
-            mainScene = new Scene(vBox);
+            mainScene = new Scene(main);
             primaryStage.setScene(mainScene);
             primaryStage.show();
 
@@ -197,9 +199,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
 
     }
-
     @Override
     public IVisualisointi getVisualisointi() {
         return naytto;
+    }
+
+    public void setTuloste(String tuloste) {
+        console.appendText(tuloste);
     }
 }
