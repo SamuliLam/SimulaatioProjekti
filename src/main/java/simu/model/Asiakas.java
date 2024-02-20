@@ -24,6 +24,8 @@ public class Asiakas {
 
     private static double totalMoneySpent = 0;
 
+    private static double totalSpentMoneyAtCheckout = 0;
+
     private double saapumisaika;
     private double poistumisaika;
     private int id;
@@ -59,7 +61,6 @@ public class Asiakas {
     }
 
 
-
     public double getPoistumisaika() {
         return poistumisaika;
     }
@@ -74,6 +75,10 @@ public class Asiakas {
 
     public static double getAverageMoneySpent() {
         return totalMoneySpent / asiakkaat.size();
+    }
+
+    public static double getTotalSpentMoneyAtCheckout() {
+        return totalSpentMoneyAtCheckout;
     }
 
     public int getId() {
@@ -105,7 +110,6 @@ public class Asiakas {
         return groceryList;
     }
 
-
     public void setPoistumisaika(double poistumisaika) {
         this.poistumisaika = poistumisaika;
     }
@@ -118,15 +122,13 @@ public class Asiakas {
 
     // MUUT METODIT
 
-
-    public static void addTotalMoneySpent(double amount) {
-        totalMoneySpent += amount;
+    public static void addTotalSpentMoneyAtCheckout(double amount) {
+        totalSpentMoneyAtCheckout += amount;
     }
 
     public void addSpentMoney(double amount) {
         spentMoney += amount;
     }
-
 
     public void updateIkaJakauma(int age) {
         if (ikaJakauma.containsKey(age)) {
