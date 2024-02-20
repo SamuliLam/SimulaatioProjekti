@@ -36,17 +36,32 @@ public class VisualisointiPalveluajat extends StackPane implements IVisualisoint
             pieChart.layout();
         }
 
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
-
     }
-
+    @Override
+    public void asiakasPoistuu() {
+        // Implement removing a customer if needed
+    }
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+    }
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+        // Implement updating the beer department queue if needed
+    }
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();

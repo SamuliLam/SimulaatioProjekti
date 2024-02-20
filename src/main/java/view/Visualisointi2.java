@@ -8,9 +8,9 @@ import javafx.scene.text.Font;
 
 public class Visualisointi2 extends Canvas implements IVisualisointi{
 	private GraphicsContext gc;
-
 	int asiakasLkm = 0;
-
+	int palvellutAsiakkaat = 0;
+	boolean meatDepQueue;
 	public Visualisointi2(int w, int h) {
 		super(w, h);
 		gc = this.getGraphicsContext2D();
@@ -18,19 +18,71 @@ public class Visualisointi2 extends Canvas implements IVisualisointi{
 	}
 
 	public void tyhjennaNaytto() {
-		gc.setFill(Color.YELLOW);
+		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, this.getWidth(), this.getHeight());
+		gc.setFill(Color.BLACK);
+		gc.setFont(new Font(20));
+		gc.fillText("Asiakkaiden määrä: " , 50, 50);
+		gc.fillText("Lihatiskin aktiivisuus: ", 50, 75);
+		gc.fillText("Olutosaston aktiivisuus: ", 50, 100);
+		gc.fillText("Kalatiskin aktiivisuus: ", 50, 125);
+		gc.fillText("Karkkihyllyn aktiivisuus: ", 50, 150);
+		gc.fillText("Palvellut asiakkaat: ", 50, 175);
 	}
 
 	public void uusiAsiakas() {
-
 		asiakasLkm++;
-
-		gc.setFill(Color.YELLOW);
-		gc.fillRect(100,80, 100, 20);
-		gc.setFill(Color.RED);
+		gc.setFill(Color.WHITE);
+		gc.fillRect(220, 30, 50, 30);
+		gc.setFill(Color.BLACK);
 		gc.setFont(new Font(20));
-		gc.fillText("Asiakas " + asiakasLkm, 100, 100);
+		gc.fillText(asiakasLkm + "", 230, 50);
 	}
 
+	public void asiakasPoistuu() {
+		palvellutAsiakkaat++;
+		gc.setFill(Color.WHITE);
+		gc.fillRect(220, 155, 50, 30);
+		gc.setFill(Color.BLACK);
+		gc.setFont(new Font(20));
+		gc.fillText(palvellutAsiakkaat + "", 230, 175);
+	}
+	public void updateMeatDepActivity(boolean meatDepQueue) {
+		if (meatDepQueue) {
+			gc.setFill(Color.GREEN);
+			gc.fillOval(265, 57, 20, 20);
+		} else {
+			gc.setFill(Color.RED);
+			gc.fillOval(265, 57, 20, 20); ;
+		}
+	}
+
+	public void updateBeerDepActivity(boolean beerDepQueue) {
+		if (beerDepQueue) {
+			gc.setFill(Color.GREEN);
+			gc.fillOval(265, 82, 20, 20);
+		} else {
+			gc.setFill(Color.RED);
+			gc.fillOval(265, 82, 20, 20); ;
+		}
+	}
+
+	public void updateFishDepActivity(boolean fishDepQueue) {
+		if (fishDepQueue) {
+			gc.setFill(Color.GREEN);
+			gc.fillOval(265, 107, 20, 20);
+		} else {
+			gc.setFill(Color.RED);
+			gc.fillOval(265, 107, 20, 20); ;
+		}
+	}
+	public void updateCandyDepActivity(boolean candyDepQueue) {
+		if (candyDepQueue) {
+			gc.setFill(Color.GREEN);
+			gc.fillOval(265, 132, 20, 20);
+		} else {
+			gc.setFill(Color.RED);
+			gc.fillOval(265, 132, 20, 20); ;
+		}
+	}
 }

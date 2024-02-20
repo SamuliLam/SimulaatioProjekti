@@ -48,6 +48,31 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
     }
 
     @Override
+    public void asiakasPoistuu() {
+
+    }
+
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();
     }
