@@ -14,6 +14,7 @@ public interface ISimulaattorinUI {
 	// Kontrolleri tarvitsee  
 	public IVisualisointi getVisualisointi();
 
-	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
+	void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
 
+	public void setTuloste(String tuloste);
 }

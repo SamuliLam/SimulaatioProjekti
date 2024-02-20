@@ -6,4 +6,7 @@ public interface IKontrolleriForM {
 
     public void naytaLoppuaika(double aika);
     public void visualisoiAsiakas();
+
+    public void naytaTulokset(String tulos);
+
 }

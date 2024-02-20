@@ -74,7 +74,8 @@ public class Palvelupiste {
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
-    public void raportti() {
+    public String raportti() {
+        StringBuilder sb = new StringBuilder();
         double sum = 0;
         for (double d : palveluajat) {
             sum += d;
@@ -82,7 +83,10 @@ public class Palvelupiste {
         double keskiarvo = sum / palveluajat.size();
         calculateTotalTimePerPalvelupiste();
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
+        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta\n");
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo);
+        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo + "\n");
+        return sb.toString();
     }
 
 

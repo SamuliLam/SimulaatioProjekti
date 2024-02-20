@@ -80,4 +80,9 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 			}
 		});
 	}
+
+	@Override
+	public void naytaTulokset(String tulokset) {
+		Platform.runLater(()->ui.setTuloste(tulokset));
+	}
 }

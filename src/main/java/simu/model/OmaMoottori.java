@@ -135,14 +135,17 @@ public class OmaMoottori extends Moottori {
 
 	@Override
 	protected void tulokset() {
-		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
+		StringBuilder tulokset = new StringBuilder();
+		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
 		for (Palvelupiste p : palvelupisteet) {
-			p.raportti();
+			tulokset.append(p.raportti()).append("\n");
 		}
-		Asiakas.completeRaportti();
+		tulokset.append(Asiakas.completeRaportti()).append("\n");
 
 		// UUTTA graafista
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
+
+		kontrolleri.naytaTulokset(tulokset.toString());
 	}
 }
 

@@ -182,7 +182,8 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printRuokalista());
     }
 
-    public static void completeRaportti() {
+    public static String completeRaportti() {
+        StringBuilder sb = new StringBuilder();
         double totalMoneySpent = getTotalMoneySpent();
         double averageMoneySpent = getAverageMoneySpent();
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
@@ -190,9 +191,14 @@ public class Asiakas {
         String formattedAverageMoneySpent = decimalFormat.format(averageMoneySpent);
 
         Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
+        sb.append("Asiakkaita yhteensä: " + asiakkaat.size() + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + formattedAverageMoneySpent + " euroa.");
+        sb.append("Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa." + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
+        sb.append("Asiakkaiden keskimääräinen ikä: " + getAverageAge() + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + formattedTotalMoneySpent + " euroa.");
+        sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa." + "\n");
+        return sb.toString();
     }
 
 }
