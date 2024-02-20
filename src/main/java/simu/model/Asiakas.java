@@ -75,7 +75,7 @@ public class Asiakas {
     }
 
     public static double getAverageMoneySpent() {
-        return totalMoneySpent / asiakkaat.size();
+        return totalSpentMoneyAtCheckout / asiakkaat.size();
     }
 
     public static double getTotalSpentMoneyAtCheckout() {
@@ -131,7 +131,10 @@ public class Asiakas {
 
     public void addSpentMoney(double amount) {
         spentMoney += amount;
-        spentmoneyPerAsiakas.put(this, spentMoney);
+    }
+
+    public void addSpentMoneyAtCheckout(double amount) {
+         spentmoneyPerAsiakas.put(this, amount);
     }
 
 
@@ -189,7 +192,7 @@ public class Asiakas {
 
     public static String completeRaportti() {
         StringBuilder sb = new StringBuilder();
-        double totalMoneySpent = getTotalMoneySpent();
+        double totalMoneySpent = getTotalSpentMoneyAtCheckout();
         double averageMoneySpent = getAverageMoneySpent();
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         String formattedTotalMoneySpent = decimalFormat.format(totalMoneySpent);

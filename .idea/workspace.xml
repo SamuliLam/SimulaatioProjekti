@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja." />
+    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/Asiakas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/Asiakas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +50,7 @@
     "Application.SimulaattorinGUI.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "kismet",
+    "git-widget-placeholder": "samuli",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -156,6 +168,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Muutettu enum-määrityksiä, jotta niistä saadaan tulostettua mahdollisesti palvelupisteen nimi ja palvelupisteessä tarjottavia tuotteita.&#10;&#10;Muutettu tulostuksia, jotta ne ilmoittavat ruokalistaa tulostettaessa tuotteet ja palvelupistettä tulostettaessa palvelupisteen nimen." />
     <MESSAGE value="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja." />
-    <option name="LAST_COMMIT_MESSAGE" value="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja." />
+    <MESSAGE value="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen." />
+    <option name="LAST_COMMIT_MESSAGE" value="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen." />
   </component>
 </project>
