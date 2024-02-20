@@ -60,6 +60,8 @@ public class Asiakas {
         return asiakkaat;
     }
 
+
+
     public double getPoistumisaika() {
         return poistumisaika;
     }
@@ -93,6 +95,10 @@ public class Asiakas {
             summa += (entry.getKey() * entry.getValue());
         }
         return summa / asiakkaat.size();
+    }
+
+    public static HashMap<Integer, Integer> getAgeDistribution() {
+        return ikaJakauma;
     }
 
     public HashSet<TapahtumanTyyppi> getpalvelupisteLista() {
