@@ -64,7 +64,6 @@ public class Palvelupiste {
             for (GroceryCategory category : asiakas.getGroceryList()){
                 if (category.getCategory() == skeduloitavanTapahtumanTyyppi){
                     asiakas.addSpentMoney(category.getTotalItemPrice());
-                    Asiakas.addTotalMoneySpent(category.getTotalItemPrice());
                 }
             }
         }

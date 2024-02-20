@@ -85,6 +85,7 @@ public class OmaMoottori extends Moottori {
 				break;
 			case CHECKOUTDEP:
 				asiakas = palvelupisteet[4].otaJonosta();
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
 				asiakas.setPoistumisaika(Kello.getInstance().getAika());
 				asiakas.raportti();
