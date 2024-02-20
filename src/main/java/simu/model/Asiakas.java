@@ -98,21 +98,15 @@ public class Asiakas {
     public HashSet<TapahtumanTyyppi> getpalvelupisteLista() {
         return palvelupisteLista;
     }
-
     public ArrayList<GroceryCategory> getGroceryList() {
         return groceryList;
     }
-
-
     public void setPoistumisaika(double poistumisaika) {
         this.poistumisaika = poistumisaika;
     }
-
-
     public void setSaapumisaika(double saapumisaika) {
         this.saapumisaika = saapumisaika;
     }
-
     public static HashMap<Integer, Integer> getAgeDistribution() {
         return ikaJakauma;
     }

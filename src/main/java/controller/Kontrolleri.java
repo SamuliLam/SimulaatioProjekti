@@ -15,16 +15,13 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 	
 	private IMoottori moottori; 
 	private ISimulaattorinUI ui;
-
 	private Asiakas asiakas;
 	private Palvelupiste palvelupiste;
 	
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
-		
 	}
 
-	
 	// Moottorin ohjausta:
 		
 	@Override
@@ -42,27 +39,26 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		moottori.setViive((long)(moottori.getViive()*1.10));
 	}
 
-
 	// Hae ja välitä ikäjakauma modelin ja viewin välillä
 	@Override
 	public HashMap<Integer, Integer> getAgeDistribution() {
 		return Asiakas.getAgeDistribution();
 	}
 
+	@Override
 	public HashMap<String, Integer> getPalvelupisteDistribution() { return Palvelupiste.getPalveluLuku();}
 
+	@Override
 	public HashMap<Palvelupiste, Double> getPalvelupisteAikaDistribution() { return Palvelupiste.getAjatPerPalvelupiste();}
 
+	@Override
 	public HashMap<Asiakas, Double> getSpentMoneyDistribution() { return Asiakas.getSpentmoneyPerAsiakas();}
-
 
 	@Override
 	public void nopeuta() { // nopeutetaan moottorisäiettä
 		moottori.setViive((long)(moottori.getViive()*0.9));
 	}
-	
-	
-	
+
 	// Simulointitulosten välittämistä käyttöliittymään.
 	// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
 		
