@@ -1,7 +1,6 @@
 package simu.model;
 
-import simu.framework.*;
-
+import java.text.DecimalFormat;
 import java.util.*;
 
 import eduni.distributions.ContinuousGenerator;
@@ -23,6 +22,9 @@ public class Palvelupiste {
 	private static final HashMap<String, Integer> palvelupisteidenKaynti = new HashMap<>();
 	private ArrayList<Double> palveluajat = new ArrayList<>();
 
+    private double totalTimeServiced = 0.0;
+    private static final HashMap<Palvelupiste, Double> palveluAjatPerPalvelupiste = new HashMap<>();
+
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
 
     private boolean varattu = false;
@@ -35,18 +37,15 @@ public class Palvelupiste {
 
     }
 
-
     public void lisaaJonoon(Asiakas a) {   // Jonon 1. asiakas aina palvelussa
         jono.add(a);
 
     }
 
-
     public Asiakas otaJonosta() {  // Poistetaan palvelussa ollut
         varattu = false;
         return jono.poll();
     }
-
 
     public void aloitaPalvelu() {
         //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
@@ -65,31 +64,42 @@ public class Palvelupiste {
             for (GroceryCategory category : asiakas.getGroceryList()){
                 if (category.getCategory() == skeduloitavanTapahtumanTyyppi){
                     asiakas.addSpentMoney(category.getTotalItemPrice());
-                    Asiakas.addTotalMoneySpent(category.getTotalItemPrice());
                 }
             }
         }
 
 		palveluajat.add(palveluaika);
 		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
+        palveluAjatPerPalvelupiste.put(this, totalTimeServiced);
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
     public String raportti() {
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+
         StringBuilder sb = new StringBuilder();
         double sum = 0;
         for (double d : palveluajat) {
             sum += d;
         }
         double keskiarvo = sum / palveluajat.size();
+
+        String formattedKeskiarvo = decimalFormat.format(keskiarvo);
+        calculateTotalTimePerPalvelupiste();
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
         sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta\n");
-        Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo);
-        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo + "\n");
+        Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo);
+        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo + "\n");
         return sb.toString();
     }
 
 
+    public void calculateTotalTimePerPalvelupiste()
+    {
+        for (int i = 0; i < palveluajat.size(); i++) {
+            totalTimeServiced += palveluajat.get(i);
+        }
+    }
     public boolean onVarattu() {
         return varattu;
     }
@@ -103,5 +113,7 @@ public class Palvelupiste {
 	{
 		return palvelupisteidenKaynti;
 	}
+
+    public static HashMap<Palvelupiste, Double> getAjatPerPalvelupiste() { return palveluAjatPerPalvelupiste;}
 
 }

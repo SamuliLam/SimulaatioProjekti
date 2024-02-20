@@ -1,24 +1,22 @@
 package view;
 
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class VisualisointiStatistiikka extends StackPane implements IVisualisointi {
+public class VisualisointiIkajakauma extends StackPane implements IVisualisointi {
     private final LineChart<String, Number> lineChart;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
 
-    public VisualisointiStatistiikka(int w, int h) {
+    public VisualisointiIkajakauma(int w, int h) {
         super();
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
@@ -30,9 +28,12 @@ public class VisualisointiStatistiikka extends StackPane implements IVisualisoin
             }
         });
         lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.getXAxis().setLabel("Ikä");
+        lineChart.getYAxis().setLabel("Esiintymiä");
         lineChart.setPrefSize(w, h);
         this.getChildren().add(lineChart);
     }
+
 
     // ikäjakauma chartti
     public void updateAgeDistributionData(HashMap<Integer, Integer> ageDistribution) {
