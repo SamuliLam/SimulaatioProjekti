@@ -8,7 +8,7 @@ import javafx.scene.chart.AreaChart;
 import java.util.*;
 
 public class VisualisointiRahankaytto extends StackPane implements IVisualisointi {
-    private final AreaChart<String, Number> areaChart;;
+    private AreaChart<String, Number> areaChart;;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
     private final double totalMoneyUsed;
@@ -29,7 +29,7 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
     // rahankäyttö chartti
 
     public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas) {
-        AreaChart<String, Number> areaChart = new AreaChart<>(xAxis, yAxis); // Assuming xAxis and yAxis are already defined
+        areaChart = new AreaChart<>(xAxis, yAxis);
         String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f", totalMoneyUsed);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(totalSpentMoney + ".   " + "Money spent per asiakas shown above.");
@@ -37,7 +37,7 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
         // järjestykseen
         Comparator<Asiakas> asiakasComparator = Comparator.comparingInt(Asiakas::getId);
 
-        // Create a TreeMap with the custom comparator
+        // Käytä treemapia järjestämään asiakkaita
         TreeMap<Asiakas, Double> sortedMoneyDistribution = new TreeMap<>(asiakasComparator);
         sortedMoneyDistribution.putAll(spentMoneyPerAsiakas);
 
@@ -47,10 +47,10 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
             series.getData().add(new XYChart.Data<>(String.valueOf(asiakas.getId()), spentMoney));
         }
 
-        areaChart.getData().clear();
+        areaChart.getData().clear(); // siivoa
         areaChart.getData().add(series);
 
-        this.getChildren().clear(); // Clear any previous chart from the stack pane
+        this.getChildren().clear(); // Siivoa
         this.getChildren().add(areaChart);
     }
 

@@ -34,6 +34,7 @@ public class VisualisointiIkajakauma extends StackPane implements IVisualisointi
         this.getChildren().add(lineChart);
     }
 
+
     // ikäjakauma chartti
     public void updateAgeDistributionData(HashMap<Integer, Integer> ageDistribution) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
