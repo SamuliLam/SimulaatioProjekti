@@ -40,6 +40,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private IVisualisointi naytto;
     private TextArea console;
 
+    private Palvelupiste palvelupiste;
     @Override
     public void init() {
         Trace.setTraceLevel(Level.INFO);
@@ -183,7 +184,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             }
             else if (selectedCategory != null && selectedCategory.equals("Aika")) {
                 // Hae aikakäyttö jakauma
-                HashMap<Palvelupiste, Double> servicePointTimeData = kontrolleri.getPalvelupisteAikaDistribution();
+                HashMap<String, Double> servicePointTimeData = kontrolleri.getPalvelupisteAikaDistribution();
                 // Lisää tiedot kanvasiin
                 aikaCanvas.updateServicePointTimeData(servicePointTimeData);
                 layout.setBottom(aikaCanvas);

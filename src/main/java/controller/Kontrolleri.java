@@ -49,10 +49,9 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 
 	public HashMap<String, Integer> getPalvelupisteDistribution() { return Palvelupiste.getPalveluLuku();}
 
-	public HashMap<Palvelupiste, Double> getPalvelupisteAikaDistribution() { return Palvelupiste.getAjatPerPalvelupiste();}
+	public HashMap<String, Double> getPalvelupisteAikaDistribution() { return Palvelupiste.getAjatPerPalvelupiste();}
 
 	public HashMap<Asiakas, Double> getSpentMoneyDistribution() { return Asiakas.getSpentmoneyPerAsiakas();}
-
 
 	@Override
 	public void nopeuta() { // nopeutetaan moottorisäiettä

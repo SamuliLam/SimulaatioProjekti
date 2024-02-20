@@ -23,11 +23,11 @@ public class VisualisointiPalveluajat extends StackPane implements IVisualisoint
         }
 
         // piechart palvelupisteistä
-        public void updateServicePointTimeData(HashMap<Palvelupiste, Double> timeData) {
+        public void updateServicePointTimeData(HashMap<String, Double> timeData) {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-            for (Map.Entry<Palvelupiste, Double> entry : timeData.entrySet()) {
-                String label = entry.getKey().toString() + " (" + entry.getValue() + ")";
+            for (Map.Entry<String, Double> entry : timeData.entrySet()) {
+                String label = entry.getKey() + " (" + entry.getValue() + ")";
                 pieChartData.add(new PieChart.Data(label, entry.getValue()));
             }
 
