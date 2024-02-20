@@ -18,6 +18,7 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
         super();
         pieChart = new PieChart();
         pieChart.setPrefSize(w, h);
+        pieChart.setTitle("Palvelupisteiden Esiintymät");
         this.getChildren().add(pieChart);
     }
 
@@ -30,7 +31,9 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
             pieChartData.add(new PieChart.Data(label, entry.getValue()));
         }
 
+        pieChart.getData().clear();
         pieChart.setData(pieChartData);
+        pieChart.layout();
     }
 
 
