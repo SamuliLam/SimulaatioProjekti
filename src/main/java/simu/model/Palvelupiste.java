@@ -64,7 +64,6 @@ public class Palvelupiste {
             for (GroceryCategory category : asiakas.getGroceryList()){
                 if (category.getCategory() == skeduloitavanTapahtumanTyyppi){
                     asiakas.addSpentMoney(category.getTotalItemPrice());
-                    Asiakas.addTotalMoneySpent(category.getTotalItemPrice());
                 }
             }
         }
@@ -108,6 +107,10 @@ public class Palvelupiste {
 
     public boolean onJonossa() {
         return !jono.isEmpty();
+    }
+
+    public int getJononPituus() {
+        return jono.size();
     }
 
 	public static HashMap<String, Integer> getPalveluLuku()

@@ -16,6 +16,7 @@ public interface IVisualisointi {
 	void updateFishDepActivity(boolean isReserved);
 
 	void updateCandyDepActivity(boolean isReserved);
-		
+
+
 }
 

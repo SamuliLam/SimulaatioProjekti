@@ -13,6 +13,7 @@ public class OmaMoottori extends Moottori {
 	private Saapumisprosessi saapumisprosessi;
 
 	private Palvelupiste[] palvelupisteet;
+	private boolean MeatDepActivity;
 
 	public OmaMoottori(IKontrolleriForM kontrolleri){
 
@@ -31,6 +32,10 @@ public class OmaMoottori extends Moottori {
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
+		kontrolleri.updateMeatDepActivity(false);
+		kontrolleri.updateBeerDepActivity(false);
+		kontrolleri.updateFishDepActivity(false);
+		kontrolleri.updateCandyDepActivity(false);
 	}
 
 
@@ -45,7 +50,6 @@ public class OmaMoottori extends Moottori {
 		Asiakas asiakas;
 		int palvelupisteValitsin = 0;
 		switch (t.getTyyppi()) {
-
 			case ARRMARKET:
 				asiakas = new Asiakas();
 				//palvelupisteet[0].lisaaJonoon(asiakas);
@@ -85,9 +89,12 @@ public class OmaMoottori extends Moottori {
 				break;
 			case CHECKOUTDEP:
 				asiakas = palvelupisteet[4].otaJonosta();
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
 				asiakas.setPoistumisaika(Kello.getInstance().getAika());
 				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
 				break;
 		}
 	}
@@ -126,6 +133,10 @@ public class OmaMoottori extends Moottori {
 
 	@Override
 	protected void yritaCTapahtumat() {
+		kontrolleri.updateMeatDepActivity(palvelupisteet[0].onVarattu());
+		kontrolleri.updateBeerDepActivity(palvelupisteet[1].onVarattu());
+		kontrolleri.updateFishDepActivity(palvelupisteet[2].onVarattu());
+		kontrolleri.updateCandyDepActivity(palvelupisteet[3].onVarattu());
 		for (Palvelupiste p : palvelupisteet) {
 			if (!p.onVarattu() && p.onJonossa()) {
 				p.aloitaPalvelu();

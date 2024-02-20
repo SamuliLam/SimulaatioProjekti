@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUSI
-
-	private IMoottori moottori;
+	
+	private IMoottori moottori; 
 	private ISimulaattorinUI ui;
 
 	private Asiakas asiakas;
 	private Palvelupiste palvelupiste;
-
+	
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
-
+		
 	}
 	// Moottorin ohjausta:
-
+		
 	@Override
 	public void kaynnistaSimulointi() {
 		moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
@@ -34,7 +34,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		((Thread)moottori).start();
 		//((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?
 	}
-
+	
 	@Override
 	public void hidasta() { // hidastetaan moottorisäiettä
 		moottori.setViive((long)(moottori.getViive()*1.10));
@@ -58,15 +58,15 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 	public void nopeuta() { // nopeutetaan moottorisäiettä
 		moottori.setViive((long)(moottori.getViive()*0.9));
 	}
-
-
-
+	
+	
+	
 	// Simulointitulosten välittämistä käyttöliittymään.
 	// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
-
+		
 	@Override
 	public void naytaLoppuaika(double aika) {
-		Platform.runLater(()->ui.setLoppuaika(aika));
+		Platform.runLater(()->ui.setLoppuaika(aika)); 
 	}
 	@Override
 	public void visualisoiAsiakas() {

@@ -53,19 +53,34 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
         this.getChildren().clear(); // Siivoa
         this.getChildren().add(areaChart);
     }
-
-
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
         // Implement adding a new customer if needed
     }
-
+    @Override
+    public void asiakasPoistuu() {
+        // Implement removing a customer if needed
+    }
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+        // Implement updating the meat department queue if needed
+    }
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+        // Implement updating the beer department queue if needed
+    }
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
     @Override
     public void asiakasPoistuu() {
 
