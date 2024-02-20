@@ -4,6 +4,7 @@ import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 // TODO:
@@ -13,6 +14,7 @@ public class Asiakas {
     private static List<Asiakas> asiakkaat = new ArrayList<>();
     private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
 
+    private static HashMap<Asiakas, Double> spentmoneyPerAsiakas = new HashMap<>();
     private ArrayList<GroceryCategory> groceryList;
     private GroceryCategory groceryCategory;
 
@@ -44,7 +46,7 @@ public class Asiakas {
         palvelupisteLista = new HashSet<>();
         groceryList = new ArrayList<>();
         // Luodaan random palvelupisteLista tyypettäin asiakkaalle
-        generateRandomEnums();
+        generateRandomRuokalista();
         ika = (int) (ageRandom.sample());
         spentMoney = 0;
         saapumisaika = Kello.getInstance().getAika();
@@ -60,7 +62,6 @@ public class Asiakas {
         return asiakkaat;
     }
 
-
     public double getPoistumisaika() {
         return poistumisaika;
     }
@@ -74,7 +75,7 @@ public class Asiakas {
     }
 
     public static double getAverageMoneySpent() {
-        return totalMoneySpent / asiakkaat.size();
+        return totalSpentMoneyAtCheckout / asiakkaat.size();
     }
 
     public static double getTotalSpentMoneyAtCheckout() {
@@ -89,17 +90,15 @@ public class Asiakas {
         return spentMoney;
     }
 
-
+    public static HashMap<Asiakas, Double> getSpentmoneyPerAsiakas() {
+        return spentmoneyPerAsiakas;
+    }
     public static int getAverageAge() {
         int summa = 0;
         for (Map.Entry<Integer, Integer> entry : ikaJakauma.entrySet()) {
             summa += (entry.getKey() * entry.getValue());
         }
         return summa / asiakkaat.size();
-    }
-
-    public static HashMap<Integer, Integer> getAgeDistribution() {
-        return ikaJakauma;
     }
 
     public HashSet<TapahtumanTyyppi> getpalvelupisteLista() {
@@ -110,6 +109,7 @@ public class Asiakas {
         return groceryList;
     }
 
+
     public void setPoistumisaika(double poistumisaika) {
         this.poistumisaika = poistumisaika;
     }
@@ -119,6 +119,9 @@ public class Asiakas {
         this.saapumisaika = saapumisaika;
     }
 
+    public static HashMap<Integer, Integer> getAgeDistribution() {
+        return ikaJakauma;
+    }
 
     // MUUT METODIT
 
@@ -129,6 +132,11 @@ public class Asiakas {
     public void addSpentMoney(double amount) {
         spentMoney += amount;
     }
+
+    public void addSpentMoneyAtCheckout(double amount) {
+         spentmoneyPerAsiakas.put(this, amount);
+    }
+
 
     public void updateIkaJakauma(int age) {
         if (ikaJakauma.containsKey(age)) {
@@ -147,7 +155,7 @@ public class Asiakas {
         return sb.toString();
     }
 
-    public void generateRandomEnums() {
+    public void generateRandomRuokalista() {
         // lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
         palvelupisteLista.add(TapahtumanTyyppi.ARRMARKET);
         palvelupisteLista.add(TapahtumanTyyppi.CHECKOUTDEP);
@@ -170,7 +178,6 @@ public class Asiakas {
 
                 }
             }
-
         }
     }
 
@@ -183,11 +190,23 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printRuokalista());
     }
 
-    public static void completeRaportti() {
+    public static String completeRaportti() {
+        StringBuilder sb = new StringBuilder();
+        double totalMoneySpent = getTotalSpentMoneyAtCheckout();
+        double averageMoneySpent = getAverageMoneySpent();
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        String formattedTotalMoneySpent = decimalFormat.format(totalMoneySpent);
+        String formattedAverageMoneySpent = decimalFormat.format(averageMoneySpent);
+
         Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
-        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa.");
+        sb.append("Asiakkaita yhteensä: " + asiakkaat.size() + "\n");
+        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + formattedAverageMoneySpent + " euroa.");
+        sb.append("Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa." + "\n");
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
-        Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa.");
+        sb.append("Asiakkaiden keskimääräinen ikä: " + getAverageAge() + "\n");
+        Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + formattedTotalMoneySpent + " euroa.");
+        sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa." + "\n");
+        return sb.toString();
     }
 
 }
