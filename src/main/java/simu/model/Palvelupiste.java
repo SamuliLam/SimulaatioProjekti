@@ -109,6 +109,10 @@ public class Palvelupiste {
         return !jono.isEmpty();
     }
 
+    public int getJononPituus() {
+        return jono.size();
+    }
+
 	public static HashMap<String, Integer> getPalveluLuku()
 	{
 		return palvelupisteidenKaynti;
