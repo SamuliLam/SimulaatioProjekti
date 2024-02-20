@@ -1,5 +1,6 @@
 package simu.model;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 import eduni.distributions.ContinuousGenerator;
@@ -19,7 +20,7 @@ public class Palvelupiste {
 	private final Tapahtumalista tapahtumalista;
 	private final TapahtumanTyyppi skeduloitavanTapahtumanTyyppi;
 	private static final HashMap<String, Integer> palvelupisteidenKaynti = new HashMap<>();
-	private static ArrayList<Double> palveluajat = new ArrayList<>();
+	private ArrayList<Double> palveluajat = new ArrayList<>();
 
     private double totalTimeServiced = 0.0;
     private static final HashMap<Palvelupiste, Double> palveluAjatPerPalvelupiste = new HashMap<>();
@@ -75,17 +76,21 @@ public class Palvelupiste {
 	}
 
     public String raportti() {
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+
         StringBuilder sb = new StringBuilder();
         double sum = 0;
         for (double d : palveluajat) {
             sum += d;
         }
         double keskiarvo = sum / palveluajat.size();
+
+        String formattedKeskiarvo = decimalFormat.format(keskiarvo);
         calculateTotalTimePerPalvelupiste();
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
         sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta\n");
-        Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo);
-        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + keskiarvo + "\n");
+        Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo);
+        sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo + "\n");
         return sb.toString();
     }
 

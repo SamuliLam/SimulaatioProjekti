@@ -60,28 +60,28 @@ public class OmaMoottori extends Moottori {
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.MEATDEP);
 				palvelupisteValitsin = checkForEnumType(asiakas);
 				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
-				//palvelupisteet[1].lisaaJonoon(asiakas);
+//				palvelupisteet[1].lisaaJonoon(asiakas);
 				break;
 			case BEERDEP:
 				asiakas = palvelupisteet[1].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.BEERDEP);
 				palvelupisteValitsin = checkForEnumType(asiakas);
 				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
-				//palvelupisteet[2].lisaaJonoon(asiakas);
+//				palvelupisteet[2].lisaaJonoon(asiakas);
 				break;
 			case FISHDEP:
 				asiakas = palvelupisteet[2].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.FISHDEP);
 				palvelupisteValitsin = checkForEnumType(asiakas);
 				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
-				//palvelupisteet[3].lisaaJonoon(asiakas);
+//				palvelupisteet[3].lisaaJonoon(asiakas);
 				break;
 			case CANDYDEP:
 				asiakas = palvelupisteet[3].otaJonosta();
 				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CANDYDEP);
 				palvelupisteValitsin = checkForEnumType(asiakas);
 				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
-				//palvelupisteet[4].lisaaJonoon(asiakas);
+//				palvelupisteet[4].lisaaJonoon(asiakas);
 				break;
 			case CHECKOUTDEP:
 				asiakas = palvelupisteet[4].otaJonosta();
