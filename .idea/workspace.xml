@@ -14,7 +14,7 @@
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="stefu" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,7 +38,7 @@
     "Application.SimulaattorinGUI.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "kismet",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -78,7 +78,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-jbrsdk-17.0.9-f644763e9732-d3ceb957" />
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
       </set>
     </attachedChunks>
   </component>
@@ -100,6 +100,7 @@
       <workItem from="1708181026851" duration="108000" />
       <workItem from="1708340168666" duration="4605000" />
       <workItem from="1708345102254" duration="8551000" />
+      <workItem from="1708419440850" duration="397000" />
     </task>
     <task id="LOCAL−00001" summary="Muutettu enum-määrityksiä, jotta niistä saadaan tulostettua mahdollisesti palvelupisteen nimi ja palvelupisteessä tarjottavia tuotteita.&#10;&#10;Muutettu tulostuksia, jotta ne ilmoittavat ruokalistaa tulostettaessa tuotteet ja palvelupistettä tulostettaessa palvelupisteen nimen.">
       <option name="closed" value="true" />
