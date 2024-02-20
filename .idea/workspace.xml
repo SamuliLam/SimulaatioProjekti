@@ -10,19 +10,26 @@
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForV.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/IVisualisointi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/IVisualisointi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Visualisointi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Visualisointi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Visualisointi2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Visualisointi2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/SimulaattorinGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SimulaattorinGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiIkajakauma.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiIkajakauma.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiPalveluajat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiPalveluajat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiPalvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiPalvelupiste.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiRahankaytto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiRahankaytto.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +64,7 @@
     "Application.SimulaattorinGUI.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "stefu",
+    "git-widget-placeholder": "kismet",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -80,19 +87,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="SimulaatioProjekti" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="SimulaatioProjekti" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

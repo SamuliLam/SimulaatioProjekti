@@ -23,7 +23,7 @@ public class Palvelupiste {
 	private ArrayList<Double> palveluajat = new ArrayList<>();
 
     private double totalTimeServiced = 0.0;
-    private static final HashMap<Palvelupiste, Double> palveluAjatPerPalvelupiste = new HashMap<>();
+    private static final HashMap<String, Double> palveluAjatPerPalvelupiste = new HashMap<>();
 
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
 
@@ -70,7 +70,6 @@ public class Palvelupiste {
 
 		palveluajat.add(palveluaika);
 		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
-        palveluAjatPerPalvelupiste.put(this, totalTimeServiced);
 		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
 	}
 
@@ -82,10 +81,9 @@ public class Palvelupiste {
         for (double d : palveluajat) {
             sum += d;
         }
-        double keskiarvo = sum / palveluajat.size();
-
-        String formattedKeskiarvo = decimalFormat.format(keskiarvo);
         calculateTotalTimePerPalvelupiste();
+        double keskiarvo = sum / palveluajat.size();
+        String formattedKeskiarvo = decimalFormat.format(keskiarvo);
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta");
         sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta\n");
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo);
@@ -99,6 +97,7 @@ public class Palvelupiste {
         for (int i = 0; i < palveluajat.size(); i++) {
             totalTimeServiced += palveluajat.get(i);
         }
+        palveluAjatPerPalvelupiste.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), totalTimeServiced);
     }
     public boolean onVarattu() {
         return varattu;
@@ -118,6 +117,6 @@ public class Palvelupiste {
 		return palvelupisteidenKaynti;
 	}
 
-    public static HashMap<Palvelupiste, Double> getAjatPerPalvelupiste() { return palveluAjatPerPalvelupiste;}
+    public static HashMap<String, Double> getAjatPerPalvelupiste() { return palveluAjatPerPalvelupiste;}
 
 }

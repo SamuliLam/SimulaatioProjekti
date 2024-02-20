@@ -57,10 +57,6 @@ public class VisualisointiIkajakauma extends StackPane implements IVisualisointi
 
     }
     @Override
-    public void asiakasPoistuu() {
-        // Implement removing a customer if needed
-    }
-    @Override
     public void uusiAsiakas() {
         // Implement adding a new customer if needed
     }

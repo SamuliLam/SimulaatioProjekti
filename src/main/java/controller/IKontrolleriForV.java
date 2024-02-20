@@ -23,6 +23,5 @@ public interface IKontrolleriForV {
     HashMap<Asiakas, Double> getSpentMoneyDistribution();
 
     // Aika per palvelupiste
-    HashMap<Palvelupiste, Double> getPalvelupisteAikaDistribution();
-
+    HashMap<String, Double> getPalvelupisteAikaDistribution();
 }
