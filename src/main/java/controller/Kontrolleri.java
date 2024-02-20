@@ -12,18 +12,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUSI
-	
-	private IMoottori moottori; 
+
+	private IMoottori moottori;
 	private ISimulaattorinUI ui;
+
 	private Asiakas asiakas;
 	private Palvelupiste palvelupiste;
-	
+
 	public Kontrolleri(ISimulaattorinUI ui) {
 		this.ui = ui;
-	}
 
+	}
 	// Moottorin ohjausta:
-		
+
 	@Override
 	public void kaynnistaSimulointi() {
 		moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
@@ -33,11 +34,12 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		((Thread)moottori).start();
 		//((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?
 	}
-	
+
 	@Override
 	public void hidasta() { // hidastetaan moottorisäiettä
 		moottori.setViive((long)(moottori.getViive()*1.10));
 	}
+
 
 	// Hae ja välitä ikäjakauma modelin ja viewin välillä
 	@Override
@@ -45,29 +47,27 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		return Asiakas.getAgeDistribution();
 	}
 
-	@Override
 	public HashMap<String, Integer> getPalvelupisteDistribution() { return Palvelupiste.getPalveluLuku();}
 
-	@Override
 	public HashMap<Palvelupiste, Double> getPalvelupisteAikaDistribution() { return Palvelupiste.getAjatPerPalvelupiste();}
 
-	@Override
 	public HashMap<Asiakas, Double> getSpentMoneyDistribution() { return Asiakas.getSpentmoneyPerAsiakas();}
+
 
 	@Override
 	public void nopeuta() { // nopeutetaan moottorisäiettä
 		moottori.setViive((long)(moottori.getViive()*0.9));
 	}
 
+
+
 	// Simulointitulosten välittämistä käyttöliittymään.
 	// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
-		
+
 	@Override
 	public void naytaLoppuaika(double aika) {
-		Platform.runLater(()->ui.setLoppuaika(aika)); 
+		Platform.runLater(()->ui.setLoppuaika(aika));
 	}
-
-	
 	@Override
 	public void visualisoiAsiakas() {
 		Platform.runLater(new Runnable(){
@@ -77,6 +77,48 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		});
 	}
 
+	@Override
+	public void asiakasPoistuu() {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().asiakasPoistuu();
+			}
+		});
+	}
+	@Override
+	public void updateMeatDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateMeatDepActivity(isReserved);
+			}
+		});
+	}
+	@Override
+	public void updateBeerDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateBeerDepActivity(isReserved);
+			}
+		});
+	}
+
+	@Override
+	public void updateFishDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateFishDepActivity(isReserved);
+			}
+		});
+	}
+
+	@Override
+	public void updateCandyDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateCandyDepActivity(isReserved);
+			}
+		});
+	}
 	@Override
 	public void naytaTulokset(String tulokset) {
 		Platform.runLater(()->ui.setTuloste(tulokset));

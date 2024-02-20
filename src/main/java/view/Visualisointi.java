@@ -33,5 +33,30 @@ public class Visualisointi extends Canvas implements IVisualisointi{
 		//j = (j + 12) % this.getHeight();
 		if (i==0) j+=10;			
 	}
-	
+
+	@Override
+	public void asiakasPoistuu() {
+
+	}
+
+	@Override
+	public void updateMeatDepActivity(boolean isReserved) {
+
+	}
+
+	@Override
+	public void updateBeerDepActivity(boolean isReserved) {
+
+	}
+
+	@Override
+	public void updateFishDepActivity(boolean isReserved) {
+
+	}
+
+	@Override
+	public void updateCandyDepActivity(boolean isReserved) {
+
+	}
+
 }

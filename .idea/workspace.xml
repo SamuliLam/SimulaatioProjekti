@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja." />
+    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/IVisualisointi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/IVisualisointi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Visualisointi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Visualisointi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Visualisointi2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Visualisointi2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/Visualisointi2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/Visualisointi2.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,26 +51,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Run",
-    "Application.SimulaattorinGUI.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "kismet",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SimulaattorinGUI.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;kismet&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="view.Main" />
@@ -101,6 +121,7 @@
       <workItem from="1708340168666" duration="4605000" />
       <workItem from="1708345102254" duration="8551000" />
       <workItem from="1708419440850" duration="397000" />
+      <workItem from="1708466234436" duration="1402000" />
     </task>
     <task id="LOCAL−00001" summary="Muutettu enum-määrityksiä, jotta niistä saadaan tulostettua mahdollisesti palvelupisteen nimi ja palvelupisteessä tarjottavia tuotteita.&#10;&#10;Muutettu tulostuksia, jotta ne ilmoittavat ruokalistaa tulostettaessa tuotteet ja palvelupistettä tulostettaessa palvelupisteen nimen.">
       <option name="closed" value="true" />
