@@ -23,8 +23,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		this.ui = ui;
 		
 	}
-
-	
 	// Moottorin ohjausta:
 		
 	@Override
@@ -70,8 +68,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 	public void naytaLoppuaika(double aika) {
 		Platform.runLater(()->ui.setLoppuaika(aika)); 
 	}
-
-	
 	@Override
 	public void visualisoiAsiakas() {
 		Platform.runLater(new Runnable(){
@@ -81,6 +77,48 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 		});
 	}
 
+	@Override
+	public void asiakasPoistuu() {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().asiakasPoistuu();
+			}
+		});
+	}
+	@Override
+	public void updateMeatDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateMeatDepActivity(isReserved);
+			}
+		});
+	}
+	@Override
+	public void updateBeerDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateBeerDepActivity(isReserved);
+			}
+		});
+	}
+
+	@Override
+	public void updateFishDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateFishDepActivity(isReserved);
+			}
+		});
+	}
+
+	@Override
+	public void updateCandyDepActivity(boolean isReserved) {
+		Platform.runLater(new Runnable(){
+			public void run(){
+				ui.getVisualisointi().updateCandyDepActivity(isReserved);
+			}
+		});
+	}
 	@Override
 	public void naytaTulokset(String tulokset) {
 		Platform.runLater(()->ui.setTuloste(tulokset));
