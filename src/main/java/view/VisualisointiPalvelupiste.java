@@ -18,6 +18,7 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
         super();
         pieChart = new PieChart();
         pieChart.setPrefSize(w, h);
+        pieChart.setTitle("Palvelupisteiden Esiintymät");
         this.getChildren().add(pieChart);
     }
 
@@ -30,18 +31,42 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
             pieChartData.add(new PieChart.Data(label, entry.getValue()));
         }
 
+        pieChart.getData().clear();
         pieChart.setData(pieChartData);
+        pieChart.layout();
     }
-
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
         // Implement adding a new customer if needed
+    }
+
+    @Override
+    public void asiakasPoistuu() {
+
+    }
+
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+
     }
 
     @Override
