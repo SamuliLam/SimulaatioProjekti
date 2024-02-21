@@ -20,20 +20,13 @@ public class VisualisointiIkajakauma extends StackPane implements IVisualisointi
         super();
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
-        yAxis.setTickUnit(1);
-        yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis) {
-            @Override
-            public String toString(Number object) {
-                return String.format("%d", object.intValue());
-            }
-        });
+        yAxis.setLabel("Esiintymiä");
+
         lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.getXAxis().setLabel("Ikä");
-        lineChart.getYAxis().setLabel("Esiintymiä");
         lineChart.setPrefSize(w, h);
         this.getChildren().add(lineChart);
     }
-
 
     // ikäjakauma chartti
     public void updateAgeDistributionData(HashMap<Integer, Integer> ageDistribution) {
@@ -49,6 +42,16 @@ public class VisualisointiIkajakauma extends StackPane implements IVisualisointi
 
         lineChart.getData().clear();
         lineChart.getData().add(series);
+
+        // Calculate the minimum and maximum Y-axis values
+        int minYValue = ageDistribution.values().stream().mapToInt(Integer::intValue).min().orElse(0);
+        int maxYValue = ageDistribution.values().stream().mapToInt(Integer::intValue).max().orElse(10);
+
+        // Set the lower and upper bounds for the Y-axis
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(minYValue-1);
+        yAxis.setUpperBound(maxYValue+1);
+        yAxis.setTickUnit(1); // Set the tick unit to 1 to display only integer values
     }
     @Override
     public void tyhjennaNaytto() {

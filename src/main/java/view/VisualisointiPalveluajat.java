@@ -27,7 +27,7 @@ public class VisualisointiPalveluajat extends StackPane implements IVisualisoint
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
             for (Map.Entry<String, Double> entry : timeData.entrySet()) {
-                String label = entry.getKey() + " (" + entry.getValue() + ")";
+                String label = entry.getKey() + " (" + String.format("%.2f", entry.getValue()) + ")";
                 pieChartData.add(new PieChart.Data(label, entry.getValue()));
             }
 
