@@ -122,4 +122,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV{   // UUS
 	public void naytaTulokset(String tulokset) {
 		Platform.runLater(()->ui.setTuloste(tulokset));
 	}
+
+
 }

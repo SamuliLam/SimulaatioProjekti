@@ -15,5 +15,5 @@ public interface ISimulaattorinUI {
 	public IVisualisointi getVisualisointi();
 
 	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
-
+	public void setTuloste(String tulokset);
 }
