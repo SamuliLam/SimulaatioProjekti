@@ -4,32 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen.">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_2_2024_12_59__Changes_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_19_2_2024_13_03__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_15_2_2024_12_53__Changes_.xml" afterDir="false" />
+    <list default="true" id="d4bbcf36-b2a3-427b-a12a-3645b41a9c90" name="Changes" comment="Korjattu visuaalisointeja, ja aika käytetty per palvelupiste piechart korjattu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/IKontrolleriForV.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Kontrolleri.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/Palvelupiste.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/SimulaattorinGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/SimulaattorinGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simu/model/OmaMoottori.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiIkajakauma.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalveluajat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiPalvelupiste.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/VisualisointiRahankaytto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/Kontrolleri.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Asiakas.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/Palvelupiste.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/SimulaattorinGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/IKontrolleriForV.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/IKontrolleriForV.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/simu/model/OmaMoottori.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiIkajakauma$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiIkajakauma.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiIkajakauma.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiPalveluajat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiPalveluajat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiPalvelupiste.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiPalvelupiste.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/VisualisointiRahankaytto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/VisualisointiRahankaytto.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +133,14 @@
       <option name="presentableId" value="LOCAL−00003" />
       <updated>1708353814975</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL−00004" summary="Korjattu visuaalisointeja, ja aika käytetty per palvelupiste piechart korjattu">
+      <option name="closed" value="true" />
+      <created>1708473191945</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1708473191945</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +174,7 @@
     <MESSAGE value="Muutettu enum-määrityksiä, jotta niistä saadaan tulostettua mahdollisesti palvelupisteen nimi ja palvelupisteessä tarjottavia tuotteita.&#10;&#10;Muutettu tulostuksia, jotta ne ilmoittavat ruokalistaa tulostettaessa tuotteet ja palvelupistettä tulostettaessa palvelupisteen nimen." />
     <MESSAGE value="Muokattu openStatisticPage metodia, jotta se avaa tyhjän uuden Scenen, johon on tarkoitus implementoida uusia tuloshakuja." />
     <MESSAGE value="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen." />
-    <option name="LAST_COMMIT_MESSAGE" value="totalmoneyspent korjattu. Nyt käyttää rahaa vain checkoutin jälkeen." />
+    <MESSAGE value="Korjattu visuaalisointeja, ja aika käytetty per palvelupiste piechart korjattu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Korjattu visuaalisointeja, ja aika käytetty per palvelupiste piechart korjattu" />
   </component>
 </project>
