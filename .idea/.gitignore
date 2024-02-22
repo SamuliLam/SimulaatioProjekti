@@ -8,3 +8,9 @@
 /dataSources.local.xml
 
 /sonarlint
+
+#XML
+*.xml
+
+#.idea
+.idea
