@@ -19,8 +19,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import simu.model.Asiakas;
 import simu.model.Palvelupiste;
+import simu.model.TapahtumanTyyppi;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
@@ -156,6 +158,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 800);
         VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 800);
         VisualisointiPalveluajat aikaCanvas = new VisualisointiPalveluajat(700, 800);
+        VisualisointiTuotteet soldProductsCanvas = new VisualisointiTuotteet(700, 800);
         backButton.setOnAction(event -> {
             primaryStage.setScene(mainScene);
         });
@@ -188,6 +191,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 // Lisää tiedot kanvasiin
                 aikaCanvas.updateServicePointTimeData(servicePointTimeData);
                 layout.setBottom(aikaCanvas);
+            } else if (selectedCategory != null && selectedCategory.equals("Ruokalista")) {
+                // Hae ruokalista
+                HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts = kontrolleri.getSoldProducts();
+                // Lisää tiedot kanvasiin
+                soldProductsCanvas.updateSoldProductsData(soldProducts);
+                layout.setBottom(soldProductsCanvas);
             }
         });
         Scene newScene = new Scene(layout, 1080, 900);

@@ -9,8 +9,3 @@
 
 /sonarlint
 
-#XML
-*.xml
-
-#.idea
-.idea

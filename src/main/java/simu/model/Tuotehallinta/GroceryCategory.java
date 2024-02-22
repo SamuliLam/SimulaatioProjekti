@@ -14,6 +14,8 @@ public class GroceryCategory {
 
     private Groceries groceries = new Groceries();
 
+    private static Random random = new Random();
+
     public GroceryCategory(TapahtumanTyyppi category) {
         this.category = category;
         this.items = new ArrayList<>();
@@ -28,13 +30,8 @@ public class GroceryCategory {
         return category;
     }
 
-    public String getItems() {
-        StringBuilder sb = new StringBuilder();
-        for (Item item : items) {
-            sb.append(item.toString());
-            sb.append("\n");
-        }
-        return sb.toString();
+    public List<Item> getItems() {
+        return items;
     }
 
 
@@ -46,13 +43,21 @@ public class GroceryCategory {
         return totalPrice;
     }
 
+    public String itemsToString() {
+        StringBuilder sb = new StringBuilder();
+        for (Item item : items) {
+            sb.append(item.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public void generateRandomItems(TapahtumanTyyppi category) {
-        Random random = new Random();
         int amount = random.nextInt(1, 3);
         switch (category) {
             case MEATDEP:
                 for (int i = 0; i < amount; i++) {
-                    int randomIndex = random.nextInt(1, groceries.getLIHATUOTTEET().size());
+                    int randomIndex = random.nextInt(0, groceries.getLIHATUOTTEET().size());
                     String randomKey = (String) groceries.getLIHATUOTTEET().keySet().toArray()[randomIndex];
                     double randomValue = groceries.getLIHATUOTTEET().get(randomKey);
                     //Only add the item if it's not already in the list
@@ -64,7 +69,7 @@ public class GroceryCategory {
                 break;
             case FISHDEP:
                 for (int i = 0; i < amount; i++) {
-                    int randomIndex = random.nextInt(1, groceries.getKALATUOTTEET().size());
+                    int randomIndex = random.nextInt(0, groceries.getKALATUOTTEET().size());
                     String randomKey = (String) groceries.getKALATUOTTEET().keySet().toArray()[randomIndex];
                     double randomValue = groceries.getKALATUOTTEET().get(randomKey);
                     //Only add the item if it's not already in the list
@@ -76,7 +81,7 @@ public class GroceryCategory {
                 break;
             case BEERDEP:
                 for (int i = 0; i < amount; i++) {
-                    int randomIndex = random.nextInt(1, groceries.getALKOHOLITUOTTEET().size());
+                    int randomIndex = random.nextInt(0, groceries.getALKOHOLITUOTTEET().size());
                     String randomKey = (String) groceries.getALKOHOLITUOTTEET().keySet().toArray()[randomIndex];
                     double randomValue = groceries.getALKOHOLITUOTTEET().get(randomKey);
                     //Only add the item if it's not already in the list
@@ -88,7 +93,7 @@ public class GroceryCategory {
                 break;
             case CANDYDEP:
                 for (int i = 0; i < amount; i++) {
-                    int randomIndex = random.nextInt(1, groceries.getKARKKITUOTTEET().size());
+                    int randomIndex = random.nextInt(0, groceries.getKARKKITUOTTEET().size());
                     String randomKey = (String) groceries.getKARKKITUOTTEET().keySet().toArray()[randomIndex];
                     double randomValue = groceries.getKARKKITUOTTEET().get(randomKey);
                     //Only add the item if it's not already in the list

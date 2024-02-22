@@ -38,4 +38,7 @@ public class Item {
     }
 
 
+    public Integer getQuantity() {
+        return amount;
+    }
 }
