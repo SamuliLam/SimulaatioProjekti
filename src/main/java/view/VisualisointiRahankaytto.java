@@ -11,7 +11,6 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
     private AreaChart<String, Number> areaChart;;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
-    private final double totalMoneyUsed;
 
     public VisualisointiRahankaytto(int w, int h) {
         super();
@@ -22,15 +21,14 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
         areaChart.getXAxis().setLabel("Asiakas ID");
         areaChart.getYAxis().setLabel("Raha");
         this.getChildren().add(areaChart);
-        this.totalMoneyUsed = Asiakas.getTotalMoneySpent();
-
     }
 
     // rahankäyttö chartti
 
     public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas) {
+        double moneyUsed = Asiakas.getTotalSpentMoneyAtCheckout();
+        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f €", moneyUsed);
         areaChart = new AreaChart<>(xAxis, yAxis);
-        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f", totalMoneyUsed);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(totalSpentMoney + ".   " + "Money spent per asiakas shown above.");
 
@@ -53,17 +51,38 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
         this.getChildren().clear(); // Siivoa
         this.getChildren().add(areaChart);
     }
-
-
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
         // Implement adding a new customer if needed
+    }
+
+    @Override
+    public void asiakasPoistuu() {
+
+    }
+
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+
     }
 
     @Override

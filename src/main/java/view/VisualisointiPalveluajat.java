@@ -23,11 +23,11 @@ public class VisualisointiPalveluajat extends StackPane implements IVisualisoint
         }
 
         // piechart palvelupisteistä
-        public void updateServicePointTimeData(HashMap<Palvelupiste, Double> timeData) {
+        public void updateServicePointTimeData(HashMap<String, Double> timeData) {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-            for (Map.Entry<Palvelupiste, Double> entry : timeData.entrySet()) {
-                String label = entry.getKey().toString() + " (" + entry.getValue() + ")";
+            for (Map.Entry<String, Double> entry : timeData.entrySet()) {
+                String label = entry.getKey() + " (" + String.format("%.2f", entry.getValue()) + ")";
                 pieChartData.add(new PieChart.Data(label, entry.getValue()));
             }
 
@@ -36,17 +36,32 @@ public class VisualisointiPalveluajat extends StackPane implements IVisualisoint
             pieChart.layout();
         }
 
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
-
     }
-
+    @Override
+    public void asiakasPoistuu() {
+        // Implement removing a customer if needed
+    }
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+    }
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+        // Implement updating the beer department queue if needed
+    }
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+        // Implement updating the fish department queue if needed
+    }
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();

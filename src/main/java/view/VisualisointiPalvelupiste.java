@@ -35,16 +35,38 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
         pieChart.setData(pieChartData);
         pieChart.layout();
     }
-
-
     @Override
     public void tyhjennaNaytto() {
 
     }
-
     @Override
     public void uusiAsiakas() {
         // Implement adding a new customer if needed
+    }
+
+    @Override
+    public void asiakasPoistuu() {
+
+    }
+
+    @Override
+    public void updateMeatDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateBeerDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateFishDepActivity(boolean isReserved) {
+
+    }
+
+    @Override
+    public void updateCandyDepActivity(boolean isReserved) {
+
     }
 
     @Override
