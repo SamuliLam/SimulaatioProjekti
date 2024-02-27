@@ -19,8 +19,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import simu.model.Asiakas;
 import simu.model.Palvelupiste;
+import simu.model.TapahtumanTyyppi;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
@@ -36,6 +38,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button hidastaButton;
     private Button nopeutaButton;
     private Button avaaStatistics;
+
     Scene mainScene;
     private IVisualisointi naytto;
     private TextArea console;
@@ -67,6 +70,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 public void handle(ActionEvent event) {
                     kontrolleri.kaynnistaSimulointi();
                     kaynnistaButton.setDisable(true);
+
                 }
             });
 
@@ -135,7 +139,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             e.printStackTrace();
         }
     }
-
+    private void resetFields() {
+        aika.clear();
+        viive.clear();
+        tulos.setText("");
+        console.clear();
+        // You might need to reset other fields or data structures depending on your requirements
+    }
     private void openStatisticsPage(Stage primaryStage) {
         BorderPane layout = new BorderPane();
 
@@ -156,6 +166,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 800);
         VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 800);
         VisualisointiPalveluajat aikaCanvas = new VisualisointiPalveluajat(700, 800);
+        VisualisointiTuotteet soldProductsCanvas = new VisualisointiTuotteet(700, 800);
         backButton.setOnAction(event -> {
             primaryStage.setScene(mainScene);
         });
@@ -178,8 +189,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
                 // Hae rahankäyttö jakauma
                 HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
+                double totalMoneyUsed = kontrolleri.getAllmoney();
+                System.out.println("TOTAL MONEY SPENT: " + totalMoneyUsed);
                 // Lisää tiedot kanvasiin
-                rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
+                rahaCanvas.updateMoneySpentData(rahankayttoDistribution, totalMoneyUsed);
                 layout.setBottom(rahaCanvas);
             }
             else if (selectedCategory != null && selectedCategory.equals("Aika")) {
@@ -188,6 +201,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                 // Lisää tiedot kanvasiin
                 aikaCanvas.updateServicePointTimeData(servicePointTimeData);
                 layout.setBottom(aikaCanvas);
+            } else if (selectedCategory != null && selectedCategory.equals("Ruokalista")) {
+                // Hae ruokalista
+                HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts = kontrolleri.getSoldProducts();
+                // Lisää tiedot kanvasiin
+                soldProductsCanvas.updateSoldProductsData(soldProducts);
+                layout.setBottom(soldProductsCanvas);
             }
         });
         Scene newScene = new Scene(layout, 1080, 900);
@@ -211,10 +230,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         this.tulos.setText(formatter.format(aika));
     }
 
-    @Override
-    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
-
-    }
     @Override
     public IVisualisointi getVisualisointi() {
         return naytto;

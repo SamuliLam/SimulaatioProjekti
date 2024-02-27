@@ -25,9 +25,8 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
 
     // rahankäyttö chartti
 
-    public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas) {
-        double moneyUsed = Asiakas.getTotalSpentMoneyAtCheckout();
-        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f €", moneyUsed);
+    public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas, double totalmoney) {
+        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f €", totalmoney);
         areaChart = new AreaChart<>(xAxis, yAxis);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(totalSpentMoney + ".   " + "Money spent per asiakas shown above.");

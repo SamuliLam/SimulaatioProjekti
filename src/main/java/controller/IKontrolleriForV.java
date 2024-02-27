@@ -6,6 +6,7 @@ import simu.model.TapahtumanTyyppi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface IKontrolleriForV {
 
@@ -24,4 +25,8 @@ public interface IKontrolleriForV {
 
     // Aika per palvelupiste
     HashMap<String, Double> getPalvelupisteAikaDistribution();
+
+    HashMap<TapahtumanTyyppi, HashMap<String, Integer>> getSoldProducts();
+
+    public double getAllmoney();
 }
