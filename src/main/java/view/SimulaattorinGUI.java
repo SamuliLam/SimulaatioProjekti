@@ -181,8 +181,9 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
                 // Hae rahankäyttö jakauma
                 HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
+                double allMoneyUsed = kontrolleri.allMoney();
                 // Lisää tiedot kanvasiin
-                rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
+                rahaCanvas.updateMoneySpentData(rahankayttoDistribution, allMoneyUsed);
                 layout.setBottom(rahaCanvas);
             }
             else if (selectedCategory != null && selectedCategory.equals("Aika")) {

@@ -63,6 +63,11 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     }
 
     @Override
+    public double allMoney() {
+        return Asiakas.getTotalSpentMoneyAtCheckout();
+    }
+
+    @Override
     public HashMap<Asiakas, Double> getSpentMoneyDistribution() {
         return Asiakas.getSpentmoneyPerAsiakas();
     }
