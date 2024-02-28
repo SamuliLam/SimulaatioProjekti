@@ -5,7 +5,6 @@ import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 
-
 import java.util.HashSet;
 import java.util.Random;
 
@@ -14,6 +13,7 @@ public class OmaMoottori extends Moottori {
 	private Saapumisprosessi saapumisprosessi;
 
 	private Palvelupiste[] palvelupisteet;
+	private boolean MeatDepActivity;
 
 	public OmaMoottori(IKontrolleriForM kontrolleri){
 
@@ -32,6 +32,10 @@ public class OmaMoottori extends Moottori {
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
+		kontrolleri.updateMeatDepActivity(false);
+		kontrolleri.updateBeerDepActivity(false);
+		kontrolleri.updateFishDepActivity(false);
+		kontrolleri.updateCandyDepActivity(false);
 	}
 
 
@@ -44,56 +48,68 @@ public class OmaMoottori extends Moottori {
 	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas asiakas;
-		switch ((TapahtumanTyyppi) t.getTyyppi()) {
-
+		int palvelupisteValitsin = 0;
+		switch (t.getTyyppi()) {
 			case ARRMARKET:
 				asiakas = new Asiakas();
-				palvelupisteet[0].lisaaJonoon(asiakas);
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.ARRMARKET);
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.ARRMARKET);
+				palvelupisteValitsin = checkForEnumType(asiakas);
+				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
 				saapumisprosessi.generoiSeuraava();
 				kontrolleri.visualisoiAsiakas(); // UUSI
 				break;
 			case MEATDEP:
-				asiakas = (Asiakas) palvelupisteet[0].otaJonosta();
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.MEATDEP);
-				palvelupisteet[1].lisaaJonoon(asiakas);
+				asiakas = palvelupisteet[0].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.MEATDEP);
+				palvelupisteValitsin = checkForEnumType(asiakas);
+				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
 				break;
 			case BEERDEP:
-				asiakas = (Asiakas) palvelupisteet[1].otaJonosta();
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.BEERDEP);
-				palvelupisteet[2].lisaaJonoon(asiakas);
+				asiakas = palvelupisteet[1].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.BEERDEP);
+				palvelupisteValitsin = checkForEnumType(asiakas);
+				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
 				break;
 			case FISHDEP:
-				asiakas = (Asiakas) palvelupisteet[2].otaJonosta();
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.FISHDEP);
-				palvelupisteet[3].lisaaJonoon(asiakas);
+				asiakas = palvelupisteet[2].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.FISHDEP);
+				palvelupisteValitsin = checkForEnumType(asiakas);
+				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
 				break;
 			case CANDYDEP:
-				asiakas = (Asiakas) palvelupisteet[3].otaJonosta();
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.CANDYDEP);
-				palvelupisteet[4].lisaaJonoon(asiakas);
+				asiakas = palvelupisteet[3].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CANDYDEP);
+				palvelupisteValitsin = checkForEnumType(asiakas);
+				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
 				break;
 			case CHECKOUTDEP:
-				asiakas = (Asiakas) palvelupisteet[4].otaJonosta();
-				removeEnumFromRuokalista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas = palvelupisteet[4].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
 				asiakas.setPoistumisaika(Kello.getInstance().getAika());
 				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
 				break;
 		}
 	}
-
-	private int checkForEnumType(Asiakas asiakas, TapahtumanTyyppi tapahtumanTyyppi) {
+	private int checkForEnumType(Asiakas asiakas) {
 		try {
-			HashSet<TapahtumanTyyppi> ruokalista = asiakas.getRuokalista();
+			HashSet<TapahtumanTyyppi> palvelupisteLista = asiakas.getpalvelupisteLista();
 			int palvelupisteValitsija = 0;
-			if (ruokalista.contains(TapahtumanTyyppi.MEATDEP)) {
+			if (palvelupisteLista.contains(TapahtumanTyyppi.MEATDEP)) {
 				palvelupisteValitsija = 0;
-			} else if (ruokalista.contains(TapahtumanTyyppi.BEERDEP)) {
+			} else if (palvelupisteLista.contains(TapahtumanTyyppi.BEERDEP)) {
 				palvelupisteValitsija = 1;
-			} else if (ruokalista.contains(TapahtumanTyyppi.FISHDEP)) {
+			} else if (palvelupisteLista.contains(TapahtumanTyyppi.FISHDEP)) {
 				palvelupisteValitsija = 2;
-			} else if (ruokalista.contains(TapahtumanTyyppi.CANDYDEP)) {
+			} else if (palvelupisteLista.contains(TapahtumanTyyppi.CANDYDEP)) {
 				palvelupisteValitsija = 3;
+			}
+			else
+			{
+				palvelupisteValitsija = 4;
 			}
 			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
 			return palvelupisteValitsija;
@@ -104,16 +120,19 @@ public class OmaMoottori extends Moottori {
 			return -1; // palauttaa
 		}
 	}
-
-	private void removeEnumFromRuokalista(Asiakas asiakas, TapahtumanTyyppi servedType) {
+	private void removeEnumFrompalvelupisteLista(Asiakas asiakas, TapahtumanTyyppi servedType) {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-		asiakas.getRuokalista().remove(arrmarket);
-		asiakas.getRuokalista().remove(servedType);
-		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " ruokalistasta poistettu: " + servedType.getRuokatuote());
+        asiakas.getpalvelupisteLista().remove(arrmarket);
+		asiakas.getpalvelupisteLista().remove(servedType);
+		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType);
 	}
 
 	@Override
 	protected void yritaCTapahtumat() {
+		kontrolleri.updateMeatDepActivity(palvelupisteet[0].onVarattu());
+		kontrolleri.updateBeerDepActivity(palvelupisteet[1].onVarattu());
+		kontrolleri.updateFishDepActivity(palvelupisteet[2].onVarattu());
+		kontrolleri.updateCandyDepActivity(palvelupisteet[3].onVarattu());
 		for (Palvelupiste p : palvelupisteet) {
 			if (!p.onVarattu() && p.onJonossa()) {
 				p.aloitaPalvelu();
@@ -121,40 +140,19 @@ public class OmaMoottori extends Moottori {
 		}
 	}
 
-	protected TapahtumanTyyppi checkEnum(Asiakas asiakas) {
-		HashSet<TapahtumanTyyppi> ruokalista = asiakas.getRuokalista();
-		TapahtumanTyyppi servedType = null;
-		boolean hasNonCheckoutDep = false;
-
-		for (TapahtumanTyyppi ruokalistaEnumType : ruokalista) {
-			if (ruokalistaEnumType != TapahtumanTyyppi.CHECKOUTDEP) {
-				servedType = ruokalistaEnumType;
-				System.out.println("Served type: " + servedType);
-			}
-			hasNonCheckoutDep = true;
-		}
-
-
-		// jos ei ole muuta kuin checkoutdep jäljellä palauta se
-		if (!hasNonCheckoutDep) {
-			servedType = TapahtumanTyyppi.CHECKOUTDEP;
-			System.out.println("Served type: " + servedType);
-		}
-
-		System.out.println("Lonely served: " + servedType);
-		return servedType;
-	}
-
-
 	@Override
 	protected void tulokset() {
-		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
+		StringBuilder tulokset = new StringBuilder();
+		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
 		for (Palvelupiste p : palvelupisteet) {
-			p.raportti();
+			tulokset.append(p.raportti()).append("\n");
 		}
-		Asiakas.completeRaportti();
+		tulokset.append(Asiakas.completeRaportti()).append("\n");
 
 		// UUTTA graafista
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
+
+		kontrolleri.naytaTulokset(tulokset.toString());
 	}
 }
+

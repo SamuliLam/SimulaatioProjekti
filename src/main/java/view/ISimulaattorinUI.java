@@ -1,5 +1,7 @@
 package view;
 
+import java.util.HashMap;
+
 public interface ISimulaattorinUI {
 	
 	// Kontrolleri tarvitsee syötteitä, jotka se välittää Moottorille
@@ -12,4 +14,6 @@ public interface ISimulaattorinUI {
 	// Kontrolleri tarvitsee  
 	public IVisualisointi getVisualisointi();
 
+	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
+	public void setTuloste(String tulokset);
 }

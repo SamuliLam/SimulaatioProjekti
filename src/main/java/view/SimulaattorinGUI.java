@@ -17,15 +17,16 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
+import simu.model.Asiakas;
+import simu.model.Palvelupiste;
+import simu.model.TapahtumanTyyppi;
 
-
+import java.util.HashMap;
+import java.util.List;
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
-    //Kontrollerin esittely (tarvitaan käyttöliittymässä)
     private IKontrolleriForV kontrolleri;
-
-    // Käyttöliittymäkomponentit:
     private TextField aika;
     private TextField viive;
     private Label tulos;
@@ -36,23 +37,21 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Button kaynnistaButton;
     private Button hidastaButton;
     private Button nopeutaButton;
-
+    private Button avaaStatistics;
+    Scene mainScene;
     private IVisualisointi naytto;
+    private TextArea console;
 
-
+    private Palvelupiste palvelupiste;
     @Override
     public void init() {
-
         Trace.setTraceLevel(Level.INFO);
-
         kontrolleri = new Kontrolleri(this);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        // Käyttöliittymän rakentaminen
         try {
-
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent t) {
@@ -60,7 +59,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
                     System.exit(0);
                 }
             });
-
 
             primaryStage.setTitle("Simulaattori");
 
@@ -82,15 +80,21 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             nopeutaButton.setText("Nopeuta");
             nopeutaButton.setOnAction(e -> kontrolleri.nopeuta());
 
+            avaaStatistics = new Button();
+            avaaStatistics.setText("Avaa statistiikka sivun");
+            avaaStatistics.setOnAction(e -> openStatisticsPage(primaryStage));
+
             aikaLabel = new Label("Simulointiaika:");
             aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            aika = new TextField("Syötä aika");
+            aika = new TextField();
+            aika.setPromptText("Syötä aika");
             aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             aika.setPrefWidth(150);
 
             viiveLabel = new Label("Viive:");
             viiveLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            viive = new TextField("Syötä viive");
+            viive = new TextField();
+            viive.setPromptText("Syötä viive");
             viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             viive.setPrefWidth(150);
 
@@ -100,42 +104,105 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos.setPrefWidth(150);
 
-            HBox hBox = new HBox();
-            hBox.setPadding(new Insets(15, 12, 15, 12)); // marginaalit ylÃ¤, oikea, ala, vasen
-            hBox.setSpacing(10);   // noodien välimatka 10 pikseliä
+            GridPane main = new GridPane();
+            VBox vBoxButtons = new VBox();
+            vBoxButtons.setSpacing(10);
+            vBoxButtons.setAlignment(Pos.CENTER);
 
-            GridPane grid = new GridPane();
-            grid.setAlignment(Pos.CENTER);
-            grid.setVgap(10);
-            grid.setHgap(5);
+            VBox consoles = new VBox();
+            consoles.setSpacing(10);
+            consoles.setAlignment(Pos.CENTER);
+            vBoxButtons.getChildren().addAll(aika, viive, kaynnistaButton, hidastaButton, nopeutaButton, avaaStatistics);
 
-            grid.add(aikaLabel, 0, 0);   // sarake, rivi
-            grid.add(aika, 1, 0);          // sarake, rivi
-            grid.add(viiveLabel, 0, 1);      // sarake, rivi
-            grid.add(viive, 1, 1);           // sarake, rivi
-            grid.add(tulosLabel, 0, 2);      // sarake, rivi
-            grid.add(tulos, 1, 2);           // sarake, rivi
-            grid.add(kaynnistaButton, 0, 3);  // sarake, rivi
-            grid.add(nopeutaButton, 0, 4);   // sarake, rivi
-            grid.add(hidastaButton, 1, 4);   // sarake, rivi
+            naytto = new Visualisointi2(600, 200);
+            console = new TextArea();
+            console.setEditable(false);
+            Label consoleLabel = new Label("Simulaattorin konsoli:");
+            Label tulosteLabel = new Label("Tuloste:");
+            console.setPrefWidth(600); console.setPrefHeight(200);
+            consoles.getChildren().addAll(consoleLabel, (Canvas) naytto, tulosteLabel, console);
 
-            naytto = new Visualisointi(400, 200);
+            main.add(vBoxButtons, 0, 0);
+            main.add(consoles, 1, 0);
+            main.setHgap(10);
 
-            // TÃ¤ytetÃ¤Ã¤n boxi:
-            hBox.getChildren().addAll(grid, (Canvas) naytto);
+            GridPane.setMargin(vBoxButtons, new Insets(10, 10, 10, 10));
+            GridPane.setMargin(consoles, new Insets(30, 10, 30, 10));
 
-            Scene scene = new Scene(hBox);
-            primaryStage.setScene(scene);
+            mainScene = new Scene(main);
+            primaryStage.setScene(mainScene);
             primaryStage.show();
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void openStatisticsPage(Stage primaryStage) {
+        BorderPane layout = new BorderPane();
 
-    //Käyttöliittymän rajapintametodit (kutsutaan kontrollerista)
+        TilePane searchElements = new TilePane();
+        ComboBox<String> categories = new ComboBox<>();
+        categories.getItems().addAll("Ikäjakauma", "Palvelupiste", "Myynti", "Aika", "Ruokalista");
+        Button searchButton = new Button("Search");
+
+        searchElements.setAlignment(Pos.CENTER);
+        Button backButton = new Button("Go Back");
+        backButton.setAlignment(Pos.TOP_LEFT);
+        BorderPane.setMargin(backButton, new Insets(10, 10, 10, 10));
+        searchElements.getChildren().addAll(categories, searchButton);
+
+        layout.setCenter(searchElements);
+        layout.setTop(backButton);
+        VisualisointiIkajakauma statisticCanvas = new VisualisointiIkajakauma(700, 800);
+        VisualisointiPalvelupiste palveluCanvas = new VisualisointiPalvelupiste(700, 800);
+        VisualisointiRahankaytto rahaCanvas = new VisualisointiRahankaytto(700, 800);
+        VisualisointiPalveluajat aikaCanvas = new VisualisointiPalveluajat(700, 800);
+        VisualisointiTuotteet soldProductsCanvas = new VisualisointiTuotteet(700, 800);
+        backButton.setOnAction(event -> {
+            primaryStage.setScene(mainScene);
+        });
+        searchButton.setOnAction(event -> {
+            String selectedCategory = categories.getValue();
+            if (selectedCategory != null && selectedCategory.equals("Ikäjakauma")) {
+                // Hae ikäjakauman kontrollerista
+                HashMap<Integer, Integer> ageDistribution = kontrolleri.getAgeDistribution();
+                // Lisää tiedot kanvasiin
+                statisticCanvas.updateAgeDistributionData(ageDistribution);
+                layout.setBottom(statisticCanvas);
+            }
+            else if (selectedCategory != null && selectedCategory.equals("Palvelupiste")) {
+                // Hae palvelupiste jakauma
+                HashMap<String , Integer> palvelupisteDistribution = kontrolleri.getPalvelupisteDistribution();
+                // Lisää tiedot kanvasiin
+                palveluCanvas.updateServicePointVisitData(palvelupisteDistribution);
+                layout.setBottom(palveluCanvas);
+            }
+            else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
+                // Hae rahankäyttö jakauma
+                HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
+                // Lisää tiedot kanvasiin
+                rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
+                layout.setBottom(rahaCanvas);
+            }
+            else if (selectedCategory != null && selectedCategory.equals("Aika")) {
+                // Hae aikakäyttö jakauma
+                HashMap<String, Double> servicePointTimeData = kontrolleri.getPalvelupisteAikaDistribution();
+                // Lisää tiedot kanvasiin
+                aikaCanvas.updateServicePointTimeData(servicePointTimeData);
+                layout.setBottom(aikaCanvas);
+            } else if (selectedCategory != null && selectedCategory.equals("Ruokalista")) {
+                // Hae ruokalista
+                HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts = kontrolleri.getSoldProducts();
+                // Lisää tiedot kanvasiin
+                soldProductsCanvas.updateSoldProductsData(soldProducts);
+                layout.setBottom(soldProductsCanvas);
+            }
+        });
+        Scene newScene = new Scene(layout, 1080, 900);
+
+        primaryStage.setScene(newScene);
+    }
 
     @Override
     public double getAika() {
@@ -153,13 +220,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         this.tulos.setText(formatter.format(aika));
     }
 
+    @Override
+    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
 
+    }
     @Override
     public IVisualisointi getVisualisointi() {
         return naytto;
     }
+
+    public void setTuloste(String tuloste) {
+        console.appendText(tuloste);
+    }
 }
-
-
-
-

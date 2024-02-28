@@ -4,6 +4,15 @@ public interface IKontrolleriForM {
 
     // Rajapinta, joka tarjotaan moottorille:
 
-    public void naytaLoppuaika(double aika);
-    public void visualisoiAsiakas();
+    void naytaLoppuaika(double aika);
+    void visualisoiAsiakas();
+    void asiakasPoistuu();
+    void naytaTulokset(String tulos);
+    void updateMeatDepActivity(boolean isReserved);
+
+    void updateBeerDepActivity(boolean isReserved);
+
+    void updateFishDepActivity(boolean isReserved);
+
+    void updateCandyDepActivity(boolean isReserved);
 }
