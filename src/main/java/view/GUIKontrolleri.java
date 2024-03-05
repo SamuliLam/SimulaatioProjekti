@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import simu.framework.Trace;
 
 import java.util.HashMap;
 
@@ -42,6 +43,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     public void initialize() {
         kontrolleri = new Kontrolleri(this);
+        Trace.setTraceLevel(Trace.Level.INFO);
         naytto = new Visualisointi2(100, 100);
         topConsoleCanvas = new Visualisointi2(100, 100);
         startButton.setOnAction(actionEvent -> handleStart());
@@ -65,11 +67,13 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     public void handleNopeuta() {
+        kontrolleri.nopeuta();
         System.out.println("Nopeuta");
     }
 
     @FXML
     public void handleHidasta() {
+        kontrolleri.hidasta();
         System.out.println("Hidasta");
     }
 
@@ -94,7 +98,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @Override
     public void setLoppuaika(double aika) {
-
+        // TODO
     }
 
     @Override
