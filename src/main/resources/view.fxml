@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="586.0" prefWidth="1045.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GUIKontrolleri">
+   <children>
+      <VBox fx:id="sideAnchor" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="200.0" prefHeight="586.0" prefWidth="263.0" styleClass="sideAnchor" stylesheets="@style.css" HBox.hgrow="NEVER">
+         <children>
+            <GridPane prefHeight="544.0" prefWidth="252.0" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="173.0" minHeight="10.0" percentHeight="20.0" prefHeight="95.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="20.0" prefHeight="87.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="5.0" prefHeight="268.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="268.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="5.0" prefHeight="55.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="73.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="37.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="79.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="547.0" minHeight="0.0" percentHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" percentHeight="20.0" prefHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <BorderPane prefHeight="295.0" prefWidth="196.0" styleClass="sideLabel" stylesheets="@style.css">
+                     <center>
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="143.0" text="KauppaSimu" textFill="WHITE" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Century Gothic Bold" size="21.0" />
+                           </font>
+                        </Label>
+                     </center>
+                  </BorderPane>
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStart" prefHeight="65.0" prefWidth="175.0" text="Käynnistä" textFill="WHITE" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Century Gothic Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" text="Syötä aika" textFill="WHITE" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="aikaField" alignment="CENTER" prefHeight="29.0" prefWidth="279.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label alignment="CENTER" text="Syötä viive" textFill="WHITE" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="viiveField" alignment="CENTER" prefHeight="29.0" prefWidth="215.0" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button fx:id="nopeutaButton" mnemonicParsing="false" onAction="#handleNopeuta" prefWidth="120.0" text="Nopeuta" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="hidastaButton" mnemonicParsing="false" onAction="#handleHidasta" prefWidth="120.0" text="Hidasta" textFill="WHITE" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="avaaStatistiikkaButton" mnemonicParsing="false" onAction="#handleAvaaStatistiikka" prefWidth="120.0" text="Avaa statistiikka" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="ajaUudelleenButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAjaUudelleen" prefHeight="65.0" prefWidth="175.0" text="Aja uudelleen" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="17.0" />
+                     </font>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <VBox prefHeight="586.0" prefWidth="762.0" HBox.hgrow="ALWAYS">
+         <children>
+            <AnchorPane prefHeight="275.0" prefWidth="782.0" styleClass="topConsole" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+               <children>
+                  <Canvas fx:id="topConsoleCanvas" height="236.0" width="742.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <TextArea id="bottomConsole" fx:id="bottomConsole" editable="false" prefHeight="309.0" prefWidth="782.0" styleClass="bottomConsole" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font name="Century Gothic" size="12.0" />
+               </font>
+            </TextArea>
+         </children>
+      </VBox>
+   </children>
+</HBox>
