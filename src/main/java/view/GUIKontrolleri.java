@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import simu.framework.Trace;
 
 import java.util.HashMap;
@@ -37,15 +38,15 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     private TextArea bottomConsole;
     @FXML
-    private Canvas topConsoleCanvas;
+    private AnchorPane canvasConsole;
     MainApp mainApp;
 
     @FXML
     public void initialize() {
         kontrolleri = new Kontrolleri(this);
         Trace.setTraceLevel(Trace.Level.INFO);
-        naytto = new Visualisointi2(100, 100);
-        topConsoleCanvas = new Visualisointi2(100, 100);
+        naytto = new Visualisointi2(600, 200);
+        canvasConsole.getChildren().add((Canvas) naytto);
         startButton.setOnAction(actionEvent -> handleStart());
         ajaUudelleenButton.setOnAction(actionEvent -> handleAjaUudelleen());
         nopeutaButton.setOnAction(actionEvent -> handleNopeuta());
