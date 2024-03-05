@@ -22,7 +22,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
 
     public Kontrolleri(ISimulaattorinUI ui) {
         this.ui = ui;
-
     }
     // Moottorin ohjausta:
 
