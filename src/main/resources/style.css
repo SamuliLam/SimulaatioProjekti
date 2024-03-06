@@ -5,19 +5,13 @@
     -fx-border-radius: 0 20px 20px 0;
     -fx-border-color: #1B1A55;
     -fx-background-radius: 0 20px 20px 0;
-     /* Add padding to ensure the sideLabel fits inside */
-}
-
-.sideAnchorBg {
-    -fx-background-color: red;
 }
 
 .sideLabel {
     -fx-background-color: #1B1A55;
-    -fx-background-radius: 0px 20px 0px 0px; /* Match the top right background radius of sideAnchor */
+    -fx-background-radius: 0px 20px 0px 0px;
     -fx-margin: 10px;
 
-    /* Add margin to ensure the sideLabel fits inside the sideAnchor */
 }
 
 .button {
@@ -27,6 +21,14 @@
     -fx-border-style: solid;
     -fx-background-color: #1B1A55;
     -fx-background-radius: 10px 10px 10px 10px;
+}
+
+.button:hover {
+    -fx-background-color: #535C91;
+}
+
+.button:pressed {
+    -fx-background-color: #070F2B;
 }
 
 .text-field {
@@ -50,4 +52,8 @@
 .bottomConsole {
     -fx-background-color: #1B1A55;
     -fx-background-radius: 10px 10px 10px 10px;
+}
+
+.slider {
+    -fx-background-color: RED;
 }

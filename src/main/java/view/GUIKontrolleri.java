@@ -4,12 +4,18 @@ import controller.IKontrolleriForV;
 import controller.Kontrolleri;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
 import simu.framework.Trace;
+import simu.model.Asiakas;
+import simu.model.TapahtumanTyyppi;
 
 import java.util.HashMap;
 
@@ -36,21 +42,22 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private Button avaaStatistiikkaButton;
 
     @FXML
-    private Button ajaUudelleenButton;
-    @FXML
     private TextArea bottomConsole;
+
     @FXML
-    private AnchorPane canvasConsole;
+    private TextField mean;
+    @FXML
+    private TextField variance;
 
 
     MainApp mainApp;
 
     @FXML
     public void initialize() {
+
         kontrolleri = new Kontrolleri(this);
         Trace.setTraceLevel(Trace.Level.INFO);
         startButton.setOnAction(actionEvent -> handleStart());
-        ajaUudelleenButton.setOnAction(actionEvent -> handleAjaUudelleen());
         nopeutaButton.setOnAction(actionEvent -> handleNopeuta());
         hidastaButton.setOnAction(actionEvent -> handleHidasta());
         avaaStatistiikkaButton.setOnAction(actionEvent -> handleAvaaStatistiikka());
@@ -58,7 +65,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     public void handleStart() {
-        if (visualisointi == null){
+
+        if (visualisointi == null) {
             visualisointi = new Visualisointi2(topConsoleCanvas);
             visualisointi.tyhjennaNaytto();
         }
@@ -67,10 +75,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         startButton.setDisable(true);
     }
 
-    @FXML
-    public void handleAjaUudelleen() {
-        System.out.println("Aja uudelleen");
-    }
 
     @FXML
     public void handleNopeuta() {
@@ -86,7 +90,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     public void handleAvaaStatistiikka() {
-        System.out.println("Avaa statistiikka");
+        // to do
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -122,7 +126,19 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         bottomConsole.appendText(tuloste);
     }
 
-    public Canvas getTopConsoleCanvas(){
+    public Canvas getTopConsoleCanvas() {
         return topConsoleCanvas;
     }
+
+
+    @Override
+    public double getPalveluaikaMean() {
+        return Double.parseDouble(mean.getText());
+    }
+
+    @Override
+    public double getPalveluaikaVarianssi() {
+        return Double.parseDouble(variance.getText());
+    }
+
 }

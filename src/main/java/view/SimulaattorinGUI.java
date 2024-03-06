@@ -214,6 +214,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     @Override
+    public double getPalveluaikaMean() {
+        return 0;
+    }
+
+    @Override
+    public double getPalveluaikaVarianssi() {
+        return 0;
+    }
+
+    @Override
     public void setLoppuaika(double aika) {
         DecimalFormat formatter = new DecimalFormat("#0.00");
         this.tulos.setText(formatter.format(aika));

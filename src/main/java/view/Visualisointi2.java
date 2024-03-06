@@ -30,6 +30,12 @@ public class Visualisointi2 implements IVisualisointi{
 		gc.setFill(Color.BLACK);
 		gc.setFont(new Font(20));
 		gc.fillText(asiakasLkm + "", 230, 50);
+		gc.fillText("Asiakkaiden määrä: " , 50, 50);
+		gc.fillText("Lihatiskin aktiivisuus: ", 50, 75);
+		gc.fillText("Olutosaston aktiivisuus: ", 50, 100);
+		gc.fillText("Kalatiskin aktiivisuus: ", 50, 125);
+		gc.fillText("Karkkihyllyn aktiivisuus: ", 50, 150);
+		gc.fillText("Palvellut asiakkaat: ", 50, 175);
 	}
 
 	public void asiakasPoistuu() {

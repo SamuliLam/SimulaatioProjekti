@@ -15,7 +15,7 @@ public class OmaMoottori extends Moottori {
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
 
-	public OmaMoottori(IKontrolleriForM kontrolleri){
+	public OmaMoottori(IKontrolleriForM kontrolleri, double	 palveluaikaMean, double palveluaikaVarianssi) {
 
 		super(kontrolleri);
 
@@ -23,11 +23,11 @@ public class OmaMoottori extends Moottori {
 
 		palvelupisteet = new Palvelupiste[5];
 
-		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
-		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.BEERDEP);
-		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.FISHDEP);
-		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
-		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
+		palvelupisteet[0] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.MEATDEP);
+		palvelupisteet[1] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.BEERDEP);
+		palvelupisteet[2] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.FISHDEP);
+		palvelupisteet[3] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
+		palvelupisteet[4] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
 
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
@@ -154,5 +154,6 @@ public class OmaMoottori extends Moottori {
 
 		kontrolleri.naytaTulokset(tulokset.toString());
 	}
+
 }
 

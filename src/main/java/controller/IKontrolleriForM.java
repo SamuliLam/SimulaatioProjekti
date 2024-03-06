@@ -15,4 +15,8 @@ public interface IKontrolleriForM {
     void updateFishDepActivity(boolean isReserved);
 
     void updateCandyDepActivity(boolean isReserved);
+
+    double getPalveluaikaMean();
+
+    double getPalveluaikaVarianssi();
 }

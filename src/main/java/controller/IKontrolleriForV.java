@@ -16,6 +16,7 @@ public interface IKontrolleriForV {
     void nopeuta();
     void hidasta();
     // ikäjakauma interface
+
     HashMap<Integer, Integer> getAgeDistribution();
     // Palvelupisite interface
     HashMap<String, Integer> getPalvelupisteDistribution();
@@ -27,4 +28,5 @@ public interface IKontrolleriForV {
     HashMap<String, Double> getPalvelupisteAikaDistribution();
 
     HashMap<TapahtumanTyyppi, HashMap<String, Integer>> getSoldProducts();
+
 }
