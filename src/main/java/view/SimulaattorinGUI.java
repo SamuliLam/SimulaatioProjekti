@@ -114,7 +114,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             consoles.setAlignment(Pos.CENTER);
             vBoxButtons.getChildren().addAll(aika, viive, kaynnistaButton, hidastaButton, nopeutaButton, avaaStatistics);
 
-            naytto = new Visualisointi2(600, 200);
             console = new TextArea();
             console.setEditable(false);
             Label consoleLabel = new Label("Simulaattorin konsoli:");

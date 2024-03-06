@@ -18,7 +18,9 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     private IKontrolleriForV kontrolleri;
 
-    private IVisualisointi naytto;
+    @FXML
+    private Canvas topConsoleCanvas;
+    private IVisualisointi visualisointi = null; // Työjuhta
 
     @FXML
     private Button startButton;
@@ -39,14 +41,14 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private TextArea bottomConsole;
     @FXML
     private AnchorPane canvasConsole;
+
+
     MainApp mainApp;
 
     @FXML
     public void initialize() {
         kontrolleri = new Kontrolleri(this);
         Trace.setTraceLevel(Trace.Level.INFO);
-        naytto = new Visualisointi2(600, 200);
-        canvasConsole.getChildren().add((Canvas) naytto);
         startButton.setOnAction(actionEvent -> handleStart());
         ajaUudelleenButton.setOnAction(actionEvent -> handleAjaUudelleen());
         nopeutaButton.setOnAction(actionEvent -> handleNopeuta());
@@ -56,6 +58,10 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     public void handleStart() {
+        if (visualisointi == null){
+            visualisointi = new Visualisointi2(topConsoleCanvas);
+            visualisointi.tyhjennaNaytto();
+        }
         kontrolleri.kaynnistaSimulointi();
         System.out.println("Start");
         startButton.setDisable(true);
@@ -104,7 +110,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @Override
     public IVisualisointi getVisualisointi() {
-        return naytto;
+        return visualisointi;
     }
 
     @Override
@@ -114,5 +120,9 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     public void setTuloste(String tuloste) {
         bottomConsole.appendText(tuloste);
+    }
+
+    public Canvas getTopConsoleCanvas(){
+        return topConsoleCanvas;
     }
 }
