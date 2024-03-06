@@ -7,7 +7,7 @@ import simu.model.Asiakas;
 import javafx.scene.chart.AreaChart;
 import java.util.*;
 
-public class VisualisointiRahankaytto extends StackPane implements IVisualisointi {
+public class VisualisointiRahankaytto extends StackPane {
     private AreaChart<String, Number> areaChart;;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
@@ -49,39 +49,6 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
 
         this.getChildren().clear(); // Siivoa
         this.getChildren().add(areaChart);
-    }
-    @Override
-    public void tyhjennaNaytto() {
-
-    }
-    @Override
-    public void uusiAsiakas() {
-        // Implement adding a new customer if needed
-    }
-
-    @Override
-    public void asiakasPoistuu() {
-
-    }
-
-    @Override
-    public void updateMeatDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateBeerDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateFishDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateCandyDepActivity(boolean isReserved) {
-
     }
 
     @Override

@@ -12,6 +12,7 @@ public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
 
+	private int kassojenMaara = 1;
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
 
@@ -21,14 +22,16 @@ public class OmaMoottori extends Moottori {
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
-		palvelupisteet = new Palvelupiste[5];
+		palvelupisteet = new Palvelupiste[8];
 
 		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
 		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.BEERDEP);
 		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.FISHDEP);
 		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
 		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
-
+		palvelupisteet[5] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP2);
+		palvelupisteet[6] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP3);
+		palvelupisteet[7] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP4);
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
@@ -92,6 +95,36 @@ public class OmaMoottori extends Moottori {
 				asiakas.raportti();
 				kontrolleri.asiakasPoistuu();
 				break;
+			case CHECKOUTDEP2:
+				asiakas = palvelupisteet[5].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
+			case CHECKOUTDEP3:
+				asiakas = palvelupisteet[6].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
+			case CHECKOUTDEP4:
+				asiakas = palvelupisteet[7].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
 		}
 	}
 	private int checkForEnumType(Asiakas asiakas) {
@@ -109,7 +142,21 @@ public class OmaMoottori extends Moottori {
 			}
 			else
 			{
-				palvelupisteValitsija = 4;
+				if (palvelupisteet[4].getJononPituus() < 1) {
+					palvelupisteValitsija = 4;
+				}
+				else if (palvelupisteet[5].getJononPituus() < 1)
+				{
+					palvelupisteValitsija = 5;
+				}
+				else if (palvelupisteet[6].getJononPituus() < 2)
+				{
+					palvelupisteValitsija = 6;
+				}
+				else if (palvelupisteet[7].getJononPituus() < 3)
+				{
+					palvelupisteValitsija = 7;
+				}
 			}
 			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
 			return palvelupisteValitsija;
