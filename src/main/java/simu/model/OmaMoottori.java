@@ -51,6 +51,8 @@ public class OmaMoottori extends Moottori {
 	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas asiakas;
+		kassojenMaara = kontrolleri.setKassaMaara();
+		System.out.println("Kassojen määrä: " + kassojenMaara);
 		int palvelupisteValitsin = 0;
 		switch (t.getTyyppi()) {
 			case ARRMARKET:
@@ -142,20 +144,42 @@ public class OmaMoottori extends Moottori {
 			}
 			else
 			{
-				if (palvelupisteet[4].getJononPituus() < 1) {
-					palvelupisteValitsija = 4;
-				}
-				else if (palvelupisteet[5].getJononPituus() < 1)
-				{
-					palvelupisteValitsija = 5;
-				}
-				else if (palvelupisteet[6].getJononPituus() < 2)
-				{
-					palvelupisteValitsija = 6;
-				}
-				else if (palvelupisteet[7].getJononPituus() < 3)
-				{
-					palvelupisteValitsija = 7;
+				switch (kassojenMaara) {
+					case 1:
+						palvelupisteValitsija = 4;
+						break;
+					case 2:
+						if (palvelupisteet[4].getJononPituus() < 1) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 2) {
+							palvelupisteValitsija = 5;
+						}
+						break;
+					case 3:
+						if (palvelupisteet[4].getJononPituus() < 1) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 2) {
+							palvelupisteValitsija = 5;
+						}
+						else if (palvelupisteet[6].getJononPituus() < 3) {
+							palvelupisteValitsija = 6;
+						}
+						break;
+					case 4:
+						if (palvelupisteet[4].getJononPituus() < 1) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 2) {
+							palvelupisteValitsija = 5;
+						}
+						else if (palvelupisteet[6].getJononPituus() < 3) {
+							palvelupisteValitsija = 6;
+						} else if (palvelupisteet[7].getJononPituus() < 4) {
+							palvelupisteValitsija = 7;
+						}
+						break;
+					default:
+						palvelupisteValitsija = 4;
+						break;
 				}
 			}
 			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
@@ -200,6 +224,11 @@ public class OmaMoottori extends Moottori {
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 
 		kontrolleri.naytaTulokset(tulokset.toString());
+	}
+
+	public void setKassojenMaara(int kassaMaara)
+	{
+		this.kassojenMaara = kassaMaara;
 	}
 }
 

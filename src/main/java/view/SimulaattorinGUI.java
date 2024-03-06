@@ -34,6 +34,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     private Label viiveLabel;
     private Label tulosLabel;
 
+    private Label kassaMaaraLabel;
+    private int kassaValue;
     private Button kaynnistaButton;
     private Button hidastaButton;
     private Button nopeutaButton;
@@ -61,14 +63,17 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             });
 
             primaryStage.setTitle("Simulaattori");
-
+            ComboBox<Integer> kassaMaara = new ComboBox<>();
+            kassaMaara.getItems().addAll(1, 2, 3, 4);
             kaynnistaButton = new Button();
             kaynnistaButton.setText("Käynnistä simulointi");
             kaynnistaButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    kassaValue = kassaMaara.getValue();
                     kontrolleri.kaynnistaSimulointi();
                     kaynnistaButton.setDisable(true);
+
                 }
             });
 
@@ -98,11 +103,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             viive.setPrefWidth(150);
 
+            kassaMaaraLabel = new Label("Kassat:");
+
+
             tulosLabel = new Label("Kokonaisaika:");
             tulosLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos = new Label();
             tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
             tulos.setPrefWidth(150);
+
+
 
             GridPane main = new GridPane();
             VBox vBoxButtons = new VBox();
@@ -112,7 +122,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
             VBox consoles = new VBox();
             consoles.setSpacing(10);
             consoles.setAlignment(Pos.CENTER);
-            vBoxButtons.getChildren().addAll(aika, viive, kaynnistaButton, hidastaButton, nopeutaButton, avaaStatistics);
+            vBoxButtons.getChildren().addAll(aika, viive, kaynnistaButton, hidastaButton, nopeutaButton,kassaMaaraLabel, kassaMaara, avaaStatistics);
 
             naytto = new Visualisointi2(600, 200);
             console = new TextArea();
@@ -205,6 +215,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
         primaryStage.setScene(newScene);
     }
 
+
     @Override
     public double getAika() {
         return Double.parseDouble(aika.getText());
@@ -232,5 +243,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
 
     public void setTuloste(String tuloste) {
         console.appendText(tuloste);
+    }
+
+    public int getKassaValue()
+    {
+        return kassaValue;
     }
 }

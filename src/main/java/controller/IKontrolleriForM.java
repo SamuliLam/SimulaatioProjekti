@@ -15,4 +15,6 @@ public interface IKontrolleriForM {
     void updateFishDepActivity(boolean isReserved);
 
     void updateCandyDepActivity(boolean isReserved);
+
+    int setKassaMaara();
 }

@@ -16,4 +16,6 @@ public interface ISimulaattorinUI {
 
 	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
 	public void setTuloste(String tulokset);
+
+	int getKassaValue();
 }
