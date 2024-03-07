@@ -52,6 +52,10 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     private AnchorPane canvasConsole;
 
+    @FXML
+    private Slider kassaSlider;
+    private int kassaValue;
+
     Scene mainScene;
 
     MainApp mainApp;
@@ -149,6 +153,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return Double.parseDouble(variance.getText());
     }
 
+
+
     public void openStatisticsPage(){
         BorderPane layout = new BorderPane();
 
@@ -227,4 +233,9 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     public void enableStartButton() {
         startButton.setDisable(false);
     }
+
+
+    public int getKassaValue() {
+        kassaValue = (int) kassaSlider.getValue();
+        return kassaValue; }
 }

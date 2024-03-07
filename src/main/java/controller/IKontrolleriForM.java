@@ -19,4 +19,6 @@ public interface IKontrolleriForM {
     double getPalveluaikaMean();
 
     double getPalveluaikaVarianssi();
+
+    int setKassaMaara();
 }

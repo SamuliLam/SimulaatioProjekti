@@ -224,6 +224,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI {
     }
 
     @Override
+    public int getKassaValue() {
+        return 0;
+    }
+
+    @Override
     public void setLoppuaika(double aika) {
         DecimalFormat formatter = new DecimalFormat("#0.00");
         this.tulos.setText(formatter.format(aika));

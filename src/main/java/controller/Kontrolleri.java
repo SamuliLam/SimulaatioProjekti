@@ -153,5 +153,12 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         Platform.runLater(() -> ui.setTuloste(tulokset));
     }
 
+    @Override
+    public int setKassaMaara() {
+        int kassat = ui.getKassaValue();
+        return kassat;
+    }
+
+
 
 }
