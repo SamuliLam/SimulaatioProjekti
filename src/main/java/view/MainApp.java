@@ -46,6 +46,10 @@ public class MainApp extends Application {
             Scene scene = new Scene(fxmlLoader.load());
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            GUIKontrolleri controller = fxmlLoader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,9 +59,10 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    public Scene getMainScene() {
+        return primaryStage.getScene();
     }
+
 
     public static void main(String[] args) {
         launch(args);

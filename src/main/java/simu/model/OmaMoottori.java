@@ -4,6 +4,7 @@ import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
+import view.GUIKontrolleri;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -15,9 +16,12 @@ public class OmaMoottori extends Moottori {
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
 
+	private GUIKontrolleri guiKontrolleri;
+
 	public OmaMoottori(IKontrolleriForM kontrolleri, double	 palveluaikaMean, double palveluaikaVarianssi) {
 
 		super(kontrolleri);
+
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 

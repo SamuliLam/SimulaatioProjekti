@@ -44,15 +44,17 @@
     -fx-background-color: #535C91;
 }
 
-.topConsole {
-    -fx-background-color: #1B1A55;
-    -fx-background-radius: 10px 10px 10px 10px;
-}
 
 .bottomConsole {
     -fx-background-color: #1B1A55;
     -fx-background-radius: 10px 10px 10px 10px;
 }
+
+.canvasConsole {
+    -fx-background-color: #1B1A55;
+    -fx-background-radius: 10px 10px 10px 10px;
+}
+
 
 .slider {
     -fx-background-color: RED;

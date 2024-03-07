@@ -16,6 +16,9 @@ public class Visualisointi2 implements IVisualisointi{
 		this.cnv = canvas;
 		gc = cnv.getGraphicsContext2D();
 		tyhjennaNaytto();
+
+		cnv.widthProperty().addListener(evt -> tyhjennaNaytto());
+		cnv.heightProperty().addListener(evt -> tyhjennaNaytto());
 	}
 
 	public void tyhjennaNaytto() {
