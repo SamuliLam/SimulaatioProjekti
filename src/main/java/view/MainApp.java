@@ -19,6 +19,8 @@ import javafx.stage.WindowEvent;
 public class MainApp extends Application {
     private Stage primaryStage;
 
+    private Scene mainScene;
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -39,13 +41,14 @@ public class MainApp extends Application {
      */
     public void initLayout() {
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view.fxml"));
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(fxmlLoader.load());
-            primaryStage.setScene(scene);
+            mainScene = new Scene(fxmlLoader.load());
+            primaryStage.setScene(mainScene);
             primaryStage.show();
+            System.out.println("Ensimmäiset" + primaryStage.toString());
+            System.out.println("Ensimmäiset" + primaryStage.getScene().toString());
 
             GUIKontrolleri controller = fxmlLoader.getController();
             controller.setMainApp(this);
@@ -55,12 +58,12 @@ public class MainApp extends Application {
         }
     }
 
-    public Stage getPrimaryStage() {
+    public Stage  getPrimaryStage() {
         return primaryStage;
     }
 
     public Scene getMainScene() {
-        return primaryStage.getScene();
+        return mainScene;
     }
 
 
