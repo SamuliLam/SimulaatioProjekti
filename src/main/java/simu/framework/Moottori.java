@@ -3,6 +3,8 @@ package simu.framework;
 
 import controller.IKontrolleriForM; // UUSI
 
+import java.sql.SQLException;
+
 public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÄÄRITYKSET
 	
 	private double simulointiaika = 0;
@@ -49,14 +51,18 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 		while (simuloidaan()){
 			viive(); // UUSI
 			kello.setAika(nykyaika());
-			suoritaBTapahtumat();
-			yritaCTapahtumat();
+            try {
+                suoritaBTapahtumat();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            yritaCTapahtumat();
 		}
 		tulokset();
 		
 	}
 	
-	private void suoritaBTapahtumat(){
+	private void suoritaBTapahtumat() throws SQLException {
 		while (tapahtumalista.getSeuraavanAika() == kello.getAika()){
 			suoritaTapahtuma(tapahtumalista.poista());
 		}
@@ -86,7 +92,7 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 
 	protected abstract void alustukset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	
-	protected abstract void suoritaTapahtuma(Tapahtuma t);  // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
+	protected abstract void suoritaTapahtuma(Tapahtuma t) throws SQLException;  // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	
 	protected abstract void tulokset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	

@@ -4,7 +4,10 @@ import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
 import simu.model.Tuotehallinta.Item;
+import dao.AsiakasOstoslistaDAO;
+import datasource.MariaDbConnection;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -33,7 +36,7 @@ public class Asiakas {
     private int id;
     private double spentMoney;
 
-    public Asiakas() {
+    public Asiakas() throws SQLException {
         id = i++;
         // palvelupisteLista määrätään asiakkaalle
         palvelupisteLista = new HashSet<>();
@@ -179,7 +182,7 @@ public class Asiakas {
         return sb.toString();
     }
 
-    public void generateRandomRuokalista() {
+    public void generateRandomRuokalista() throws SQLException {
         // lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
         palvelupisteLista.add(TapahtumanTyyppi.ARRMARKET);
         palvelupisteLista.add(TapahtumanTyyppi.CHECKOUTDEP);
@@ -203,7 +206,29 @@ public class Asiakas {
                 }
             }
         }
+        AsiakasOstoslistaDAO dao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+        saveShoppingListToDatabase(dao);
     }
+    private void saveShoppingListToDatabase(AsiakasOstoslistaDAO dao) {
+        try {
+            // Check if the groceryList is not empty
+            if (!groceryList.isEmpty()) {
+                // Create a list to store items for saving to the database
+                List<Item> itemsForDatabase = new ArrayList<>();
+
+                // Loop through the groceryList to populate itemsForDatabase
+                for (GroceryCategory category : groceryList) {
+                    itemsForDatabase.addAll(category.getItems());
+                }
+
+                // Call the DAO method to save the shopping list items to the database
+                dao.saveShoppingList(id, itemsForDatabase);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's requirements
+        }
+    }
+
 
     public void raportti() {
         Trace.out(Trace.Level.INFO, "\nAsiakas " + id + " valmis! ");

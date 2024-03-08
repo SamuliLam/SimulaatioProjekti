@@ -6,6 +6,7 @@ import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 import view.GUIKontrolleri;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -49,7 +50,7 @@ public class OmaMoottori extends Moottori {
 	}
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t) throws SQLException {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas asiakas;
 		kassojenMaara = kontrolleri.setKassaMaara();
