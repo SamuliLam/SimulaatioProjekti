@@ -6,11 +6,10 @@ import simu.model.Asiakas;
 import simu.model.OmaMoottori;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
+import view.GUIKontrolleri;
 import view.ISimulaattorinUI;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UUSI
 
@@ -20,15 +19,19 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     private Asiakas asiakas;
     private Palvelupiste palvelupiste;
 
+    private GUIKontrolleri guiKontrolleri;
+
     public Kontrolleri(ISimulaattorinUI ui) {
         this.ui = ui;
-
+        guiKontrolleri = new GUIKontrolleri();
     }
     // Moottorin ohjausta:
 
     @Override
     public void kaynnistaSimulointi() {
-        moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
+        double palveluaikaMean = ui.getPalveluaikaMean();
+        double palveluaikaVarianssi = ui.getPalveluaikaVarianssi();
+        moottori = new OmaMoottori(this, palveluaikaMean, palveluaikaVarianssi); // luodaan uusi moottorisäie jokaista simulointia varten
         moottori.setSimulointiaika(ui.getAika());
         moottori.setViive(ui.getViive());
         ui.getVisualisointi().tyhjennaNaytto();
@@ -65,6 +68,16 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     @Override
     public double allMoney() {
         return Asiakas.getTotalSpentMoneyAtCheckout();
+    }
+
+    @Override
+    public double getPalveluaikaMean() {
+        return guiKontrolleri.getPalveluaikaMean();
+    }
+
+    @Override
+    public double getPalveluaikaVarianssi() {
+        return guiKontrolleri.getPalveluaikaVarianssi();
     }
 
     @Override
@@ -150,6 +163,13 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     public void naytaTulokset(String tulokset) {
         Platform.runLater(() -> ui.setTuloste(tulokset));
     }
+
+    @Override
+    public int setKassaMaara() {
+        int kassat = ui.getKassaValue();
+        return kassat;
+    }
+
 
 
 }

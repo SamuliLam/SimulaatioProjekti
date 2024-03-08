@@ -30,11 +30,12 @@ public class VisualisointiTuotteet extends StackPane {
 
     public void createBarChart() {
         barChart = new BarChart<>(xAxis, yAxis);
-        barChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        barChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Add this line
         barChart.getXAxis().setLabel("Tuote");
         barChart.getYAxis().setLabel("Myynti");
-        barChart.setCategoryGap(20);  // Adjust this value as needed
+        barChart.setCategoryGap(20);
         yAxis.setTickUnit(1);
+        // Adjust this value as needed
     }
 
     public void updateSoldProductsData(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts) {

@@ -8,7 +8,7 @@ public enum TapahtumanTyyppi {
 
 	TapahtumanTyyppi(String palvelupiste) {
 		this.palvelupiste = palvelupiste;
-    }
+	}
 
 
 	public String getPalvelupiste() {

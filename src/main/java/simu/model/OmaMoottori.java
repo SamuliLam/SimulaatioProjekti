@@ -4,6 +4,7 @@ import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
+import view.GUIKontrolleri;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -16,7 +17,7 @@ public class OmaMoottori extends Moottori {
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
 
-	public OmaMoottori(IKontrolleriForM kontrolleri){
+	public OmaMoottori(IKontrolleriForM kontrolleri, double palveluaikaMean, double palveluaikaVarianssi) {
 
 		super(kontrolleri);
 
@@ -24,14 +25,14 @@ public class OmaMoottori extends Moottori {
 
 		palvelupisteet = new Palvelupiste[8];
 
-		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
-		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.BEERDEP);
-		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.FISHDEP);
-		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
-		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
-		palvelupisteet[5] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP2);
-		palvelupisteet[6] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP3);
-		palvelupisteet[7] = new Palvelupiste(new Normal(10,10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP4);
+		palvelupisteet[0] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.MEATDEP);
+		palvelupisteet[1] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.BEERDEP);
+		palvelupisteet[2] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.FISHDEP);
+		palvelupisteet[3] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
+		palvelupisteet[4] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
+		palvelupisteet[5] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP2);
+		palvelupisteet[6] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP3);
+		palvelupisteet[7] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP4);
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
@@ -149,31 +150,31 @@ public class OmaMoottori extends Moottori {
 						palvelupisteValitsija = 4;
 						break;
 					case 2:
-						if (palvelupisteet[4].getJononPituus() < 1) {
+						if (palvelupisteet[4].getJononPituus() < 4) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 2) {
+						} else if (palvelupisteet[5].getJononPituus() < 6) {
 							palvelupisteValitsija = 5;
 						}
 						break;
 					case 3:
-						if (palvelupisteet[4].getJononPituus() < 1) {
+						if (palvelupisteet[4].getJononPituus() < 3) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 2) {
+						} else if (palvelupisteet[5].getJononPituus() < 4) {
 							palvelupisteValitsija = 5;
 						}
-						else if (palvelupisteet[6].getJononPituus() < 3) {
+						else if (palvelupisteet[6].getJononPituus() < 6) {
 							palvelupisteValitsija = 6;
 						}
 						break;
 					case 4:
-						if (palvelupisteet[4].getJononPituus() < 1) {
+						if (palvelupisteet[4].getJononPituus() < 2) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 2) {
+						} else if (palvelupisteet[5].getJononPituus() < 3) {
 							palvelupisteValitsija = 5;
 						}
-						else if (palvelupisteet[6].getJononPituus() < 3) {
+						else if (palvelupisteet[6].getJononPituus() < 4) {
 							palvelupisteValitsija = 6;
-						} else if (palvelupisteet[7].getJononPituus() < 4) {
+						} else if (palvelupisteet[7].getJononPituus() < 6) {
 							palvelupisteValitsija = 7;
 						}
 						break;
@@ -193,7 +194,7 @@ public class OmaMoottori extends Moottori {
 	}
 	private void removeEnumFrompalvelupisteLista(Asiakas asiakas, TapahtumanTyyppi servedType) {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-        asiakas.getpalvelupisteLista().remove(arrmarket);
+		asiakas.getpalvelupisteLista().remove(arrmarket);
 		asiakas.getpalvelupisteLista().remove(servedType);
 		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType);
 	}
