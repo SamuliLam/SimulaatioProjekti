@@ -27,4 +27,6 @@ public interface IKontrolleriForV {
     HashMap<String, Double> getPalvelupisteAikaDistribution();
 
     HashMap<TapahtumanTyyppi, HashMap<String, Integer>> getSoldProducts();
+
+    double allMoney();
 }

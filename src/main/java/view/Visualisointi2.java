@@ -6,28 +6,24 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class Visualisointi2 extends Canvas implements IVisualisointi{
+public class Visualisointi2 implements IVisualisointi{
 	private GraphicsContext gc;
+	private Canvas cnv;
 	int asiakasLkm = 0;
 	int palvellutAsiakkaat = 0;
 	boolean meatDepQueue;
-	public Visualisointi2(int w, int h) {
-		super(w, h);
-		gc = this.getGraphicsContext2D();
+	public Visualisointi2(Canvas canvas) {
+		this.cnv = canvas;
+		gc = cnv.getGraphicsContext2D();
 		tyhjennaNaytto();
+
+		cnv.widthProperty().addListener(evt -> tyhjennaNaytto());
+		cnv.heightProperty().addListener(evt -> tyhjennaNaytto());
 	}
 
 	public void tyhjennaNaytto() {
 		gc.setFill(Color.WHITE);
-		gc.fillRect(0, 0, this.getWidth(), this.getHeight());
-		gc.setFill(Color.BLACK);
-		gc.setFont(new Font(20));
-		gc.fillText("Asiakkaiden määrä: " , 50, 50);
-		gc.fillText("Lihatiskin aktiivisuus: ", 50, 75);
-		gc.fillText("Olutosaston aktiivisuus: ", 50, 100);
-		gc.fillText("Kalatiskin aktiivisuus: ", 50, 125);
-		gc.fillText("Karkkihyllyn aktiivisuus: ", 50, 150);
-		gc.fillText("Palvellut asiakkaat: ", 50, 175);
+		gc.fillRect(0, 0, cnv.getWidth(), cnv.getHeight());
 	}
 
 	public void uusiAsiakas() {
@@ -37,6 +33,12 @@ public class Visualisointi2 extends Canvas implements IVisualisointi{
 		gc.setFill(Color.BLACK);
 		gc.setFont(new Font(20));
 		gc.fillText(asiakasLkm + "", 230, 50);
+		gc.fillText("Asiakkaiden määrä: " , 50, 50);
+		gc.fillText("Lihatiskin aktiivisuus: ", 50, 75);
+		gc.fillText("Olutosaston aktiivisuus: ", 50, 100);
+		gc.fillText("Kalatiskin aktiivisuus: ", 50, 125);
+		gc.fillText("Karkkihyllyn aktiivisuus: ", 50, 150);
+		gc.fillText("Palvellut asiakkaat: ", 50, 175);
 	}
 
 	public void asiakasPoistuu() {

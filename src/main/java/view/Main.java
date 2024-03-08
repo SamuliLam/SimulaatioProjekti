@@ -1,9 +1,11 @@
 package view;
 
+import dao.AsiakasDao;
 
-    public class Main {
-    // JavaFX-sovelluksen (käyttöliittymän) käynnistäminen
+public class Main {
+
     public static void main(String[] args) {
-        SimulaattorinGUI.launch(SimulaattorinGUI.class);
+        MainApp.launch(MainApp.class);
     }
+
 }

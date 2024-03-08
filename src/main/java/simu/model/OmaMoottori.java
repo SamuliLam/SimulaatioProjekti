@@ -4,6 +4,7 @@ import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
+import view.GUIKontrolleri;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -12,23 +13,26 @@ public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
 
+	private int kassojenMaara = 1;
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
 
-	public OmaMoottori(IKontrolleriForM kontrolleri){
+	public OmaMoottori(IKontrolleriForM kontrolleri, double palveluaikaMean, double palveluaikaVarianssi) {
 
 		super(kontrolleri);
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
-		palvelupisteet = new Palvelupiste[5];
+		palvelupisteet = new Palvelupiste[8];
 
-		palvelupisteet[0] = new Palvelupiste(new Normal(10, 6), tapahtumalista, TapahtumanTyyppi.MEATDEP);
-		palvelupisteet[1] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.BEERDEP);
-		palvelupisteet[2] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.FISHDEP);
-		palvelupisteet[3] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
-		palvelupisteet[4] = new Palvelupiste(new Normal(10, 10), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
-
+		palvelupisteet[0] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.MEATDEP);
+		palvelupisteet[1] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.BEERDEP);
+		palvelupisteet[2] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.FISHDEP);
+		palvelupisteet[3] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
+		palvelupisteet[4] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
+		palvelupisteet[5] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP2);
+		palvelupisteet[6] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP3);
+		palvelupisteet[7] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP4);
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
 
@@ -48,6 +52,8 @@ public class OmaMoottori extends Moottori {
 	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas asiakas;
+		kassojenMaara = kontrolleri.setKassaMaara();
+		System.out.println("Kassojen määrä: " + kassojenMaara);
 		int palvelupisteValitsin = 0;
 		switch (t.getTyyppi()) {
 			case ARRMARKET:
@@ -92,6 +98,36 @@ public class OmaMoottori extends Moottori {
 				asiakas.raportti();
 				kontrolleri.asiakasPoistuu();
 				break;
+			case CHECKOUTDEP2:
+				asiakas = palvelupisteet[5].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
+			case CHECKOUTDEP3:
+				asiakas = palvelupisteet[6].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
+			case CHECKOUTDEP4:
+				asiakas = palvelupisteet[7].otaJonosta();
+				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
+				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
+				asiakas.addSoldProducts();
+				asiakas.setPoistumisaika(Kello.getInstance().getAika());
+				asiakas.raportti();
+				kontrolleri.asiakasPoistuu();
+				break;
 		}
 	}
 	private int checkForEnumType(Asiakas asiakas) {
@@ -109,7 +145,43 @@ public class OmaMoottori extends Moottori {
 			}
 			else
 			{
-				palvelupisteValitsija = 4;
+				switch (kassojenMaara) {
+					case 1:
+						palvelupisteValitsija = 4;
+						break;
+					case 2:
+						if (palvelupisteet[4].getJononPituus() < 4) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 6) {
+							palvelupisteValitsija = 5;
+						}
+						break;
+					case 3:
+						if (palvelupisteet[4].getJononPituus() < 3) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 4) {
+							palvelupisteValitsija = 5;
+						}
+						else if (palvelupisteet[6].getJononPituus() < 6) {
+							palvelupisteValitsija = 6;
+						}
+						break;
+					case 4:
+						if (palvelupisteet[4].getJononPituus() < 2) {
+							palvelupisteValitsija = 4;
+						} else if (palvelupisteet[5].getJononPituus() < 3) {
+							palvelupisteValitsija = 5;
+						}
+						else if (palvelupisteet[6].getJononPituus() < 4) {
+							palvelupisteValitsija = 6;
+						} else if (palvelupisteet[7].getJononPituus() < 6) {
+							palvelupisteValitsija = 7;
+						}
+						break;
+					default:
+						palvelupisteValitsija = 4;
+						break;
+				}
 			}
 			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
 			return palvelupisteValitsija;
@@ -122,7 +194,7 @@ public class OmaMoottori extends Moottori {
 	}
 	private void removeEnumFrompalvelupisteLista(Asiakas asiakas, TapahtumanTyyppi servedType) {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-        asiakas.getpalvelupisteLista().remove(arrmarket);
+		asiakas.getpalvelupisteLista().remove(arrmarket);
 		asiakas.getpalvelupisteLista().remove(servedType);
 		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType);
 	}
@@ -153,6 +225,11 @@ public class OmaMoottori extends Moottori {
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 
 		kontrolleri.naytaTulokset(tulokset.toString());
+	}
+
+	public void setKassojenMaara(int kassaMaara)
+	{
+		this.kassojenMaara = kassaMaara;
 	}
 }
 

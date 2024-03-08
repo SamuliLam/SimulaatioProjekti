@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class VisualisointiIkajakauma extends StackPane implements IVisualisointi {
+public class VisualisointiIkajakauma extends StackPane {
     private final LineChart<String, Number> lineChart;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
@@ -53,34 +53,7 @@ public class VisualisointiIkajakauma extends StackPane implements IVisualisointi
         yAxis.setUpperBound(maxYValue+1);
         yAxis.setTickUnit(1); // Set the tick unit to 1 to display only integer values
     }
-    @Override
-    public void tyhjennaNaytto() {
 
-    }
-    @Override
-    public void uusiAsiakas() {
-        // Implement adding a new customer if needed
-    }
-    @Override
-    public void asiakasPoistuu() {
-        // Implement removing a customer if needed
-    }
-    @Override
-    public void updateMeatDepActivity(boolean isReserved) {
-        // Implement updating the meat department queue if needed
-    }
-    @Override
-    public void updateBeerDepActivity(boolean isReserved) {
-        // Implement updating the beer department queue if needed
-    }
-    @Override
-    public void updateFishDepActivity(boolean isReserved) {
-        // Implement updating the fish department queue if needed
-    }
-    @Override
-    public void updateCandyDepActivity(boolean isReserved) {
-        // Implement updating the fish department queue if needed
-    }
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();
