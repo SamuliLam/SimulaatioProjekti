@@ -202,7 +202,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
                 // Hae rahankäyttö jakauma
                 HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
                 // Lisää tiedot kanvasiin
-                rahaCanvas.updateMoneySpentData(rahankayttoDistribution);
+                rahaCanvas.updateMoneySpentData(rahankayttoDistribution, kontrolleri.allMoney());
                 layout.setBottom(rahaCanvas);
             }
             else if (selectedCategory != null && selectedCategory.equals("Aika")) {
