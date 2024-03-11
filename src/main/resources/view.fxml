@@ -58,7 +58,7 @@
                         <Insets bottom="10.0" top="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label alignment="CENTER" text="Syötä aika" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <Label alignment="CENTER" focusTraversable="false" text="Syötä aika" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <font>
                         <Font name="Century Gothic Bold" size="12.0" />
                      </font>
@@ -81,6 +81,30 @@
                         <Insets left="40.0" right="40.0" />
                      </GridPane.margin>
                   </TextField>
+                  <Label focusTraversable="false" text="Palveluaika mean" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="mean" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label focusTraversable="false" text="Palveluaika varianssi" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="variance" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+
+                        </TextField>
                   <Button fx:id="nopeutaButton" mnemonicParsing="false" onAction="#handleNopeuta" prefWidth="120.0" text="Nopeuta" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
                      <font>
                         <Font name="Century Gothic Bold" size="12.0" />
@@ -113,30 +137,6 @@
                         </Slider>
                      </children>
                   </VBox>
-                  <Label text="Palveluaika mean" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="mean" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="40.0" right="40.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Label text="Palveluaika varianssi" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="variance" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
-                     <GridPane.margin>
-                        <Insets left="40.0" right="40.0" />
-                     </GridPane.margin>
-
-                        </TextField>
                </children>
             </GridPane>
          </children>
