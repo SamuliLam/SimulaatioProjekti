@@ -82,7 +82,7 @@ public class Palvelupiste {
             sum += d;
         }
         calculateTotalTimePerPalvelupiste();
-        double average = sum / serviceTimes.size();
+        double average = !serviceTimes.isEmpty() ? sum / serviceTimes.size() : 0;
         String formattedAverage = decimalFormat.format(average);
 
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + eventTypeToBeScheduled.getPalvelupiste() + " palveltiin " + serviceTimes.size() + " asiakasta");
@@ -92,7 +92,7 @@ public class Palvelupiste {
         sb.append("Palvelupisteessä ")
                 .append(eventTypeToBeScheduled.getPalvelupiste())
                 .append(" palveltiin ")
-                .append(serviceTimes.size())
+                .append(serviceTimes == null ? "0" : serviceTimes.size())
                 .append(" asiakasta\n");
 
         sb.append("Palvelupisteessä ")
