@@ -12,47 +12,45 @@ import java.util.*;
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
 public class Asiakas {
     private static Normal ageRandom = new Normal(40, 100);
-    private static List<Asiakas> asiakkaat = new ArrayList<>();
-    private static HashMap<Integer, Integer> ikaJakauma = new HashMap<>();
+    private static List<Asiakas> customers = new ArrayList<>();
+    private static HashMap<Integer, Integer> ageDistribution = new HashMap<>();
 
     private static HashMap<Asiakas, Double> spentmoneyPerAsiakas = new HashMap<>();
     private static HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts = new HashMap<>();
-    private static long sum = 0;
     private static double totalMoneySpent = 0;
     private static double totalSpentMoneyAtCheckout = 0;
     private static int i = 1;
-    private final int ika;
+    private final int customerAge;
     Random random = new Random();
     private ArrayList<GroceryCategory> groceryList;
     private GroceryCategory groceryCategory;
-    private TapahtumanTyyppi palvelupisteListaEnumType;
-    private TapahtumanTyyppi[] palvelupisteListaEnumValues = TapahtumanTyyppi.values();
-    private HashSet<TapahtumanTyyppi> palvelupisteLista;
-    private double saapumisaika;
-    private double poistumisaika;
+    private TapahtumanTyyppi[] servicePointListEnumValues = TapahtumanTyyppi.values();
+    private HashSet<TapahtumanTyyppi> servicePointList;
+    private double arrivalTime;
+    private double departureTime;
     private int id;
     private double spentMoney;
 
     public Asiakas() {
         id = i++;
-        // palvelupisteLista määrätään asiakkaalle
-        palvelupisteLista = new HashSet<>();
+        // servicePointList määrätään asiakkaalle
+        servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
-        // Luodaan random palvelupisteLista tyypettäin asiakkaalle
+        // Luodaan random servicePointList tyypettäin asiakkaalle
         generateRandomRuokalista();
-        ika = (int) (ageRandom.sample());
+        customerAge = (int) (ageRandom.sample());
         spentMoney = 0;
-        saapumisaika = Kello.getInstance().getAika();
-        Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + saapumisaika + " ja on " + ika + " vuotias.");
-        Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printRuokalista());
-        updateIkaJakauma(ika);
-        asiakkaat.add(this);
+        arrivalTime = Kello.getInstance().getAika();
+        Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + arrivalTime + " ja on " + customerAge + " vuotias.");
+        Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printGroceryList());
+        updateAgeDistribution(customerAge);
+        customers.add(this);
     }
 
     // GETTERIT JA SETTERIT
 
-    public static List<Asiakas> getAsiakkaat() {
-        return asiakkaat;
+    public static List<Asiakas> getCustomers() {
+        return customers;
     }
 
     public static double getTotalMoneySpent() {
@@ -60,7 +58,7 @@ public class Asiakas {
     }
 
     public static double getAverageMoneySpent() {
-        return totalSpentMoneyAtCheckout / asiakkaat.size();
+        return totalSpentMoneyAtCheckout / customers.size();
     }
 
     public static double getTotalSpentMoneyAtCheckout() {
@@ -73,10 +71,10 @@ public class Asiakas {
 
     public static int getAverageAge() {
         int summa = 0;
-        for (Map.Entry<Integer, Integer> entry : ikaJakauma.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : ageDistribution.entrySet()) {
             summa += (entry.getKey() * entry.getValue());
         }
-        return summa / asiakkaat.size();
+        return summa / customers.size();
     }
 
     public static HashMap<TapahtumanTyyppi, HashMap<String, Integer>> getSoldProducts() {
@@ -84,46 +82,52 @@ public class Asiakas {
     }
 
     public static HashMap<Integer, Integer> getAgeDistribution() {
-        return ikaJakauma;
+        return ageDistribution;
     }
 
     public static void addTotalSpentMoneyAtCheckout(double amount) {
         totalSpentMoneyAtCheckout += amount;
     }
 
-    public static String completeRaportti() {
+    private static final String EUROA = " euroa.";
+
+    public static String completeReport() {
+
         StringBuilder sb = new StringBuilder();
+
         double totalMoneySpent = getTotalSpentMoneyAtCheckout();
         double averageMoneySpent = getAverageMoneySpent();
+
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+
         String formattedTotalMoneySpent = decimalFormat.format(totalMoneySpent);
         String formattedAverageMoneySpent = decimalFormat.format(averageMoneySpent);
 
-        Trace.out(Trace.Level.INFO, "Asiakkaita yhteensä: " + asiakkaat.size());
-        sb.append("Asiakkaita yhteensä: " + asiakkaat.size() + "\n");
-        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + formattedAverageMoneySpent + " euroa.");
-        sb.append("Asiakkaiden keskimääräinen rahankulutus " + getAverageMoneySpent() + " euroa." + "\n");
+        Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen rahankulutus " + formattedAverageMoneySpent + EUROA);
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
-        sb.append("Asiakkaiden keskimääräinen ikä: " + getAverageAge() + "\n");
-        Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + formattedTotalMoneySpent + " euroa.");
-        sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: " + getTotalMoneySpent() + " euroa." + "\n");
+        Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + formattedTotalMoneySpent + EUROA);
+
+        sb.append("Asiakkaiden keskimääräinen rahankulutus ").append(getAverageMoneySpent()).append(EUROA).append("\n");
+        sb.append("Asiakkaiden keskimääräinen ikä: ").append(getAverageAge()).append("\n");
+        sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: ").append(formattedTotalMoneySpent).append(EUROA).append("\n");
+
         return sb.toString();
     }
 
-    public double getPoistumisaika() {
-        return poistumisaika;
+    public double getdepartureTime() {
+        return departureTime;
     }
 
-    public void setPoistumisaika(double poistumisaika) {
-        this.poistumisaika = poistumisaika;
+    public void setdepartureTime(double departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public double getSaapumisaika() {
-        return saapumisaika;
+    public double getarrivalTime() {
+        return arrivalTime;
     }
 
-    public void setSaapumisaika(double saapumisaika) {
-        this.saapumisaika = saapumisaika;
+    public void setarrivalTime(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public int getId() {
@@ -134,8 +138,8 @@ public class Asiakas {
         return spentMoney;
     }
 
-    public HashSet<TapahtumanTyyppi> getpalvelupisteLista() {
-        return palvelupisteLista;
+    public HashSet<TapahtumanTyyppi> getservicePointList() {
+        return servicePointList;
     }
 
     // MUUT METODIT
@@ -162,15 +166,15 @@ public class Asiakas {
         spentmoneyPerAsiakas.put(this, amount);
     }
 
-    public void updateIkaJakauma(int age) {
-        if (ikaJakauma.containsKey(age)) {
-            ikaJakauma.put(age, ikaJakauma.get(age) + 1);
+    public void updateAgeDistribution(int age) {
+        if (ageDistribution.containsKey(age)) {
+            ageDistribution.put(age, ageDistribution.get(age) + 1);
         } else {
-            ikaJakauma.put(age, 1);
+            ageDistribution.put(age, 1);
         }
     }
 
-    public String printRuokalista() {
+    public String printGroceryList() {
         StringBuilder sb = new StringBuilder();
         for (GroceryCategory productCategory : groceryList) {
             sb.append(productCategory.itemsToString());
@@ -181,21 +185,21 @@ public class Asiakas {
 
     public void generateRandomRuokalista() {
         // lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
-        palvelupisteLista.add(TapahtumanTyyppi.ARRMARKET);
-        palvelupisteLista.add(TapahtumanTyyppi.CHECKOUTDEP);
+        servicePointList.add(TapahtumanTyyppi.ARRMARKET);
+        servicePointList.add(TapahtumanTyyppi.CHECKOUTDEP);
         // asetetaan random määrä ruokatyyppejä asiakkaalle
-        int randompalvelupisteListaSize = random.nextInt(3, TapahtumanTyyppi.values().length);
+        int randomservicePointListSize = random.nextInt(3, TapahtumanTyyppi.values().length);
 
-        System.out.println("palvelupisteLista koko: " + randompalvelupisteListaSize);
+        System.out.println("servicePointList koko: " + randomservicePointListSize);
 
         // Random indexia käyttäen etsitään random enum asiakkaalle
-        while (palvelupisteLista.size() < randompalvelupisteListaSize) {
+        while (servicePointList.size() < randomservicePointListSize) {
             // Random index luku jolla arvotaan enumi asiakkaalle
-            int randomIndex = random.nextInt(palvelupisteListaEnumValues.length);
-            TapahtumanTyyppi randomEnum = palvelupisteListaEnumValues[randomIndex];
-            // lisätään random enumtyyppi palvelupisteListaan.
-            if (!palvelupisteLista.contains(randomEnum)) { // Tarkista onko olemassa
-                palvelupisteLista.add(randomEnum);
+            int randomIndex = random.nextInt(servicePointListEnumValues.length);
+            TapahtumanTyyppi randomEnum = servicePointListEnumValues[randomIndex];
+            // lisätään random enumtyyppi servicePointListan.
+            if (!servicePointList.contains(randomEnum)) { // Tarkista onko olemassa
+                servicePointList.add(randomEnum);
                 if (randomEnum != TapahtumanTyyppi.ARRMARKET && randomEnum != TapahtumanTyyppi.CHECKOUTDEP) {
                     groceryCategory = new GroceryCategory(randomEnum);
                     groceryList.add(groceryCategory);
@@ -205,12 +209,12 @@ public class Asiakas {
         }
     }
 
-    public void raportti() {
+    public void report() {
         Trace.out(Trace.Level.INFO, "\nAsiakas " + id + " valmis! ");
-        Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + saapumisaika);
-        Trace.out(Trace.Level.INFO, "Asiakas " + id + " poistui: " + poistumisaika);
-        Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (poistumisaika - saapumisaika));
+        Trace.out(Trace.Level.INFO, "Asiakas " + id + " saapui: " + arrivalTime);
+        Trace.out(Trace.Level.INFO, "Asiakas " + id + " poistui: " + departureTime);
+        Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (departureTime - arrivalTime));
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " kulutti: " + spentMoney);
-        Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printRuokalista());
+        Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printGroceryList());
     }
 }
