@@ -4,11 +4,9 @@ import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
-import view.GUIKontrolleri;
-
 import java.text.DecimalFormat;
 import java.util.HashSet;
-import java.util.Random;
+
 
 public class OmaMoottori extends Moottori {
 
@@ -16,7 +14,6 @@ public class OmaMoottori extends Moottori {
 
 	private int amountOfCheckouts = 1;
 	private Palvelupiste[] servicePoints;
-	private boolean MeatDepActivity;
 
 	public OmaMoottori(IKontrolleriForM controller, double serviceTimeMean, double serviceTimeVariance) {
 
