@@ -6,6 +6,7 @@ import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 import view.GUIKontrolleri;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -213,7 +214,9 @@ public class OmaMoottori extends Moottori {
 	@Override
 	protected void tulokset() {
 		StringBuilder tulokset = new StringBuilder();
-		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
+		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+		double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+		tulokset.append("Simulointi päättyi kello ").append(formattedAika).append("\n");
 		for (Palvelupiste p : servicePoints) {
 			tulokset.append(p.report()).append("\n");
 		}

@@ -107,7 +107,7 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakkaiden keskimääräinen ikä: " + getAverageAge());
         Trace.out(Trace.Level.INFO, "Asiakkaiden kuluttama rahamäärä yhteensä: " + formattedTotalMoneySpent + EUROA);
 
-        sb.append("Asiakkaiden keskimääräinen rahankulutus ").append(getAverageMoneySpent()).append(EUROA).append("\n");
+        sb.append("Asiakkaiden keskimääräinen rahankulutus ").append(formattedAverageMoneySpent).append(EUROA).append("\n");
         sb.append("Asiakkaiden keskimääräinen ikä: ").append(getAverageAge()).append("\n");
         sb.append("Asiakkaiden kuluttama rahamäärä yhteensä: ").append(formattedTotalMoneySpent).append(EUROA).append("\n");
 
