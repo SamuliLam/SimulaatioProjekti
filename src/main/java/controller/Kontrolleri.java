@@ -52,12 +52,12 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     }
 
     public HashMap<String, Integer> getPalvelupisteDistribution() {
-        return Palvelupiste.getPalveluLuku();
+        return Palvelupiste.getServicePointVisits();
     }
 
     @Override
     public HashMap<String, Double> getPalvelupisteAikaDistribution() {
-        return Palvelupiste.getAjatPerPalvelupiste();
+        return Palvelupiste.getServiceTimesPerServicePoint();
     }
 
     @Override

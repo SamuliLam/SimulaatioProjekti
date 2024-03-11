@@ -125,7 +125,7 @@ public class Palvelupiste {
         return que.size();
     }
 
-	public static HashMap<String, Integer> getPalveluLuku()
+	public static HashMap<String, Integer> getServicePointVisits()
 	{
 		return servicePointVisits;
 	}

@@ -19,7 +19,7 @@ public class OmaMoottori extends Moottori {
 
 	public OmaMoottori(IKontrolleriForM controller, double serviceTimeMean, double serviceTimeVariance) {
 
-		super(kontrolleri);
+		super(controller);
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
@@ -36,10 +36,10 @@ public class OmaMoottori extends Moottori {
 
 		arrivalProcess = new Saapumisprosessi(new Negexp(15, 5), eventList, TapahtumanTyyppi.ARRMARKET);
 
-		kontrolleri.updateMeatDepActivity(false);
-		kontrolleri.updateBeerDepActivity(false);
-		kontrolleri.updateFishDepActivity(false);
-		kontrolleri.updateCandyDepActivity(false);
+		controller.updateMeatDepActivity(false);
+		controller.updateBeerDepActivity(false);
+		controller.updateFishDepActivity(false);
+		controller.updateCandyDepActivity(false);
 	}
 
 
@@ -220,9 +220,9 @@ public class OmaMoottori extends Moottori {
 		tulokset.append(Asiakas.completeReport()).append("\n");
 
 		// UUTTA graafista
-		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
+		controller.naytaLoppuaika(Kello.getInstance().getAika());
 
-		kontrolleri.naytaTulokset(tulokset.toString());
+		controller.naytaTulokset(tulokset.toString());
 	}
 }
 

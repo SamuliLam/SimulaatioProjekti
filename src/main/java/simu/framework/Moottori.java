@@ -12,7 +12,7 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 	
 	protected Tapahtumalista eventList;
 
-	protected IKontrolleriForM kontrolleri; // UUSI
+	protected IKontrolleriForM controller; // UUSI
 	
 
 	public Moottori(IKontrolleriForM kontrolleri){  // UUSITTU
