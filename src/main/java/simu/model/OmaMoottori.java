@@ -227,7 +227,7 @@ public class OmaMoottori extends Moottori {
 
 	public void setKassojenMaara(int kassaMaara)
 	{
-		this.kassojenMaara = kassaMaara;
+		this.amountOfCheckouts = kassaMaara;
 	}
 }
 
