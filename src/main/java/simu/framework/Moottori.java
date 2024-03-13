@@ -10,18 +10,18 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 	
 	private Kello kello;
 	
-	protected Tapahtumalista tapahtumalista;
+	protected Tapahtumalista eventList;
 
-	protected IKontrolleriForM kontrolleri; // UUSI
+	protected IKontrolleriForM controller; // UUSI
 	
 
 	public Moottori(IKontrolleriForM kontrolleri){  // UUSITTU
 		
-		this.kontrolleri = kontrolleri;  //UUSI
+		this.controller = kontrolleri;  //UUSI
 
 		kello = Kello.getInstance(); // Otetaan kello muuttujaan yksinkertaistamaan koodia
 		
-		tapahtumalista = new Tapahtumalista();
+		eventList = new Tapahtumalista();
 		
 		// Palvelupisteet luodaan simu.model-pakkauksessa Moottorin aliluokassa 
 		
@@ -57,8 +57,8 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 	}
 	
 	private void suoritaBTapahtumat(){
-		while (tapahtumalista.getSeuraavanAika() == kello.getAika()){
-			suoritaTapahtuma(tapahtumalista.poista());
+		while (eventList.getSeuraavanAika() == kello.getAika()){
+			suoritaTapahtuma(eventList.poista());
 		}
 	}
 
@@ -66,7 +66,7 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 
 	
 	private double nykyaika(){
-		return tapahtumalista.getSeuraavanAika();
+		return eventList.getSeuraavanAika();
 	}
 	
 	private boolean simuloidaan(){

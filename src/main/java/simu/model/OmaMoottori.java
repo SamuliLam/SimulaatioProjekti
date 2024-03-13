@@ -4,177 +4,174 @@ import controller.IKontrolleriForM;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
-import view.GUIKontrolleri;
-
+import java.text.DecimalFormat;
 import java.util.HashSet;
-import java.util.Random;
+
 
 public class OmaMoottori extends Moottori {
 
-	private Saapumisprosessi saapumisprosessi;
+	private Saapumisprosessi arrivalProcess;
 
-	private int kassojenMaara = 1;
-	private Palvelupiste[] palvelupisteet;
-	private boolean MeatDepActivity;
+	private int amountOfCheckouts = 1;
+	private Palvelupiste[] servicePoints;
 
-	public OmaMoottori(IKontrolleriForM kontrolleri, double palveluaikaMean, double palveluaikaVarianssi) {
+	public OmaMoottori(IKontrolleriForM controller) {
 
-		super(kontrolleri);
+		super(controller);
 
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 
-		palvelupisteet = new Palvelupiste[8];
+		servicePoints = new Palvelupiste[8];
 
-		palvelupisteet[0] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.MEATDEP);
-		palvelupisteet[1] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.BEERDEP);
-		palvelupisteet[2] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.FISHDEP);
-		palvelupisteet[3] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CANDYDEP);
-		palvelupisteet[4] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP);
-		palvelupisteet[5] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP2);
-		palvelupisteet[6] = new Palvelupiste(new Normal(palveluaikaMean,palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP3);
-		palvelupisteet[7] = new Palvelupiste(new Normal(palveluaikaMean, palveluaikaVarianssi), tapahtumalista, TapahtumanTyyppi.CHECKOUTDEP4);
+		servicePoints[0] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.MEATDEP);
+		servicePoints[1] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.BEERDEP);
+		servicePoints[2] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.FISHDEP);
+		servicePoints[3] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CANDYDEP);
+		servicePoints[4] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP);
+		servicePoints[5] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP2);
+		servicePoints[6] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
+		servicePoints[7] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
 
-		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARRMARKET);
+		arrivalProcess = new Saapumisprosessi(new Negexp(controller.getSaapumisValiaika(), 5), eventList, TapahtumanTyyppi.ARRMARKET);
 
-		kontrolleri.updateMeatDepActivity(false);
-		kontrolleri.updateBeerDepActivity(false);
-		kontrolleri.updateFishDepActivity(false);
-		kontrolleri.updateCandyDepActivity(false);
+		controller.updateMeatDepActivity(false);
+		controller.updateBeerDepActivity(false);
+		controller.updateFishDepActivity(false);
+		controller.updateCandyDepActivity(false);
 	}
 
 
 	@Override
 	protected void alustukset() {
-		saapumisprosessi.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
+		arrivalProcess.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
 	}
 
 	@Override
 	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
-		Asiakas asiakas;
-		kassojenMaara = kontrolleri.setKassaMaara();
-		System.out.println("Kassojen määrä: " + kassojenMaara);
+		Asiakas customer;
+		amountOfCheckouts = controller.setKassaMaara();
+		System.out.println("Kassojen määrä: " + amountOfCheckouts);
 		int palvelupisteValitsin = 0;
 		switch (t.getTyyppi()) {
 			case ARRMARKET:
-				asiakas = new Asiakas();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.ARRMARKET);
-				palvelupisteValitsin = checkForEnumType(asiakas);
-				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
-				saapumisprosessi.generoiSeuraava();
-				kontrolleri.visualisoiAsiakas(); // UUSI
+				customer = new Asiakas();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.ARRMARKET);
+				palvelupisteValitsin = checkForEnumType(customer);
+				servicePoints[palvelupisteValitsin].addToQue(customer);
+				arrivalProcess.generoiSeuraava();
+				controller.visualisoiAsiakas(); // UUSI
 				break;
 			case MEATDEP:
-				asiakas = palvelupisteet[0].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.MEATDEP);
-				palvelupisteValitsin = checkForEnumType(asiakas);
-				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+				customer = servicePoints[0].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.MEATDEP);
+				palvelupisteValitsin = checkForEnumType(customer);
+				servicePoints[palvelupisteValitsin].addToQue(customer);
 				break;
 			case BEERDEP:
-				asiakas = palvelupisteet[1].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.BEERDEP);
-				palvelupisteValitsin = checkForEnumType(asiakas);
-				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+				customer = servicePoints[1].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.BEERDEP);
+				palvelupisteValitsin = checkForEnumType(customer);
+				servicePoints[palvelupisteValitsin].addToQue(customer);
 				break;
 			case FISHDEP:
-				asiakas = palvelupisteet[2].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.FISHDEP);
-				palvelupisteValitsin = checkForEnumType(asiakas);
-				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+				customer = servicePoints[2].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.FISHDEP);
+				palvelupisteValitsin = checkForEnumType(customer);
+				servicePoints[palvelupisteValitsin].addToQue(customer);
 				break;
 			case CANDYDEP:
-				asiakas = palvelupisteet[3].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CANDYDEP);
-				palvelupisteValitsin = checkForEnumType(asiakas);
-				palvelupisteet[palvelupisteValitsin].lisaaJonoon(asiakas);
+				customer = servicePoints[3].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CANDYDEP);
+				palvelupisteValitsin = checkForEnumType(customer);
+				servicePoints[palvelupisteValitsin].addToQue(customer);
 				break;
 			case CHECKOUTDEP:
-				asiakas = palvelupisteet[4].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
-				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				asiakas.addSoldProducts();
-				asiakas.setPoistumisaika(Kello.getInstance().getAika());
-				asiakas.raportti();
-				kontrolleri.asiakasPoistuu();
+				customer = servicePoints[4].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+				customer.addSoldProducts();
+				customer.report();
+				controller.asiakasPoistuu();
 				break;
 			case CHECKOUTDEP2:
-				asiakas = palvelupisteet[5].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
-				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				asiakas.addSoldProducts();
-				asiakas.setPoistumisaika(Kello.getInstance().getAika());
-				asiakas.raportti();
-				kontrolleri.asiakasPoistuu();
+				customer = servicePoints[5].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+				customer.addSoldProducts();
+				customer.setdepartureTime(Kello.getInstance().getAika());
+				customer.report();
+				controller.asiakasPoistuu();
 				break;
 			case CHECKOUTDEP3:
-				asiakas = palvelupisteet[6].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
-				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				asiakas.addSoldProducts();
-				asiakas.setPoistumisaika(Kello.getInstance().getAika());
-				asiakas.raportti();
-				kontrolleri.asiakasPoistuu();
+				customer = servicePoints[6].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+				customer.addSoldProducts();
+				customer.setdepartureTime(Kello.getInstance().getAika());
+				customer.report();
+				controller.asiakasPoistuu();
 				break;
 			case CHECKOUTDEP4:
-				asiakas = palvelupisteet[7].otaJonosta();
-				removeEnumFrompalvelupisteLista(asiakas, TapahtumanTyyppi.CHECKOUTDEP);
-				asiakas.addSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(asiakas.getSpentMoney());
-				asiakas.addSoldProducts();
-				asiakas.setPoistumisaika(Kello.getInstance().getAika());
-				asiakas.raportti();
-				kontrolleri.asiakasPoistuu();
+				customer = servicePoints[7].takeFromQue();
+				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+				customer.addSoldProducts();
+				customer.setdepartureTime(Kello.getInstance().getAika());
+				customer.report();
+				controller.asiakasPoistuu();
 				break;
 		}
 	}
 	private int checkForEnumType(Asiakas asiakas) {
 		try {
-			HashSet<TapahtumanTyyppi> palvelupisteLista = asiakas.getpalvelupisteLista();
+			HashSet<TapahtumanTyyppi> servicePointList = asiakas.getservicePointList();
 			int palvelupisteValitsija = 0;
-			if (palvelupisteLista.contains(TapahtumanTyyppi.MEATDEP)) {
+			if (servicePointList.contains(TapahtumanTyyppi.MEATDEP)) {
 				palvelupisteValitsija = 0;
-			} else if (palvelupisteLista.contains(TapahtumanTyyppi.BEERDEP)) {
+			} else if (servicePointList.contains(TapahtumanTyyppi.BEERDEP)) {
 				palvelupisteValitsija = 1;
-			} else if (palvelupisteLista.contains(TapahtumanTyyppi.FISHDEP)) {
+			} else if (servicePointList.contains(TapahtumanTyyppi.FISHDEP)) {
 				palvelupisteValitsija = 2;
-			} else if (palvelupisteLista.contains(TapahtumanTyyppi.CANDYDEP)) {
+			} else if (servicePointList.contains(TapahtumanTyyppi.CANDYDEP)) {
 				palvelupisteValitsija = 3;
 			}
 			else
 			{
-				switch (kassojenMaara) {
+				switch (amountOfCheckouts) {
 					case 1:
 						palvelupisteValitsija = 4;
 						break;
 					case 2:
-						if (palvelupisteet[4].getJononPituus() < 4) {
+						if (servicePoints[4].getQueSize() < 4) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 6) {
+						} else if (servicePoints[5].getQueSize() < 6) {
 							palvelupisteValitsija = 5;
 						}
 						break;
 					case 3:
-						if (palvelupisteet[4].getJononPituus() < 3) {
+						if (servicePoints[4].getQueSize() < 3) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 4) {
+						} else if (servicePoints[5].getQueSize() < 4) {
 							palvelupisteValitsija = 5;
 						}
-						else if (palvelupisteet[6].getJononPituus() < 6) {
+						else if (servicePoints[6].getQueSize() < 6) {
 							palvelupisteValitsija = 6;
 						}
 						break;
 					case 4:
-						if (palvelupisteet[4].getJononPituus() < 2) {
+						if (servicePoints[4].getQueSize() < 2) {
 							palvelupisteValitsija = 4;
-						} else if (palvelupisteet[5].getJononPituus() < 3) {
+						} else if (servicePoints[5].getQueSize() < 3) {
 							palvelupisteValitsija = 5;
 						}
-						else if (palvelupisteet[6].getJononPituus() < 4) {
+						else if (servicePoints[6].getQueSize() < 4) {
 							palvelupisteValitsija = 6;
-						} else if (palvelupisteet[7].getJononPituus() < 6) {
+						} else if (servicePoints[7].getQueSize() < 6) {
 							palvelupisteValitsija = 7;
 						}
 						break;
@@ -192,22 +189,21 @@ public class OmaMoottori extends Moottori {
 			return -1; // palauttaa
 		}
 	}
-	private void removeEnumFrompalvelupisteLista(Asiakas asiakas, TapahtumanTyyppi servedType) {
+	private void removeEnumFromservicePointList(Asiakas asiakas, TapahtumanTyyppi servedType) {
 		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-		asiakas.getpalvelupisteLista().remove(arrmarket);
-		asiakas.getpalvelupisteLista().remove(servedType);
-		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " palvelupisteListasta poistettu: " + servedType);
+		asiakas.getservicePointList().remove(arrmarket);
+		asiakas.getservicePointList().remove(servedType);
+		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " servicePointListsta poistettu: " + servedType);
 	}
 
 	@Override
 	protected void yritaCTapahtumat() {
-		kontrolleri.updateMeatDepActivity(palvelupisteet[0].onVarattu());
-		kontrolleri.updateBeerDepActivity(palvelupisteet[1].onVarattu());
-		kontrolleri.updateFishDepActivity(palvelupisteet[2].onVarattu());
-		kontrolleri.updateCandyDepActivity(palvelupisteet[3].onVarattu());
-		for (Palvelupiste p : palvelupisteet) {
-			if (!p.onVarattu() && p.onJonossa()) {
-				p.aloitaPalvelu();
+		controller.updateMeatDepActivity(servicePoints[0].isReserved());
+		controller.updateFishDepActivity(servicePoints[2].isReserved());
+		controller.updateCandyDepActivity(servicePoints[3].isReserved());
+		for (Palvelupiste p : servicePoints) {
+			if (!p.isReserved() && p.inQue()) {
+				p.startService();
 			}
 		}
 	}
@@ -215,16 +211,18 @@ public class OmaMoottori extends Moottori {
 	@Override
 	protected void tulokset() {
 		StringBuilder tulokset = new StringBuilder();
-		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
-		for (Palvelupiste p : palvelupisteet) {
-			tulokset.append(p.raportti()).append("\n");
+		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+		double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+		tulokset.append("Simulointi päättyi kello ").append(formattedAika).append("\n");
+		for (Palvelupiste p : servicePoints) {
+			tulokset.append(p.report()).append("\n");
 		}
-		tulokset.append(Asiakas.completeRaportti()).append("\n");
+		tulokset.append(Asiakas.completeReport()).append("\n");
 
 		// UUTTA graafista
-		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
+		controller.naytaLoppuaika(Kello.getInstance().getAika());
 
-		kontrolleri.naytaTulokset(tulokset.toString());
+		controller.naytaTulokset(tulokset.toString());
 	}
 
 	public void setKassojenMaara(int kassaMaara)

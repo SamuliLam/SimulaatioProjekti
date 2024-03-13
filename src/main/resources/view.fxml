@@ -7,6 +7,9 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -30,9 +33,14 @@
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="6.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="3.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="6.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="15.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="64.3333511352539" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="3.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="3.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="6.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="3.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="6.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="72.0" percentHeight="14.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="547.0" minHeight="10.0" percentHeight="10.0" prefHeight="61.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="8.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="8.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="8.0" vgrow="SOMETIMES" />
@@ -47,100 +55,208 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStart" prefHeight="49.0" prefWidth="144.0" text="Käynnistä" textFill="WHITE" GridPane.rowIndex="7">
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#handleStart" prefHeight="49.0" prefWidth="144.0" text="Käynnistä" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
                      <font>
                         <Font name="Century Gothic Bold" size="17.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets bottom="10.0" top="20.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label alignment="CENTER" text="Syötä aika" textFill="WHITE" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="aikaField" alignment="CENTER" prefHeight="29.0" prefWidth="279.0" GridPane.rowIndex="2">
+                  <TextField fx:id="aikaField" alignment="CENTER" prefHeight="29.0" prefWidth="279.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="40.0" right="40.0" />
                      </GridPane.margin>
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip fx:id="simuAikaInfoTooltip" text="Tämä syötekenttä määrittää kuinka&#10;monta aikayksikköä simulointi tulee&#10;kestämään." />
+                     </tooltip>
                   </TextField>
-                  <Label alignment="CENTER" text="Syötä viive" textFill="WHITE" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="viiveField" alignment="CENTER" prefHeight="29.0" prefWidth="215.0" GridPane.rowIndex="4">
-                     <GridPane.margin>
-                        <Insets left="40.0" right="40.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Button fx:id="nopeutaButton" mnemonicParsing="false" onAction="#handleNopeuta" prefWidth="120.0" text="Nopeuta" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="hidastaButton" mnemonicParsing="false" onAction="#handleHidasta" prefWidth="120.0" text="Hidasta" textFill="WHITE" GridPane.rowIndex="9">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="avaaStatistiikkaButton" mnemonicParsing="false" onAction="#handleAvaaStatistiikka" prefWidth="120.0" text="Avaa statistiikka" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Century Gothic Bold" size="12.0" />
-                     </font>
-                  </Button>
-                  <VBox alignment="CENTER" GridPane.rowIndex="6">
+                  <HBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                      <children>
-                        <Label fx:id="palvelupisteidenMaara" text="Kassojen määrä" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="140.0" text="Syötä viive" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="Century Gothic Bold" size="12.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets right="1.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fx:id="simuViiveInfo" fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@info-2-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <TextField fx:id="viiveField" alignment="CENTER" prefHeight="29.0" prefWidth="215.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip fx:id="simuViiveInfoTooltip" text="Tämä syötekenttä määrittää kuinka monta&#10;aikayksikköä ohjelma odottaa ennen &#10;seuraavaan simulaatiovaiheeseen siirtymistä." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="saapumisValiaika" alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                     <tooltip>
+                        <Tooltip fx:id="simuSaapumisInfoTooltip" text="Tämä syötekenttä määrittää asiakkaiden&#10;keskimääräisen saapumisväliajan." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="mean" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                     <tooltip>
+                        <Tooltip fx:id="simuPalveluAikaInfoTooltip" text="Tämä syötekenttä määrittää keskimääräisen &#10;palveluajan." />
+                     </tooltip>
+                  </TextField>
+                  <TextField fx:id="variance" alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS">
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip fx:id="simuPoikkeamaInfoTooltip" text="Tämä syötekenttä määrittää poikkeaman&#10;keskimääräiselle palveluajalle. Jos keskimääräinen&#10;palveluaika on 30 aikayksikköä ja poikkeama on 5,&#10;voi palveluaika vaihdella 25-35 välillä." />
+                     </tooltip>
+
+                        </TextField>
+                  <Button fx:id="nopeutaButton" mnemonicParsing="false" onAction="#handleNopeuta" prefWidth="120.0" text="Nopeuta" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="hidastaButton" mnemonicParsing="false" onAction="#handleHidasta" prefWidth="120.0" text="Hidasta" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="avaaStatistiikkaButton" mnemonicParsing="false" onAction="#handleAvaaStatistiikka" prefWidth="120.0" text="Avaa statistiikka" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Century Gothic Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <VBox alignment="CENTER" GridPane.rowIndex="11">
+                     <children>
+                        <Label fx:id="palvelupisteidenMaara" text="Kassojen määrä" textFill="WHITE" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Century Gothic Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </Label>
                         <Slider fx:id="kassaSlider" blockIncrement="1.0" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                              <Insets bottom="5.0" left="40.0" right="40.0" top="10.0" />
                            </VBox.margin>
                         </Slider>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" GridPane.rowIndex="5">
+                  <HBox alignment="CENTER" GridPane.rowIndex="1">
                      <children>
-                        <Label text="Palveluaika mean" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="140.0" text="Syötä aika" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="Century Gothic Bold" size="12.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
+                           <HBox.margin>
+                              <Insets right="1.0" />
+                           </HBox.margin>
                         </Label>
-                        <TextField fx:id="mean" alignment="CENTER" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="40.0" right="40.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Century Gothic Bold" size="12.0" />
-                           </font>
-                        </TextField>
-                        <Label text="Palveluaika varianssi" textFill="WHITE">
-                           <font>
-                              <Font name="Century Gothic Bold" size="12.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Label>
-                        <TextField fx:id="variance" alignment="CENTER" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets left="40.0" right="40.0" />
-                           </VBox.margin>
-      
-                        </TextField>
+                        <ImageView fx:id="simuAikaInfo" fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@info-2-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
                      </children>
-                     <GridPane.margin>
-                        <Insets bottom="10.0" />
-                     </GridPane.margin>
-                  </VBox>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="5">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="140.0" text="Saapumisväliaika" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Century Gothic Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="1.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fx:id="simuSaapumisInfo" fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@info-2-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="7">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="140.0" text="Palveluaika" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Century Gothic Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="1.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fx:id="simuPalveluAikaInfo" fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@info-2-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.rowIndex="9">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="140.0" text="Poikkeama" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Century Gothic Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="1.0" />
+                           </padding>
+                        </Label>
+                        <ImageView fx:id="simuPoikkeamaInfo" fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@info-2-128.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </children>
@@ -160,6 +276,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </AnchorPane>
+                  <VBox alignment="CENTER" />
                   <TextArea id="bottomConsole" fx:id="bottomConsole" editable="false" minHeight="200.0" minWidth="500.0" prefHeight="275.0" prefWidth="782.0" styleClass="bottomConsole" stylesheets="@style.css" text="Simulaation tulosteet:&#10;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
