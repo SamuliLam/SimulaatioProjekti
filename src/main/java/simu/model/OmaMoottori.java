@@ -15,7 +15,7 @@ public class OmaMoottori extends Moottori {
 	private int amountOfCheckouts = 1;
 	private Palvelupiste[] servicePoints;
 
-	public OmaMoottori(IKontrolleriForM controller, double serviceTimeMean, double serviceTimeVariance, double saapumisValiaika) {
+	public OmaMoottori(IKontrolleriForM controller) {
 
 		super(controller);
 
@@ -23,16 +23,16 @@ public class OmaMoottori extends Moottori {
 
 		servicePoints = new Palvelupiste[8];
 
-		servicePoints[0] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.MEATDEP);
-		servicePoints[1] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.BEERDEP);
-		servicePoints[2] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.FISHDEP);
-		servicePoints[3] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.CANDYDEP);
-		servicePoints[4] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP);
-		servicePoints[5] = new Palvelupiste(new Normal(serviceTimeMean,serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP2);
-		servicePoints[6] = new Palvelupiste(new Normal(serviceTimeMean,serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
-		servicePoints[7] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
+		servicePoints[0] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.MEATDEP);
+		servicePoints[1] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.BEERDEP);
+		servicePoints[2] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.FISHDEP);
+		servicePoints[3] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CANDYDEP);
+		servicePoints[4] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP);
+		servicePoints[5] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP2);
+		servicePoints[6] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
+		servicePoints[7] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
 
-		arrivalProcess = new Saapumisprosessi(new Negexp(saapumisValiaika, 5), eventList, TapahtumanTyyppi.ARRMARKET);
+		arrivalProcess = new Saapumisprosessi(new Negexp(controller.getSaapumisValiaika(), 5), eventList, TapahtumanTyyppi.ARRMARKET);
 
 		controller.updateMeatDepActivity(false);
 		controller.updateBeerDepActivity(false);

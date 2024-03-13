@@ -28,10 +28,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
 
     @Override
     public void kaynnistaSimulointi() {
-        double saapumisValiaika = getSaapumisValiaika();
-        double palveluaikaMean = getPalveluaikaMean();
-        double palveluaikaVarianssi = getPalveluaikaVarianssi();
-        moottori = new OmaMoottori(this, palveluaikaMean, palveluaikaVarianssi, saapumisValiaika); // luodaan uusi moottorisäie jokaista simulointia varten
+        moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
         moottori.setSimulointiaika(ui.getAika());
         moottori.setViive(ui.getViive());
         ui.getVisualisointi().tyhjennaNaytto();
