@@ -1,8 +1,12 @@
 package simu.model;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import dao.AsiakasDAO;
+import dao.PalvelupisteDAO;
+import datasource.MariaDbConnection;
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
@@ -37,10 +41,10 @@ public class Palvelupiste {
 
     }
 
-    public void lisaaJonoon(Asiakas a) {   // Jonon 1. asiakas aina palvelussa
+    public void lisaaJonoon(Asiakas a) {
         jono.add(a);
-
     }
+
 
     public Asiakas otaJonosta() {  // Poistetaan palvelussa ollut
         varattu = false;
@@ -48,8 +52,7 @@ public class Palvelupiste {
     }
 
     public void aloitaPalvelu() {
-        //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
-
+        // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
         Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " asiakkaalle " + jono.peek().getId());
 
         varattu = true;
@@ -60,18 +63,26 @@ public class Palvelupiste {
         // Haetaan asiakas jonosta ja tallennetaan se muuttujaan
         Asiakas asiakas = jono.peek();
 
-        if (asiakas != null){
-            for (GroceryCategory category : asiakas.getGroceryList()){
-                if (category.getCategory() == skeduloitavanTapahtumanTyyppi){
+        if (asiakas != null) {
+            for (GroceryCategory category : asiakas.getGroceryList()) {
+                if (category.getCategory() == skeduloitavanTapahtumanTyyppi) {
                     asiakas.addSpentMoney(category.getTotalItemPrice());
+                    try { // Tämä on vain testiä varten, jotta saadaan asiakkaan rahankäyttö tallennettua tietokantaan
+                        AsiakasDAO.updateSpentMoney(asiakas.getId(), category.getTotalItemPrice());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
 
-		palveluajat.add(palveluaika);
-		palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
-		tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, Kello.getInstance().getAika() + palveluaika));
-	}
+        palveluajat.add(palveluaika);
+        palvelupisteidenKaynti.put(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size());
+
+        double tapahtumaAika = Kello.getInstance().getAika() + palveluaika;
+
+        tapahtumalista.lisaa(new Tapahtuma(skeduloitavanTapahtumanTyyppi, tapahtumaAika));
+    }
 
     public String raportti() {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
@@ -88,7 +99,17 @@ public class Palvelupiste {
         sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveltiin " + palveluajat.size() + " asiakasta\n");
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo);
         sb.append("Palvelupisteessä " + skeduloitavanTapahtumanTyyppi.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedKeskiarvo + "\n");
+
+        try {
+            PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
+            palvelupisteDAO.savePalvelupisteData(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size(), keskiarvo);
+        } catch (SQLException e) {
+            e.printStackTrace(); // SQL-virheen tulostus
+        }
+
         return sb.toString();
+
+
     }
 
 

@@ -1,5 +1,6 @@
 package simu.model;
 
+import dao.AsiakasDAO;
 import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
@@ -50,6 +51,8 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printRuokalista());
         updateIkaJakauma(ika);
         asiakkaat.add(this);
+        AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
+        dao_customer.saveAsiakas(this);
     }
 
     // GETTERIT JA SETTERIT
@@ -117,8 +120,9 @@ public class Asiakas {
         return poistumisaika;
     }
 
-    public void setPoistumisaika(double poistumisaika) {
+    public void setPoistumisaika(double poistumisaika) throws SQLException {
         this.poistumisaika = poistumisaika;
+        AsiakasDAO.updatePoistumisaika(id, poistumisaika);
     }
 
     public double getSaapumisaika() {
@@ -206,9 +210,10 @@ public class Asiakas {
                 }
             }
         }
-        AsiakasOstoslistaDAO dao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
-        saveShoppingListToDatabase(dao);
+        AsiakasOstoslistaDAO dao_products = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+        saveShoppingListToDatabase(dao_products);
     }
+
     private void saveShoppingListToDatabase(AsiakasOstoslistaDAO dao) {
         try {
             // Check if the groceryList is not empty
@@ -222,7 +227,7 @@ public class Asiakas {
                 }
 
                 // Call the DAO method to save the shopping list items to the database
-                dao.saveShoppingList(id, itemsForDatabase);
+                dao.saveShoppingList(itemsForDatabase);
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception according to your application's requirements
@@ -237,5 +242,9 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (poistumisaika - saapumisaika));
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " kulutti: " + spentMoney);
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printRuokalista());
+    }
+
+    public int getIka() {
+        return ika;
     }
 }
