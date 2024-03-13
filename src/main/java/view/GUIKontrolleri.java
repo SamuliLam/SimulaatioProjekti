@@ -2,8 +2,6 @@ package view;
 
 import controller.IKontrolleriForV;
 import controller.Kontrolleri;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,11 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
-import javafx.stage.Stage;
 import simu.framework.Trace;
 import simu.model.Asiakas;
 import simu.model.TapahtumanTyyppi;
 
+import javafx.scene.image.ImageView;
 import java.util.HashMap;
 
 
@@ -44,7 +42,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     private TextArea bottomConsole;
-
+    @FXML
+    private TextField saapumisValiaika;
     @FXML
     private TextField mean;
     @FXML
@@ -54,6 +53,28 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @FXML
     private Slider kassaSlider;
+
+    @FXML
+    private ImageView simuAikaInfo;
+    @FXML
+    private ImageView simuViiveInfo;
+    @FXML
+    private ImageView simuSaapumisInfo;
+    @FXML
+    private ImageView simuPalveluAikaInfo;
+    @FXML
+    private ImageView simuPoikkeamaInfo;
+
+    @FXML
+    private Tooltip simuAikaInfoTooltip;
+    @FXML
+    private Tooltip simuViiveInfoTooltip;
+    @FXML
+    private Tooltip simuSaapumisInfoTooltip;
+    @FXML
+    private Tooltip simuPalveluAikaInfoTooltip;
+    @FXML
+    private Tooltip simuPoikkeamaInfoTooltip;
     private int kassaValue;
 
     Scene mainScene;
@@ -69,6 +90,12 @@ public class GUIKontrolleri implements ISimulaattorinUI {
             visualisointi = new Visualisointi2(topConsoleCanvas);
             visualisointi.tyhjennaNaytto();
         }
+
+        Tooltip.install(simuAikaInfo, simuAikaInfoTooltip);
+        Tooltip.install(simuViiveInfo, simuViiveInfoTooltip);
+        Tooltip.install(simuSaapumisInfo, simuSaapumisInfoTooltip);
+        Tooltip.install(simuPalveluAikaInfo, simuPalveluAikaInfoTooltip);
+        Tooltip.install(simuPoikkeamaInfo, simuPoikkeamaInfoTooltip);
 
         startButton.setOnAction(actionEvent -> handleStart());
         nopeutaButton.setOnAction(actionEvent -> handleNopeuta());
@@ -153,7 +180,10 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return Double.parseDouble(variance.getText());
     }
 
-
+    @Override
+    public double getSaampumisValiaika(){
+        return Double.parseDouble(saapumisValiaika.getText());
+    }
 
     public void openStatisticsPage(){
         BorderPane layout = new BorderPane();

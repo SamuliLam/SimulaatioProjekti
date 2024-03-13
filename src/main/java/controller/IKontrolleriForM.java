@@ -16,6 +16,8 @@ public interface IKontrolleriForM {
 
     void updateCandyDepActivity(boolean isReserved);
 
+    double getSaapumisValiaika();
+
     double getPalveluaikaMean();
 
     double getPalveluaikaVarianssi();

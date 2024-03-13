@@ -12,7 +12,9 @@ public interface ISimulaattorinUI {
 
 	public double getPalveluaikaVarianssi();
 
-	int getKassaValue();
+    double getSaampumisValiaika();
+
+    int getKassaValue();
 	
 	//Kontrolleri antaa käyttöliittymälle tuloksia, joita Moottori tuottaa 
 	public void setLoppuaika(double aika);

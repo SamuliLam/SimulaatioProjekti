@@ -15,7 +15,7 @@ public class OmaMoottori extends Moottori {
 	private int amountOfCheckouts = 1;
 	private Palvelupiste[] servicePoints;
 
-	public OmaMoottori(IKontrolleriForM controller, double serviceTimeMean, double serviceTimeVariance) {
+	public OmaMoottori(IKontrolleriForM controller, double serviceTimeMean, double serviceTimeVariance, double saapumisValiaika) {
 
 		super(controller);
 
@@ -32,7 +32,7 @@ public class OmaMoottori extends Moottori {
 		servicePoints[6] = new Palvelupiste(new Normal(serviceTimeMean,serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
 		servicePoints[7] = new Palvelupiste(new Normal(serviceTimeMean, serviceTimeVariance), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
 
-		arrivalProcess = new Saapumisprosessi(new Negexp(15, 5), eventList, TapahtumanTyyppi.ARRMARKET);
+		arrivalProcess = new Saapumisprosessi(new Negexp(saapumisValiaika, 5), eventList, TapahtumanTyyppi.ARRMARKET);
 
 		controller.updateMeatDepActivity(false);
 		controller.updateBeerDepActivity(false);

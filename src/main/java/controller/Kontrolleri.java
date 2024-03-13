@@ -23,15 +23,15 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
 
     public Kontrolleri(ISimulaattorinUI ui) {
         this.ui = ui;
-        guiKontrolleri = new GUIKontrolleri();
     }
     // Moottorin ohjausta:
 
     @Override
     public void kaynnistaSimulointi() {
-        double palveluaikaMean = ui.getPalveluaikaMean();
-        double palveluaikaVarianssi = ui.getPalveluaikaVarianssi();
-        moottori = new OmaMoottori(this, palveluaikaMean, palveluaikaVarianssi); // luodaan uusi moottorisäie jokaista simulointia varten
+        double saapumisValiaika = getSaapumisValiaika();
+        double palveluaikaMean = getPalveluaikaMean();
+        double palveluaikaVarianssi = getPalveluaikaVarianssi();
+        moottori = new OmaMoottori(this, palveluaikaMean, palveluaikaVarianssi, saapumisValiaika); // luodaan uusi moottorisäie jokaista simulointia varten
         moottori.setSimulointiaika(ui.getAika());
         moottori.setViive(ui.getViive());
         ui.getVisualisointi().tyhjennaNaytto();
@@ -66,13 +66,18 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     }
 
     @Override
+    public double getSaapumisValiaika(){
+        return ui.getSaampumisValiaika();
+    }
+
+    @Override
     public double getPalveluaikaMean() {
-        return guiKontrolleri.getPalveluaikaMean();
+        return ui.getPalveluaikaMean();
     }
 
     @Override
     public double getPalveluaikaVarianssi() {
-        return guiKontrolleri.getPalveluaikaVarianssi();
+        return ui.getPalveluaikaVarianssi();
     }
 
     @Override
