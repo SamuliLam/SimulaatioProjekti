@@ -21,8 +21,8 @@ public class AsiakasDAO {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, asiakas.getId());
             statement.setInt(2, asiakas.getIka());
-            statement.setDouble(3, asiakas.getSaapumisaika());
-            statement.setDouble(4, asiakas.getPoistumisaika());
+            statement.setDouble(3, asiakas.getarrivalTime());
+            statement.setDouble(4, asiakas.getdepartureTime());
             statement.setDouble(5, asiakas.getSpentMoney());
             statement.setInt(6, simulationRunNumber);
 

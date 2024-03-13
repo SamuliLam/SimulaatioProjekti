@@ -138,7 +138,7 @@ public class Asiakas {
 
     public void setdepartureTime(double departureTime) throws SQLException {
         this.departureTime = departureTime;
-        updatePoistumisaika(id, poistumisaika, OmaMoottori.getSimulationRunNumber());
+        updatePoistumisaika(id, departureTime, OmaMoottori.getSimulationRunNumber());
     }
 
     public double getarrivalTime() {
@@ -261,6 +261,6 @@ public class Asiakas {
     }
 
     public int getIka() {
-        return ika;
+        return customerAge;
     }
 }

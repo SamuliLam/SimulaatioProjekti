@@ -70,7 +70,7 @@ public class Palvelupiste {
                 if (category.getCategory() == eventTypeToBeScheduled) {
                     customer.addSpentMoney(category.getTotalItemPrice());
                     try { // Tämä on vain testiä varten, jotta saadaan asiakkaan rahankäyttö tallennettua tietokantaan
-                        updateSpentMoney(asiakas.getId(), category.getTotalItemPrice(), OmaMoottori.getSimulationRunNumber());
+                        updateSpentMoney(customer.getId(), category.getTotalItemPrice(), OmaMoottori.getSimulationRunNumber());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -114,7 +114,7 @@ public class Palvelupiste {
                 .append("\n");
 try {
             PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
-            palvelupisteDAO.savePalvelupisteData(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size(), keskiarvo, OmaMoottori.getSimulationRunNumber());
+            palvelupisteDAO.savePalvelupisteData(eventTypeToBeScheduled.getPalvelupiste(), serviceTimes.size(), average, OmaMoottori.getSimulationRunNumber());
         } catch (SQLException e) {
             e.printStackTrace(); // SQL virheen käsittely
         }
