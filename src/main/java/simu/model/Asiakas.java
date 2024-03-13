@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import static dao.AsiakasDAO.updatePoistumisaika;
+
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
 public class Asiakas {
@@ -34,11 +36,21 @@ public class Asiakas {
     private HashSet<TapahtumanTyyppi> palvelupisteLista;
     private double saapumisaika;
     private double poistumisaika;
-    private int id;
+    private int id = 0;
     private double spentMoney;
 
     public Asiakas() throws SQLException {
-        id = i++;
+        // Tarkistetaan edellisen asiakkaan id tietokannasta ja lisätään yksi
+        AsiakasDAO dao = new AsiakasDAO(MariaDbConnection.getConnection());
+        int latest = dao.getLatestId();
+        if (latest == 0) {
+            id = 1;
+        } else {
+            id = latest + 1;
+        }
+
+
+
         // palvelupisteLista määrätään asiakkaalle
         palvelupisteLista = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -52,7 +64,7 @@ public class Asiakas {
         updateIkaJakauma(ika);
         asiakkaat.add(this);
         AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
-        dao_customer.saveAsiakas(this);
+        dao_customer.saveAsiakas(this, OmaMoottori.getSimulationRunNumber());
     }
 
     // GETTERIT JA SETTERIT
@@ -122,7 +134,7 @@ public class Asiakas {
 
     public void setPoistumisaika(double poistumisaika) throws SQLException {
         this.poistumisaika = poistumisaika;
-        AsiakasDAO.updatePoistumisaika(id, poistumisaika);
+        updatePoistumisaika(id, poistumisaika, OmaMoottori.getSimulationRunNumber());
     }
 
     public double getSaapumisaika() {
@@ -227,7 +239,7 @@ public class Asiakas {
                 }
 
                 // Call the DAO method to save the shopping list items to the database
-                dao.saveShoppingList(itemsForDatabase);
+                dao.saveShoppingList(itemsForDatabase, OmaMoottori.getSimulationRunNumber());
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Handle the exception according to your application's requirements

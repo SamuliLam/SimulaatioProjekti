@@ -17,6 +17,8 @@ import simu.model.Tuotehallinta.GroceryCategory;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static dao.AsiakasDAO.updateSpentMoney;
+
 public class Palvelupiste {
 
 	private final LinkedList<Asiakas> jono = new LinkedList<>(); // Tietorakennetoteutus
@@ -68,7 +70,7 @@ public class Palvelupiste {
                 if (category.getCategory() == skeduloitavanTapahtumanTyyppi) {
                     asiakas.addSpentMoney(category.getTotalItemPrice());
                     try { // Tämä on vain testiä varten, jotta saadaan asiakkaan rahankäyttö tallennettua tietokantaan
-                        AsiakasDAO.updateSpentMoney(asiakas.getId(), category.getTotalItemPrice());
+                        updateSpentMoney(asiakas.getId(), category.getTotalItemPrice(), OmaMoottori.getSimulationRunNumber());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -102,9 +104,9 @@ public class Palvelupiste {
 
         try {
             PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
-            palvelupisteDAO.savePalvelupisteData(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size(), keskiarvo);
+            palvelupisteDAO.savePalvelupisteData(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size(), keskiarvo, OmaMoottori.getSimulationRunNumber());
         } catch (SQLException e) {
-            e.printStackTrace(); // SQL-virheen tulostus
+            e.printStackTrace(); // SQL virheen käsittely
         }
 
         return sb.toString();

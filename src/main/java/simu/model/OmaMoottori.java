@@ -1,6 +1,8 @@
 package simu.model;
 
 import controller.IKontrolleriForM;
+import dao.SimulationRunDAO;
+import datasource.MariaDbConnection;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
@@ -17,6 +19,9 @@ public class OmaMoottori extends Moottori {
 	private int kassojenMaara = 1;
 	private Palvelupiste[] palvelupisteet;
 	private boolean MeatDepActivity;
+	static SimulationRunDAO SimulationRunDAO = new SimulationRunDAO(MariaDbConnection.getConnection());
+
+	private static int simulationRunNumber = SimulationRunDAO.getLastRunNumber() + 1;
 
 	public OmaMoottori(IKontrolleriForM kontrolleri, double palveluaikaMean, double palveluaikaVarianssi) {
 
@@ -226,11 +231,18 @@ public class OmaMoottori extends Moottori {
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 
 		kontrolleri.naytaTulokset(tulokset.toString());
+
+		// Lisätään simulointiajon numero
+		SimulationRunDAO.addNewRunNumber();
 	}
 
 	public void setKassojenMaara(int kassaMaara)
 	{
 		this.kassojenMaara = kassaMaara;
+	}
+
+	public static int getSimulationRunNumber() {
+		return simulationRunNumber;
 	}
 }
 
