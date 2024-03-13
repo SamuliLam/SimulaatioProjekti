@@ -1,8 +1,12 @@
 package simu.model;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
+import dao.AsiakasDAO;
+import dao.PalvelupisteDAO;
+import datasource.MariaDbConnection;
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
@@ -12,6 +16,8 @@ import simu.model.Tuotehallinta.GroceryCategory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import static dao.AsiakasDAO.updateSpentMoney;
 
 public class Palvelupiste {
 
@@ -37,10 +43,10 @@ public class Palvelupiste {
 
     }
 
-    public void addToQue(Asiakas a) {   // Jonon 1. asiakas aina palvelussa
+    public void addToQue(Asiakas a) {
         que.add(a);
-
     }
+
 
     public Asiakas takeFromQue() {  // Poistetaan palvelussa ollut
         reserved = false;
@@ -48,8 +54,7 @@ public class Palvelupiste {
     }
 
     public void startService() {
-        //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
-
+        // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
         Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + eventTypeToBeScheduled.getPalvelupiste() + " asiakkaalle " + que.peek().getId());
 
         reserved = true;
@@ -60,17 +65,24 @@ public class Palvelupiste {
         // Haetaan asiakas jonosta ja tallennetaan se muuttujaan
         Asiakas customer = que.peek();
 
-        if (customer != null){
-            for (GroceryCategory category : customer.getGroceryList()){
-                if (category.getCategory() == eventTypeToBeScheduled){
+        if (customer != null) {
+            for (GroceryCategory category : customer.getGroceryList()) {
+                if (category.getCategory() == eventTypeToBeScheduled) {
                     customer.addSpentMoney(category.getTotalItemPrice());
+                    try { // Tämä on vain testiä varten, jotta saadaan asiakkaan rahankäyttö tallennettua tietokantaan
+                        updateSpentMoney(asiakas.getId(), category.getTotalItemPrice(), OmaMoottori.getSimulationRunNumber());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
 
 		serviceTimes.add(serviceTime);
 		servicePointVisits.put(eventTypeToBeScheduled.getPalvelupiste(), serviceTimes.size());
-		eventList.lisaa(new Tapahtuma(eventTypeToBeScheduled, Kello.getInstance().getAika() + serviceTime));
+        double tapahtumaAika = Kello.getInstance().getAika() + serviceTime;
+
+        eventList.lisaa(new Tapahtuma(eventTypeToBeScheduled, tapahtumaAika));
 	}
 
     public String report() {
@@ -100,8 +112,15 @@ public class Palvelupiste {
                 .append(" palveluaikojen keskiarvo oli ")
                 .append(formattedAverage)
                 .append("\n");
-
+try {
+            PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
+            palvelupisteDAO.savePalvelupisteData(skeduloitavanTapahtumanTyyppi.getPalvelupiste(), palveluajat.size(), keskiarvo, OmaMoottori.getSimulationRunNumber());
+        } catch (SQLException e) {
+            e.printStackTrace(); // SQL virheen käsittely
+        }
         return sb.toString();
+
+
     }
 
 

@@ -1,9 +1,13 @@
 package simu.model;
 
 import controller.IKontrolleriForM;
+import dao.SimulationRunDAO;
+import datasource.MariaDbConnection;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
+
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 
@@ -14,6 +18,9 @@ public class OmaMoottori extends Moottori {
 
 	private int amountOfCheckouts = 1;
 	private Palvelupiste[] servicePoints;
+	static SimulationRunDAO SimulationRunDAO = new SimulationRunDAO(MariaDbConnection.getConnection());
+
+	private static int simulationRunNumber = SimulationRunDAO.getLastRunNumber() + 1;
 
 	public OmaMoottori(IKontrolleriForM controller) {
 
@@ -47,7 +54,7 @@ public class OmaMoottori extends Moottori {
 	}
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t) throws SQLException {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas customer;
 		amountOfCheckouts = controller.setKassaMaara();
@@ -223,11 +230,18 @@ public class OmaMoottori extends Moottori {
 		controller.naytaLoppuaika(Kello.getInstance().getAika());
 
 		controller.naytaTulokset(tulokset.toString());
+
+		// Lisätään simulointiajon numero
+		SimulationRunDAO.addNewRunNumber();
 	}
 
 	public void setKassojenMaara(int kassaMaara)
 	{
 		this.amountOfCheckouts = kassaMaara;
+	}
+
+	public static int getSimulationRunNumber() {
+		return simulationRunNumber;
 	}
 }
 

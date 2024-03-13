@@ -1,6 +1,5 @@
 package view;
 
-import dao.AsiakasDao;
 
 public class Main {
 

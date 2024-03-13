@@ -1,12 +1,18 @@
 package simu.model;
 
+import dao.AsiakasDAO;
 import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
 import simu.model.Tuotehallinta.Item;
+import dao.AsiakasOstoslistaDAO;
+import datasource.MariaDbConnection;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static dao.AsiakasDAO.updatePoistumisaika;
 
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
@@ -28,11 +34,21 @@ public class Asiakas {
     private HashSet<TapahtumanTyyppi> servicePointList;
     private double arrivalTime;
     private double departureTime;
-    private int id;
+    private int id = 0;
     private double spentMoney;
 
-    public Asiakas() {
-        id = i++;
+    public Asiakas() throws SQLException {
+        // Tarkistetaan edellisen asiakkaan id tietokannasta ja lisätään yksi
+        AsiakasDAO dao = new AsiakasDAO(MariaDbConnection.getConnection());
+        int latest = dao.getLatestId();
+        if (latest == 0) {
+            id = 1;
+        } else {
+            id = latest + 1;
+        }
+
+
+
         // servicePointList määrätään asiakkaalle
         servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -45,6 +61,8 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printGroceryList());
         updateAgeDistribution(customerAge);
         customers.add(this);
+        AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
+        dao_customer.saveAsiakas(this, OmaMoottori.getSimulationRunNumber());
     }
 
     // GETTERIT JA SETTERIT
@@ -118,8 +136,9 @@ public class Asiakas {
         return departureTime;
     }
 
-    public void setdepartureTime(double departureTime) {
+    public void setdepartureTime(double departureTime) throws SQLException {
         this.departureTime = departureTime;
+        updatePoistumisaika(id, poistumisaika, OmaMoottori.getSimulationRunNumber());
     }
 
     public double getarrivalTime() {
@@ -183,7 +202,7 @@ public class Asiakas {
         return sb.toString();
     }
 
-    public void generateRandomRuokalista() {
+    public void generateRandomRuokalista() throws SQLException {
         // lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
         servicePointList.add(TapahtumanTyyppi.ARRMARKET);
         servicePointList.add(TapahtumanTyyppi.CHECKOUTDEP);
@@ -207,7 +226,30 @@ public class Asiakas {
                 }
             }
         }
+        AsiakasOstoslistaDAO dao_products = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+        saveShoppingListToDatabase(dao_products);
     }
+
+    private void saveShoppingListToDatabase(AsiakasOstoslistaDAO dao) {
+        try {
+            // Check if the groceryList is not empty
+            if (!groceryList.isEmpty()) {
+                // Create a list to store items for saving to the database
+                List<Item> itemsForDatabase = new ArrayList<>();
+
+                // Loop through the groceryList to populate itemsForDatabase
+                for (GroceryCategory category : groceryList) {
+                    itemsForDatabase.addAll(category.getItems());
+                }
+
+                // Call the DAO method to save the shopping list items to the database
+                dao.saveShoppingList(itemsForDatabase, OmaMoottori.getSimulationRunNumber());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's requirements
+        }
+    }
+
 
     public void report() {
         Trace.out(Trace.Level.INFO, "\nAsiakas " + id + " valmis! ");
@@ -216,5 +258,9 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (departureTime - arrivalTime));
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " kulutti: " + spentMoney);
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printGroceryList());
+    }
+
+    public int getIka() {
+        return ika;
     }
 }
