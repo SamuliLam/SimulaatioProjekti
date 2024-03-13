@@ -212,8 +212,8 @@ public class OmaMoottori extends Moottori {
 	protected void tulokset() {
 		StringBuilder tulokset = new StringBuilder();
 		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-		double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
-		tulokset.append("Simulointi päättyi kello ").append(formattedAika).append("\n");
+		//double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
 		for (Palvelupiste p : servicePoints) {
 			tulokset.append(p.report()).append("\n");
 		}
