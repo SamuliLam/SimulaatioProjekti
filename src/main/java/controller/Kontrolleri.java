@@ -33,7 +33,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         moottori.setViive(ui.getViive());
         ui.getVisualisointi().tyhjennaNaytto();
         ((Thread) moottori).start();
-        //((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?
     }
 
     @Override
@@ -165,7 +164,4 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         int kassat = ui.getKassaValue();
         return kassat;
     }
-
-
-
 }

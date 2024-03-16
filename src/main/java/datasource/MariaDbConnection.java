@@ -14,7 +14,6 @@ public class MariaDbConnection {
                 conn = DriverManager.getConnection(
                         "jdbc:mariadb://mysql.metropolia.fi:3306/rasmusjo?user=rasmusjo&password=pannukakku12");
             } catch (SQLException e) {
-                System.out.println("Connection failed.");
                 e.printStackTrace();
             }
             return conn;

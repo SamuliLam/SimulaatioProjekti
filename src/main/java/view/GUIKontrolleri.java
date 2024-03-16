@@ -2,6 +2,7 @@ package view;
 
 import controller.IKontrolleriForV;
 import controller.Kontrolleri;
+import datasource.MariaDbConnection;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,8 @@ import simu.model.Asiakas;
 import simu.model.TapahtumanTyyppi;
 
 import javafx.scene.image.ImageView;
+
+import java.sql.Connection;
 import java.util.HashMap;
 
 
@@ -26,6 +29,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     private Canvas topConsoleCanvas;
     private IVisualisointi visualisointi = null; // Työjuhta
+
+    private Connection conn;
 
     @FXML
     private Button startButton;
@@ -75,6 +80,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private Tooltip simuPalveluAikaInfoTooltip;
     @FXML
     private Tooltip simuPoikkeamaInfoTooltip;
+    @FXML
+    private Label connLabel;
     private int kassaValue;
 
     Scene mainScene;
@@ -84,6 +91,26 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     public void initialize() {
         kontrolleri = new Kontrolleri(this);
+
+        try {
+            conn = MariaDbConnection.getConnection();
+            if (conn == null) {
+                connLabel.setText("Yhteyttä ei voitu muodostaa");
+                connLabel.setStyle("-fx-text-fill: #d53e3e");
+                throw new Exception();
+            }
+            connLabel.setText("Yhteys muodostettu");
+            connLabel.setStyle("-fx-text-fill: #4cff4c");
+        } catch (Exception e) {
+            bottomConsole.appendText("Tietokantayhteys epäonnistui. Simulaattori ei voi käynnistyä." + "\n");
+        } finally {
+            try {
+                MariaDbConnection.terminate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         Trace.setTraceLevel(Trace.Level.INFO);
 
         if (visualisointi == null) {
@@ -135,7 +162,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     }
 
 
-
     @Override
     public double getAika() {
         return Double.parseDouble(aikaField.getText());
@@ -169,7 +195,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return topConsoleCanvas;
     }
 
-
     @Override
     public double getPalveluaikaMean() {
         return Double.parseDouble(mean.getText());
@@ -181,11 +206,11 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     }
 
     @Override
-    public double getSaampumisValiaika(){
+    public double getSaampumisValiaika() {
         return Double.parseDouble(saapumisValiaika.getText());
     }
 
-    public void openStatisticsPage(){
+    public void openStatisticsPage() {
         BorderPane layout = new BorderPane();
 
         // ... rest of the code from openStatisticsPage ...
@@ -220,22 +245,19 @@ public class GUIKontrolleri implements ISimulaattorinUI {
                 // Lisää tiedot kanvasiin
                 statisticCanvas.updateAgeDistributionData(ageDistribution);
                 layout.setBottom(statisticCanvas);
-            }
-            else if (selectedCategory != null && selectedCategory.equals("Palvelupiste")) {
+            } else if (selectedCategory != null && selectedCategory.equals("Palvelupiste")) {
                 // Hae palvelupiste jakauma
-                HashMap<String , Integer> palvelupisteDistribution = kontrolleri.getPalvelupisteDistribution();
+                HashMap<String, Integer> palvelupisteDistribution = kontrolleri.getPalvelupisteDistribution();
                 // Lisää tiedot kanvasiin
                 palveluCanvas.updateServicePointVisitData(palvelupisteDistribution);
                 layout.setBottom(palveluCanvas);
-            }
-            else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
+            } else if (selectedCategory != null && selectedCategory.equals("Myynti")) {
                 // Hae rahankäyttö jakauma
                 HashMap<Asiakas, Double> rahankayttoDistribution = kontrolleri.getSpentMoneyDistribution();
                 // Lisää tiedot kanvasiin
                 rahaCanvas.updateMoneySpentData(rahankayttoDistribution, kontrolleri.allMoney());
                 layout.setBottom(rahaCanvas);
-            }
-            else if (selectedCategory != null && selectedCategory.equals("Aika")) {
+            } else if (selectedCategory != null && selectedCategory.equals("Aika")) {
                 // Hae aikakäyttö jakauma
                 HashMap<String, Double> servicePointTimeData = kontrolleri.getPalvelupisteAikaDistribution();
                 // Lisää tiedot kanvasiin
@@ -267,5 +289,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     public int getKassaValue() {
         kassaValue = (int) kassaSlider.getValue();
-        return kassaValue; }
+        return kassaValue;
+    }
 }
