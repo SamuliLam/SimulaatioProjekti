@@ -11,7 +11,7 @@ import simu.model.TapahtumanTyyppi;
 
 import java.util.HashMap;
 import java.util.Map;
-public class VisualisointiPalvelupiste extends StackPane implements IVisualisointi {
+public class VisualisointiPalvelupiste extends StackPane {
     private PieChart pieChart;
 
     public VisualisointiPalvelupiste(int w, int h) {
@@ -35,34 +35,7 @@ public class VisualisointiPalvelupiste extends StackPane implements IVisualisoin
         pieChart.setData(pieChartData);
         pieChart.layout();
     }
-    @Override
-    public void tyhjennaNaytto() {
 
-    }
-    @Override
-    public void uusiAsiakas() {
-        // Implement adding a new customer if needed
-    }
-    @Override
-    public void asiakasPoistuu() {
-        // Implement removing a customer if needed
-    }
-    @Override
-    public void updateMeatDepActivity(boolean isReserved) {
-        // Implement updating the meat department queue if needed
-    }
-    @Override
-    public void updateBeerDepActivity(boolean isReserved) {
-        // Implement updating the beer department queue if needed
-    }
-    @Override
-    public void updateFishDepActivity(boolean isReserved) {
-        // Implement updating the fish department queue if needed
-    }
-    @Override
-    public void updateCandyDepActivity(boolean isReserved) {
-        // Implement updating the fish department queue if needed
-    }
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();

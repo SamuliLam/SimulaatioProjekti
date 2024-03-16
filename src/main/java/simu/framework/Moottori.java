@@ -3,6 +3,8 @@ package simu.framework;
 
 import controller.IKontrolleriForM; // UUSI
 
+import java.sql.SQLException;
+
 public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÄÄRITYKSET
 	
 	private double simulointiaika = 0;
@@ -10,18 +12,18 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 	
 	private Kello kello;
 	
-	protected Tapahtumalista tapahtumalista;
+	protected Tapahtumalista eventList;
 
-	protected IKontrolleriForM kontrolleri; // UUSI
+	protected IKontrolleriForM controller; // UUSI
 	
 
 	public Moottori(IKontrolleriForM kontrolleri){  // UUSITTU
 		
-		this.kontrolleri = kontrolleri;  //UUSI
+		this.controller = kontrolleri;  //UUSI
 
 		kello = Kello.getInstance(); // Otetaan kello muuttujaan yksinkertaistamaan koodia
 		
-		tapahtumalista = new Tapahtumalista();
+		eventList = new Tapahtumalista();
 		
 		// Palvelupisteet luodaan simu.model-pakkauksessa Moottorin aliluokassa 
 		
@@ -49,16 +51,20 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 		while (simuloidaan()){
 			viive(); // UUSI
 			kello.setAika(nykyaika());
-			suoritaBTapahtumat();
-			yritaCTapahtumat();
+            try {
+                suoritaBTapahtumat();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            yritaCTapahtumat();
 		}
 		tulokset();
 		
 	}
 	
-	private void suoritaBTapahtumat(){
-		while (tapahtumalista.getSeuraavanAika() == kello.getAika()){
-			suoritaTapahtuma(tapahtumalista.poista());
+	private void suoritaBTapahtumat() throws SQLException {
+		while (eventList.getSeuraavanAika() == kello.getAika()){
+			suoritaTapahtuma(eventList.poista());
 		}
 	}
 
@@ -66,7 +72,7 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 
 	
 	private double nykyaika(){
-		return tapahtumalista.getSeuraavanAika();
+		return eventList.getSeuraavanAika();
 	}
 	
 	private boolean simuloidaan(){
@@ -86,7 +92,7 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET M�
 
 	protected abstract void alustukset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	
-	protected abstract void suoritaTapahtuma(Tapahtuma t);  // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
+	protected abstract void suoritaTapahtuma(Tapahtuma t) throws SQLException;  // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	
 	protected abstract void tulokset(); // Määritellään simu.model-pakkauksessa Moottorin aliluokassa
 	

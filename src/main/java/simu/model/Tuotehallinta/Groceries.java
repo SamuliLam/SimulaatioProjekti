@@ -31,7 +31,6 @@ public class Groceries {
 
 
 
-
     public HashMap<String, Double> getLIHATUOTTEET() {
         return LIHATUOTTEET;
     }

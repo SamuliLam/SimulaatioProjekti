@@ -7,6 +7,14 @@ public interface ISimulaattorinUI {
 	// Kontrolleri tarvitsee syötteitä, jotka se välittää Moottorille
 	public double getAika();
 	public long getViive();
+
+	public double getPalveluaikaMean();
+
+	public double getPalveluaikaVarianssi();
+
+    double getSaampumisValiaika();
+
+    int getKassaValue();
 	
 	//Kontrolleri antaa käyttöliittymälle tuloksia, joita Moottori tuottaa 
 	public void setLoppuaika(double aika);
@@ -14,7 +22,6 @@ public interface ISimulaattorinUI {
 	// Kontrolleri tarvitsee  
 	public IVisualisointi getVisualisointi();
 
-	void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
-
-	public void setTuloste(String tuloste);
+	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
+	public void setTuloste(String tulokset);
 }

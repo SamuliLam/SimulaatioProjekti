@@ -1,8 +1,6 @@
 package view;
 
 
-import javafx.beans.property.Property;
-
 public interface IVisualisointi {
 
 	void tyhjennaNaytto();
