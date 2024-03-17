@@ -95,20 +95,14 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         try {
             conn = MariaDbConnection.getConnection();
             if (conn == null) {
-                connLabel.setText("Yhteyttä ei voitu muodostaa");
-                connLabel.setStyle("-fx-text-fill: #d53e3e");
                 throw new Exception();
             }
             connLabel.setText("Yhteys muodostettu");
             connLabel.setStyle("-fx-text-fill: #4cff4c");
         } catch (Exception e) {
+            connLabel.setText("Yhteyttä ei voitu muodostaa");
+            connLabel.setStyle("-fx-text-fill: #d53e3e");
             bottomConsole.appendText("Tietokantayhteys epäonnistui. Simulaattori ei voi käynnistyä." + "\n");
-        } finally {
-            try {
-                MariaDbConnection.terminate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         Trace.setTraceLevel(Trace.Level.INFO);
