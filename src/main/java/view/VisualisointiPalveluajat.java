@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
-import simu.model.Palvelupiste;
 
 import java.util.HashMap;
 import java.util.Map;
