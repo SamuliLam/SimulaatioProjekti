@@ -58,4 +58,5 @@ public class AsiakasDAO {
             statement.executeBatch();
         }
     }
+
 }

@@ -243,6 +243,8 @@ public class OmaMoottori extends Moottori {
 		try {
 			AsiakasDAO asiakasDao = new AsiakasDAO(MariaDbConnection.getConnection());
 			asiakasDao.saveAllAsiakas(Asiakas.getCustomers(), getSimulationRunNumber());
+			asiakasDao.updateSpentMoney(Asiakas.getCustomers(), getSimulationRunNumber());
+			asiakasDao.updatePoistumisaika(Asiakas.getCustomers(), getSimulationRunNumber());
 
 			AsiakasOstoslistaDAO ostoslistaDao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
 			ostoslistaDao.saveAllSoldProducts(Asiakas.getSoldProducts(), getSimulationRunNumber());

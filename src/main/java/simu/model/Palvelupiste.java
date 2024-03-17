@@ -1,12 +1,6 @@
 package simu.model;
 
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.*;
-
 import dao.AsiakasDAO;
-import dao.PalvelupisteDAO;
-import datasource.MariaDbConnection;
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
@@ -14,8 +8,11 @@ import simu.framework.Tapahtumalista;
 import simu.framework.Trace;
 import simu.model.Tuotehallinta.GroceryCategory;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class Palvelupiste {
@@ -31,6 +28,7 @@ public class Palvelupiste {
 
     private double totalTimeServiced = 0.0;
     private static final HashMap<String, Double> serviceTimesPerServicePoint = new HashMap<>();
+
 
 
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
@@ -72,6 +70,7 @@ public class Palvelupiste {
                 if (category.getCategory() == eventTypeToBeScheduled) {
                     customer.addSpentMoney(category.getTotalItemPrice());
                 }
+
             }
         }
 
