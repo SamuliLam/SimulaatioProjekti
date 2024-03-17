@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static dao.AsiakasDAO.updatePoistumisaika;
-
 // TODO:
 // Asiakas koodataan simulointimallin edellyttämällä tavalla (data!)
 public class Asiakas {
@@ -40,15 +38,7 @@ public class Asiakas {
     public Asiakas() throws SQLException {
         // Tarkistetaan edellisen asiakkaan id tietokannasta ja lisätään yksi
         AsiakasDAO dao = new AsiakasDAO(MariaDbConnection.getConnection());
-        int latest = dao.getLatestId();
-        if (latest == 0) {
-            id = 1;
-        } else {
-            id = latest + 1;
-        }
-
-
-
+        this.id = i++;
         // servicePointList määrätään asiakkaalle
         servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -62,7 +52,6 @@ public class Asiakas {
         updateAgeDistribution(customerAge);
         customers.add(this);
         AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
-        dao_customer.saveAsiakas(this, OmaMoottori.getSimulationRunNumber());
     }
 
     // GETTERIT JA SETTERIT
@@ -138,7 +127,6 @@ public class Asiakas {
 
     public void setdepartureTime(double departureTime) throws SQLException {
         this.departureTime = departureTime;
-        updatePoistumisaika(id, departureTime, OmaMoottori.getSimulationRunNumber());
     }
 
     public double getarrivalTime() {
@@ -207,7 +195,8 @@ public class Asiakas {
         servicePointList.add(TapahtumanTyyppi.ARRMARKET);
         servicePointList.add(TapahtumanTyyppi.CHECKOUTDEP);
         // asetetaan random määrä ruokatyyppejä asiakkaalle
-        int randomservicePointListSize = random.nextInt(3, TapahtumanTyyppi.values().length);
+        // Miinustetaan tapahtumantyyppi määrästä kaikki oikeat palvelupisteet paitsi yksi, jotta vähintään yksi oikea palvlupiste generoitaisiin
+        int randomservicePointListSize = random.nextInt(TapahtumanTyyppi.values().length - 3, TapahtumanTyyppi.values().length);
 
         System.out.println("servicePointList koko: " + randomservicePointListSize);
 
@@ -226,30 +215,7 @@ public class Asiakas {
                 }
             }
         }
-        AsiakasOstoslistaDAO dao_products = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
-        saveShoppingListToDatabase(dao_products);
     }
-
-    private void saveShoppingListToDatabase(AsiakasOstoslistaDAO dao) {
-        try {
-            // Check if the groceryList is not empty
-            if (!groceryList.isEmpty()) {
-                // Create a list to store items for saving to the database
-                List<Item> itemsForDatabase = new ArrayList<>();
-
-                // Loop through the groceryList to populate itemsForDatabase
-                for (GroceryCategory category : groceryList) {
-                    itemsForDatabase.addAll(category.getItems());
-                }
-
-                // Call the DAO method to save the shopping list items to the database
-                dao.saveShoppingList(itemsForDatabase, OmaMoottori.getSimulationRunNumber());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception according to your application's requirements
-        }
-    }
-
 
     public void report() {
         Trace.out(Trace.Level.INFO, "\nAsiakas " + id + " valmis! ");

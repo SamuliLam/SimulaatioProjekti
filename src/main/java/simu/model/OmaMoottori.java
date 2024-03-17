@@ -1,6 +1,9 @@
 package simu.model;
 
 import controller.IKontrolleriForM;
+import dao.AsiakasDAO;
+import dao.AsiakasOstoslistaDAO;
+import dao.PalvelupisteDAO;
 import dao.SimulationRunDAO;
 import datasource.MariaDbConnection;
 import simu.framework.*;
@@ -233,6 +236,22 @@ public class OmaMoottori extends Moottori {
 
 		// Lisätään simulointiajon numero
 		SimulationRunDAO.addNewRunNumber();
+		endSimulation();
+	}
+
+	public void endSimulation() {
+		try {
+			AsiakasDAO asiakasDao = new AsiakasDAO(MariaDbConnection.getConnection());
+			asiakasDao.saveAllAsiakas(Asiakas.getCustomers(), getSimulationRunNumber());
+
+			AsiakasOstoslistaDAO ostoslistaDao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+			ostoslistaDao.saveAllSoldProducts(Asiakas.getSoldProducts(), getSimulationRunNumber());
+
+			PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
+			palvelupisteDAO.saveAllPalvelupisteData(Palvelupiste.getPalvelupisteet(), getSimulationRunNumber());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setKassojenMaara(int kassaMaara)

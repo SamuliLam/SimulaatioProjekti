@@ -1,5 +1,6 @@
 package dao;
 
+import simu.model.TapahtumanTyyppi;
 import simu.model.Tuotehallinta.Item;
 
 import java.sql.Connection;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AsiakasOstoslistaDAO {
 
@@ -20,38 +22,19 @@ public class AsiakasOstoslistaDAO {
     }
 
     // Method to save a shopping list to the database
-    public void saveShoppingList(List<Item> shoppingList, int simulationRunNumber) throws SQLException {
-        String insertSql = "INSERT INTO SoldProducts (item_name, quantity, price, total, simulation_run_number) VALUES (?, ?, ?, ?, ?)";
-        String updateSql = "UPDATE SoldProducts SET quantity = quantity + ?, total = total + ? WHERE item_name = ? AND simulation_run_number = ?";
+    public void saveAllSoldProducts(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts, int simulationRunNumber) throws SQLException {
+        String sql = "INSERT INTO SoldProducts (item_name, quantity, simulation_run_number) VALUES (?, ?, ?)";
 
-        try {
-            for (Item item : shoppingList) {
-                double price = getProductPrice(item.getName()); // Lisää tämä rivi hinnan hakemiseen
-
-                // Tarkista ensin, onko rivi jo olemassa
-                if (isRowExists(item.getName(), simulationRunNumber)) {
-                    // Jos rivi on olemassa, päivitä quantity ja total
-                    try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
-                        updateStatement.setInt(1, item.getQuantity());
-                        updateStatement.setDouble(2, item.getQuantity() * price);
-                        updateStatement.setString(3, item.getName());
-                        updateStatement.setInt(4, simulationRunNumber);
-                        updateStatement.executeUpdate();
-                    }
-                } else {
-                    // Jos riviä ei ole olemassa, lisää uusi rivi
-                    try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
-                        insertStatement.setString(1, item.getName());
-                        insertStatement.setInt(2, item.getQuantity());
-                        insertStatement.setDouble(3, price);
-                        insertStatement.setDouble(4, item.getQuantity() * price);
-                        insertStatement.setInt(5, simulationRunNumber);
-                        insertStatement.executeUpdate();
-                    }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (Map.Entry<TapahtumanTyyppi, HashMap<String, Integer>> entry : soldProducts.entrySet()) {
+                for (Map.Entry<String, Integer> itemEntry : entry.getValue().entrySet()) {
+                    statement.setString(1, itemEntry.getKey());
+                    statement.setInt(2, itemEntry.getValue());
+                    statement.setInt(3, simulationRunNumber);
+                    statement.addBatch();
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Käsittele poikkeus sovelluksesi vaatimusten mukaan
+            statement.executeBatch();
         }
     }
 
