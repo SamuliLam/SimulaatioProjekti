@@ -44,28 +44,16 @@ public class VisualisointiTuotteet extends StackPane {
 
     public void updateSoldProductsData(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts) {
         barChart.getData().clear();
-
-        AsiakasOstoslistaDAO dao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection()); // Assuming you have an instance of your DAO class
-        try {
-            // Get sold products from the database
-            HashMap<String, Integer> soldProductsData = dao.getSoldProducts(OmaMoottori.getSimulationRunNumber());
-
-            // Create a series for the bar chart
+        for (TapahtumanTyyppi category : soldProducts.keySet()) {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Sold Products");
-
-            // Add data to the series from the sold products HashMap
-            for (String product : soldProductsData.keySet()) {
-                series.getData().add(new XYChart.Data<>(product, soldProductsData.get(product)));
+            series.setName(category.getPalvelupiste());
+            HashMap<String, Integer> products = soldProducts.get(category);
+            for (String product : products.keySet()) {
+                series.getData().add(new XYChart.Data<>(product, products.get(product)));
             }
-
-            // Add the series to the bar chart
             barChart.getData().add(series);
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception according to your application's requirements
         }
     }
-
 
     @Override
     public Node getStyleableNode() {
