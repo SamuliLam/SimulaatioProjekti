@@ -30,13 +30,12 @@ public class Asiakas {
     private HashSet<TapahtumanTyyppi> servicePointList;
     private double arrivalTime;
     private double departureTime;
-    private int id = 0;
+    private int id;
     private double spentMoney;
 
     public Asiakas() throws SQLException {
-        AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
-        i = dao_customer.getMaxId() + 1;
         id = i++;
+
         // servicePointList määrätään asiakkaalle
         servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -225,5 +224,9 @@ public class Asiakas {
 
     public int getIka() {
         return customerAge;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

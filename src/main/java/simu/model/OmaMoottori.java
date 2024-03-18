@@ -102,6 +102,7 @@ public class OmaMoottori extends Moottori {
 				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
 				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
 				customer.addSoldProducts();
+				customer.setdepartureTime(Kello.getInstance().getAika());
 				customer.report();
 				controller.asiakasPoistuu();
 				break;
