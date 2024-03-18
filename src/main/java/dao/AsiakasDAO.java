@@ -1,7 +1,6 @@
 package dao;
 
 import simu.model.Asiakas;
-
 import java.sql.*;
 import java.util.List;
 
@@ -11,7 +10,6 @@ public class AsiakasDAO {
     public AsiakasDAO(Connection connection) {
         this.connection = connection;
     }
-
     public void saveAllAsiakas(List<Asiakas> asiakasList, int simulationRunNumber) throws SQLException {
         String sql = "INSERT INTO Asiakas (age, saapumisaika, poistumisaika, spent_money, simulation_run_number) VALUES (?, ?, ?, ?, ?)";
 
@@ -63,34 +61,4 @@ public class AsiakasDAO {
             statement.executeBatch();
         }
     }
-
-    public static int getLatestId() {
-        String sql = "SELECT MAX(asiakas_id) FROM Asiakas";
-        Integer latestId = null; // Initialize the latestId to null
-
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                latestId = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        // Palauta 0, jos latestId on null, muuten palauta latestId
-        return (latestId != null) ? latestId : 0;
-    }
-
-    public int getMaxId() throws SQLException {
-        String query = "SELECT MAX(asiakas_id) FROM Asiakas";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            int maxId = rs.getInt(1);
-            return rs.wasNull() ? 0 : maxId;
-        } else {
-            return 0;
-        }
-    }
-
 }

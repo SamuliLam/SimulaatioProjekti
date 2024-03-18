@@ -22,7 +22,6 @@ public class TuoteChart extends StackPane {
         createBarChart();
         this.getChildren().add(barChart);
     }
-
     public void createBarChart() {
         barChart = new BarChart<>(xAxis, yAxis);
         barChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Add this line
@@ -32,7 +31,6 @@ public class TuoteChart extends StackPane {
         yAxis.setTickUnit(1);
         // Adjust this value as needed
     }
-
     public void updateSoldProductsData(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts) {
         barChart.getData().clear();
         for (TapahtumanTyyppi category : soldProducts.keySet()) {
@@ -45,7 +43,6 @@ public class TuoteChart extends StackPane {
             barChart.getData().add(series);
         }
     }
-
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();

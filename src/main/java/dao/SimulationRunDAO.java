@@ -1,7 +1,5 @@
 package dao;
 
-import datasource.MariaDbConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +7,6 @@ import java.sql.SQLException;
 
 public class SimulationRunDAO {
     private static Connection connection;
-
     public SimulationRunDAO(Connection connection) {
         this.connection = connection;
     }
@@ -25,7 +22,6 @@ public class SimulationRunDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return lastRunNumber;
     }
 

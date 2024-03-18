@@ -1,25 +1,22 @@
 package view.rajapinnat;
 
+
 public interface ISimulaattorinUI {
-	
-	// Kontrolleri tarvitsee syötteitä, jotka se välittää Moottorille
-	public double getAika();
-	public long getViive();
+    double getAika();
 
-	public double getPalveluaikaMean();
+    long getViive();
 
-	public double getPalveluaikaVarianssi();
+    double getPalveluaikaMean();
+
+    double getPalveluaikaVarianssi();
 
     double getSaampumisValiaika();
 
     int getKassaValue();
-	
-	//Kontrolleri antaa käyttöliittymälle tuloksia, joita Moottori tuottaa 
-	public void setLoppuaika(double aika);
-	
-	// Kontrolleri tarvitsee  
-	public IVisualisointi getVisualisointi();
 
-	public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution);
-	public void setTuloste(String tulokset);
+    void setLoppuaika(double aika);
+
+    IVisualisointi getVisualisointi();
+
+    void setTuloste(String tulokset);
 }

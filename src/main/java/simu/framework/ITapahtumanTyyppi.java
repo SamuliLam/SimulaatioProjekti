@@ -1,4 +1,3 @@
 package simu.framework;
 
-public interface ITapahtumanTyyppi {
-}
+public interface ITapahtumanTyyppi {}

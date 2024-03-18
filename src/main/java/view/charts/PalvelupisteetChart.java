@@ -16,24 +16,18 @@ public class PalvelupisteetChart extends StackPane {
         pieChart.setTitle("Palvelupisteiden Esiintymät");
         this.getChildren().add(pieChart);
     }
-
-    // piechart palvelupisteistä
     public void updateServicePointVisitData(HashMap<String, Integer> visitData) {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
         for (Map.Entry<String, Integer> entry : visitData.entrySet()) {
             String label = entry.getKey().toString() + " (" + entry.getValue() + ")";
             pieChartData.add(new PieChart.Data(label, entry.getValue()));
         }
-
         pieChart.getData().clear();
         pieChart.setData(pieChartData);
         pieChart.layout();
     }
-
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();
     }
-
 }

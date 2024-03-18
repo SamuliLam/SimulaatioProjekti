@@ -1,7 +1,6 @@
 package dao;
 
 import simu.model.Palvelupiste;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,7 +12,6 @@ public class PalvelupisteDAO {
     public PalvelupisteDAO(Connection connection) {
         this.connection = connection;
     }
-
     public void saveAllPalvelupisteData(List<Palvelupiste> palvelupisteList, int simulationRunNumber) throws SQLException {
         String sql = "INSERT INTO Palvelupiste (name, served_customers, average_service_time, simulation_run_number) VALUES (?, ?, ?, ?)";
 

@@ -1,4 +1,5 @@
 package simu.model.Tuotehallinta;
+
 import java.util.Random;
 
 
@@ -16,7 +17,9 @@ public class Item {
      * The price of the item.
      */
     private double price;
-
+    /**
+     * The item amount.
+     */
     private int amount;
 
     /**

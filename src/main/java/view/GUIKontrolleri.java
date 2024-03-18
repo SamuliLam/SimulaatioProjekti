@@ -14,7 +14,6 @@ import javafx.scene.layout.TilePane;
 import simu.framework.Trace;
 import simu.model.Asiakas;
 import simu.model.TapahtumanTyyppi;
-
 import javafx.scene.image.ImageView;
 import view.charts.*;
 import view.rajapinnat.ISimulaattorinUI;
@@ -22,15 +21,11 @@ import view.rajapinnat.IVisualisointi;
 
 import java.util.HashMap;
 
-
 public class GUIKontrolleri implements ISimulaattorinUI {
-
     private IKontrolleriForV kontrolleri;
-
+    private IVisualisointi visualisointi = null; // Työjuhta
     @FXML
     private Canvas topConsoleCanvas;
-    private IVisualisointi visualisointi = null; // Työjuhta
-
     @FXML
     private Button startButton;
     @FXML
@@ -43,7 +38,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private Button hidastaButton;
     @FXML
     private Button avaaStatistiikkaButton;
-
     @FXML
     private TextArea bottomConsole;
     @FXML
@@ -54,10 +48,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private TextField variance;
     @FXML
     private AnchorPane canvasConsole;
-
     @FXML
     private Slider kassaSlider;
-
     @FXML
     private ImageView simuAikaInfo;
     @FXML
@@ -68,7 +60,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private ImageView simuPalveluAikaInfo;
     @FXML
     private ImageView simuPoikkeamaInfo;
-
     @FXML
     private Tooltip simuAikaInfoTooltip;
     @FXML
@@ -80,9 +71,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     private Tooltip simuPoikkeamaInfoTooltip;
     private int kassaValue;
-
     Scene mainScene;
-
     MainApp mainApp;
 
     @FXML
@@ -106,9 +95,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         hidastaButton.setOnAction(actionEvent -> handleHidasta());
         avaaStatistiikkaButton.setOnAction(actionEvent -> handleAvaaStatistiikka());
 
-        // Bind the canvas size to the size of the parent AnchorPane
-        // This helps to keep the canvas size in sync when the stage is resized
-        // Subtract the padding amount of parent AnchorPane to get the canvas size and nice borders for the canvas
         topConsoleCanvas.widthProperty().bind(canvasConsole.widthProperty().subtract(canvasConsole.getPadding().getLeft() + canvasConsole.getPadding().getRight()));
         topConsoleCanvas.heightProperty().bind(canvasConsole.heightProperty().subtract(canvasConsole.getPadding().getTop() + canvasConsole.getPadding().getBottom()));
     }
@@ -119,7 +105,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         System.out.println("Start");
         startButton.setDisable(true);
     }
-
 
     @FXML
     public void handleNopeuta() {
@@ -138,8 +123,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         openStatisticsPage();
     }
 
-
-
     @Override
     public double getAika() {
         return Double.parseDouble(aikaField.getText());
@@ -157,17 +140,12 @@ public class GUIKontrolleri implements ISimulaattorinUI {
 
     @Override
     public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
-
+        visualisointi.updateAgeDistribution(ageDistribution);
     }
 
     public void setTuloste(String tuloste) {
         bottomConsole.appendText(tuloste);
     }
-
-    public Canvas getTopConsoleCanvas() {
-        return topConsoleCanvas;
-    }
-
 
     @Override
     public double getPalveluaikaMean() {
@@ -253,11 +231,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-
-    public void enableStartButton() {
-        startButton.setDisable(false);
-    }
-
 
     public int getKassaValue() {
         kassaValue = (int) kassaSlider.getValue();

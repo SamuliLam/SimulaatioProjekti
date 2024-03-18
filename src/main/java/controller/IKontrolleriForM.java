@@ -3,9 +3,13 @@ package controller;
 public interface IKontrolleriForM {
 
     void naytaLoppuaika(double aika);
+
     void visualisoiAsiakas();
+
     void asiakasPoistuu();
+
     void naytaTulokset(String tulos);
+
     void updateMeatDepActivity(boolean isReserved);
 
     void updateBeerDepActivity(boolean isReserved);

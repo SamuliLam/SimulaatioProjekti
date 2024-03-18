@@ -1,7 +1,7 @@
 package simu.model;
-
-// TODO:
-// Tapahtumien tyypit määritellään simulointimallin vaatimusten perusteella
+/**
+ * This enumeration represents the type of event in the simulation model.
+ */
 public enum TapahtumanTyyppi {
 	/**
 	 * The arrival event type.
@@ -43,15 +43,20 @@ public enum TapahtumanTyyppi {
 	 * The service point for this event type.
 	 */
 	private final String palvelupiste;
-
+	/**
+	 * Constructs a new event type with the given service point.
+	 *
+	 * @param palvelupiste the service point
+	 */
 	TapahtumanTyyppi(String palvelupiste) {
 		this.palvelupiste = palvelupiste;
 	}
-
-
+	/**
+	 * Gets the service point for this event type.
+	 *
+	 * @return the service point
+	 */
 	public String getPalvelupiste() {
 		return palvelupiste;
 	}
-
-
 }

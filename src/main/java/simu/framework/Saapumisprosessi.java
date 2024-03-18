@@ -1,8 +1,9 @@
 package simu.framework;
+
 import eduni.distributions.*;
 import simu.model.TapahtumanTyyppi;
+
 public class Saapumisprosessi {
-	
 	private ContinuousGenerator generaattori;
 	private Tapahtumalista eventList;
 	private TapahtumanTyyppi tyyppi;
@@ -17,5 +18,4 @@ public class Saapumisprosessi {
 		Tapahtuma t = new Tapahtuma(tyyppi, Kello.getInstance().getAika()+generaattori.sample());
 		eventList.lisaa(t);
 	}
-
 }

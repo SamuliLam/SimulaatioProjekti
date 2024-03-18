@@ -1,16 +1,30 @@
 package simu.model.Tuotehallinta;
 
 import java.util.HashMap;
-import java.util.Random;
-
+/**
+ * This class represents the groceries in the simulation model.
+ * It manages the different categories of products and their prices.
+ */
 public class Groceries {
+    /**
+     * The meat products in the simulation.
+     */
     private final HashMap<String, Double> LIHATUOTTEET = new HashMap<>();
+    /**
+     * The fish products in the simulation.
+     */
     private final HashMap<String, Double> KALATUOTTEET = new HashMap<>();
-
+    /**
+     * The alcohol products in the simulation.
+     */
     private final HashMap<String, Double> ALKOHOLITUOTTEET = new HashMap<>();
-
+    /**
+     * The candy products in the simulation.
+     */
     private final HashMap<String, Double> KARKKITUOTTEET = new HashMap<>();
-
+    /**
+     * Constructs the groceries with predefined products and their prices.
+     */
     public Groceries() {
         LIHATUOTTEET.put("Atria nautajauheliha", 4.59);
         LIHATUOTTEET.put("Naudan ulkofilee", 19.95);
@@ -28,26 +42,36 @@ public class Groceries {
         KARKKITUOTTEET.put("Remix karkkipussi", 3.49);
         KARKKITUOTTEET.put("Fazer maitosuklaalevy", 3.09);
     }
-
-
-
+    /**
+     * Gets the meat products in the simulation.
+     *
+     * @return the meat products
+     */
     public HashMap<String, Double> getLIHATUOTTEET() {
         return LIHATUOTTEET;
     }
-
+    /**
+     * Gets the fish products in the simulation.
+     *
+     * @return the fish products
+     */
     public HashMap<String, Double> getKALATUOTTEET() {
         return KALATUOTTEET;
     }
-
+    /**
+     * Gets the alcohol products in the simulation.
+     *
+     * @return the alcohol products
+     */
     public HashMap<String, Double> getALKOHOLITUOTTEET() {
         return ALKOHOLITUOTTEET;
     }
-
+    /**
+     * Gets the candy products in the simulation.
+     *
+     * @return the candy products
+     */
     public HashMap<String, Double> getKARKKITUOTTEET() {
         return KARKKITUOTTEET;
     }
-
-
-
-
 }
