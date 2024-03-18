@@ -1,28 +1,19 @@
-package view;
-
-import dao.AsiakasOstoslistaDAO;
-import datasource.MariaDbConnection;
+package view.charts;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
-import simu.model.OmaMoottori;
 import simu.model.TapahtumanTyyppi;
-
-import java.sql.SQLException;
 import java.util.HashMap;
-
-public class VisualisointiTuotteet extends StackPane {
+public class TuoteChart extends StackPane {
     private BarChart<String, Number> barChart;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
     private final int w;
     private final int h;
-
-
-    public VisualisointiTuotteet(int w, int h) {
+    public TuoteChart(int w, int h) {
         super();
         this.w = w;
         this.h = h;
@@ -31,7 +22,6 @@ public class VisualisointiTuotteet extends StackPane {
         createBarChart();
         this.getChildren().add(barChart);
     }
-
     public void createBarChart() {
         barChart = new BarChart<>(xAxis, yAxis);
         barChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Add this line
@@ -41,7 +31,6 @@ public class VisualisointiTuotteet extends StackPane {
         yAxis.setTickUnit(1);
         // Adjust this value as needed
     }
-
     public void updateSoldProductsData(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts) {
         barChart.getData().clear();
         for (TapahtumanTyyppi category : soldProducts.keySet()) {
@@ -54,7 +43,6 @@ public class VisualisointiTuotteet extends StackPane {
             barChart.getData().add(series);
         }
     }
-
     @Override
     public Node getStyleableNode() {
         return super.getStyleableNode();

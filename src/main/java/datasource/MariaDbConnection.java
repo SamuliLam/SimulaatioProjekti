@@ -5,9 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MariaDbConnection {
-
     private static Connection conn = null;
-
     public static Connection getConnection() {
         if (conn==null) {
             try {
@@ -21,14 +19,6 @@ public class MariaDbConnection {
         }
         else {
             return conn;
-        }
-    }
-
-    public static void terminate() {
-        try {
-            getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

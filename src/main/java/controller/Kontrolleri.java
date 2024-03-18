@@ -6,34 +6,25 @@ import simu.model.Asiakas;
 import simu.model.OmaMoottori;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
-import view.GUIKontrolleri;
-import view.ISimulaattorinUI;
+import view.rajapinnat.ISimulaattorinUI;
 
 import java.util.HashMap;
 
-public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UUSI
-
+public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
     private IMoottori moottori;
     private ISimulaattorinUI ui;
-
-    private Asiakas asiakas;
-    private Palvelupiste palvelupiste;
-
-    private GUIKontrolleri guiKontrolleri;
 
     public Kontrolleri(ISimulaattorinUI ui) {
         this.ui = ui;
     }
-    // Moottorin ohjausta:
 
     @Override
     public void kaynnistaSimulointi() {
-        moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
+        moottori = new OmaMoottori(this);
         moottori.setSimulointiaika(ui.getAika());
         moottori.setViive(ui.getViive());
         ui.getVisualisointi().tyhjennaNaytto();
         ((Thread) moottori).start();
-        //((Thread)moottori).run(); // Ei missään tapauksessa näin. Miksi?
     }
 
     @Override
@@ -41,8 +32,6 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         moottori.setViive((long) (moottori.getViive() * 1.10));
     }
 
-
-    // Hae ja välitä ikäjakauma modelin ja viewin välillä
     @Override
     public HashMap<Integer, Integer> getAgeDistribution() {
         return Asiakas.getAgeDistribution();
@@ -63,7 +52,7 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     }
 
     @Override
-    public double getSaapumisValiaika(){
+    public double getSaapumisValiaika() {
         return ui.getSaampumisValiaika();
     }
 
@@ -92,13 +81,13 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         moottori.setViive((long) (moottori.getViive() * 0.9));
     }
 
-
-    // Simulointitulosten välittämistä käyttöliittymään.
-    // Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
-
     @Override
     public void naytaLoppuaika(double aika) {
-        Platform.runLater(() -> ui.setLoppuaika(aika));
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ui.getVisualisointi().naytaLoppuaika(aika);
+            }
+        });
     }
 
     @Override
@@ -165,7 +154,4 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
         int kassat = ui.getKassaValue();
         return kassat;
     }
-
-
-
 }
