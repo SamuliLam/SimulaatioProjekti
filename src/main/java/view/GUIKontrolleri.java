@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class GUIKontrolleri implements ISimulaattorinUI {
     private IKontrolleriForV kontrolleri;
-    private IVisualisointi visualisointi = null; // Työjuhta
+    private IVisualisointi visualisointi = null;
     @FXML
     private Canvas topConsoleCanvas;
     @FXML
@@ -138,10 +138,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return visualisointi;
     }
 
-    @Override
-    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
-        visualisointi.updateAgeDistribution(ageDistribution);
-    }
 
     public void setTuloste(String tuloste) {
         bottomConsole.appendText(tuloste);
@@ -237,10 +233,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return kassaValue;
     }
 
-    @Override
-    public void setLoppuaika(double aika) {
-        // TODO
-    }
 
     private void handleAgeDistribution(BorderPane layout, IkajakaumaChart statisticCanvas) {
         HashMap<Integer, Integer> ageDistribution = kontrolleri.getAgeDistribution();
