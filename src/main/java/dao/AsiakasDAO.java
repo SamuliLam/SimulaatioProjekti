@@ -18,8 +18,8 @@ public class AsiakasDAO {
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             for (Asiakas asiakas : asiakasList) {
                 statement.setInt(1, asiakas.getIka());
-                statement.setDouble(2, asiakas.getarrivalTime());
-                statement.setDouble(3, asiakas.getdepartureTime());
+                statement.setDouble(2, asiakas.getArrivalTime());
+                statement.setDouble(3, asiakas.getDepartureTime());
                 statement.setDouble(4, asiakas.getSpentMoney());
                 statement.setInt(5, simulationRunNumber);
                 statement.addBatch();
@@ -55,7 +55,7 @@ public class AsiakasDAO {
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             for (Asiakas asiakas : asiakasList) {
-                statement.setDouble(1, asiakas.getdepartureTime());
+                statement.setDouble(1, asiakas.getDepartureTime());
                 statement.setInt(2, asiakas.getId());
                 statement.setInt(3, simulationRunNumber);
                 statement.addBatch();

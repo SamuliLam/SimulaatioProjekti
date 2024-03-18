@@ -14,256 +14,277 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 
-
+/**
+ * This class represents the main engine of the simulation model.
+ * It manages the arrival process, service points, and executes the simulation events.
+ */
 public class OmaMoottori extends Moottori {
+    /**
+     * The arrival process of the simulation.
+     */
+    private Saapumisprosessi arrivalProcess;
+    /**
+     * The amount of checkouts in the simulation.
+     */
+    private int amountOfCheckouts = 1;
+    /**
+     * The service points in the simulation.
+     */
+    private Palvelupiste[] servicePoints;
+    private static SimulationRunDAO SimulationRunDAO = new SimulationRunDAO(MariaDbConnection.getConnection());
+    private static int simulationRunNumber = SimulationRunDAO.getLastRunNumber() + 1;
 
-	private Saapumisprosessi arrivalProcess;
+    /**
+     * Constructs a new simulation engine with the given controller.
+     *
+     * @param controller the controller interface for this simulation engine
+     */
+    public OmaMoottori(IKontrolleriForM controller) {
+        super(controller);
+        servicePoints = new Palvelupiste[8];
+        servicePoints[0] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.MEATDEP);
+        servicePoints[1] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.BEERDEP);
+        servicePoints[2] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.FISHDEP);
+        servicePoints[3] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CANDYDEP);
+        servicePoints[4] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP);
+        servicePoints[5] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP2);
+        servicePoints[6] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
+        servicePoints[7] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
+        arrivalProcess = new Saapumisprosessi(new Negexp(controller.getSaapumisValiaika(), 5), eventList, TapahtumanTyyppi.ARRMARKET);
+        controller.updateMeatDepActivity(false);
+        controller.updateBeerDepActivity(false);
+        controller.updateFishDepActivity(false);
+        controller.updateCandyDepActivity(false);
+    }
 
-	private int amountOfCheckouts = 1;
-	private Palvelupiste[] servicePoints;
-	static SimulationRunDAO SimulationRunDAO = new SimulationRunDAO(MariaDbConnection.getConnection());
+    /**
+     * Initializes the first arrival process.
+     */
+    @Override
+    protected void alustukset() {
+        arrivalProcess.generoiSeuraava();
+    }
 
-	private static int simulationRunNumber = SimulationRunDAO.getLastRunNumber() + 1;
+    /**
+     * Executes the given event in the simulation.
+     *
+     * @param t the event to execute
+     */
+    @Override
+    protected void suoritaTapahtuma(Tapahtuma t) throws SQLException {
+        Asiakas customer;
+        amountOfCheckouts = controller.setKassaMaara();
+        System.out.println("Kassojen määrä: " + amountOfCheckouts);
+        int palvelupisteValitsin = 0;
+        switch (t.getTyyppi()) {
+            case ARRMARKET:
+                customer = new Asiakas();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.ARRMARKET);
+                palvelupisteValitsin = checkForEnumType(customer);
+                servicePoints[palvelupisteValitsin].addToQue(customer);
+                arrivalProcess.generoiSeuraava();
+                controller.visualisoiAsiakas();
+                break;
+            case MEATDEP:
+                customer = servicePoints[0].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.MEATDEP);
+                palvelupisteValitsin = checkForEnumType(customer);
+                servicePoints[palvelupisteValitsin].addToQue(customer);
+                break;
+            case BEERDEP:
+                customer = servicePoints[1].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.BEERDEP);
+                palvelupisteValitsin = checkForEnumType(customer);
+                servicePoints[palvelupisteValitsin].addToQue(customer);
+                break;
+            case FISHDEP:
+                customer = servicePoints[2].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.FISHDEP);
+                palvelupisteValitsin = checkForEnumType(customer);
+                servicePoints[palvelupisteValitsin].addToQue(customer);
+                break;
+            case CANDYDEP:
+                customer = servicePoints[3].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.CANDYDEP);
+                palvelupisteValitsin = checkForEnumType(customer);
+                servicePoints[palvelupisteValitsin].addToQue(customer);
+                break;
+            case CHECKOUTDEP:
+                customer = servicePoints[4].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+                customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+                Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+                customer.addSoldProducts();
+                customer.setDepartureTime(Kello.getInstance().getAika());
+                customer.customerReport();
+                controller.asiakasPoistuu();
+                break;
+            case CHECKOUTDEP2:
+                customer = servicePoints[5].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+                customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+                Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+                customer.addSoldProducts();
+                customer.setDepartureTime(Kello.getInstance().getAika());
+                customer.customerReport();
+                controller.asiakasPoistuu();
+                break;
+            case CHECKOUTDEP3:
+                customer = servicePoints[6].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+                customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+                Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+                customer.addSoldProducts();
+                customer.setDepartureTime(Kello.getInstance().getAika());
+                customer.customerReport();
+                controller.asiakasPoistuu();
+                break;
+            case CHECKOUTDEP4:
+                customer = servicePoints[7].takeFromQue();
+                removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
+                customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
+                Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
+                customer.addSoldProducts();
+                customer.setDepartureTime(Kello.getInstance().getAika());
+                customer.customerReport();
+                controller.asiakasPoistuu();
+                break;
+        }
+    }
 
-	public OmaMoottori(IKontrolleriForM controller) {
+    /**
+     * Checks for the type of service point to be selected for the given customer.
+     *
+     * @param asiakas the customer to check
+     * @return the index of the service point to select
+     */
+    private int checkForEnumType(Asiakas asiakas) {
+        HashSet<TapahtumanTyyppi> servicePointList = asiakas.getServicePointList();
+        if (servicePointList.contains(TapahtumanTyyppi.MEATDEP)) {
+            return 0;
+        } else if (servicePointList.contains(TapahtumanTyyppi.BEERDEP)) {
+            return 1;
+        } else if (servicePointList.contains(TapahtumanTyyppi.FISHDEP)) {
+            return 2;
+        } else if (servicePointList.contains(TapahtumanTyyppi.CANDYDEP)) {
+            return 3;
+        } else {
+            return selectCheckoutPoint();
+        }
+    }
 
-		super(controller);
+    /**
+     * Selects the checkout point for the customer.
+     *
+     * @return the index of the checkout point to select
+     */
+    private int selectCheckoutPoint() {
+        switch (amountOfCheckouts) {
+            case 1:
+                return 4;
+            case 2:
+                return servicePoints[4].getQueSize() < 4 ? 4 : 5;
+            case 3:
+                if (servicePoints[4].getQueSize() < 3) {
+                    return 4;
+                } else if (servicePoints[5].getQueSize() < 4) {
+                    return 5;
+                } else {
+                    return 6;
+                }
+            case 4:
+                if (servicePoints[4].getQueSize() < 2) {
+                    return 4;
+                } else if (servicePoints[5].getQueSize() < 3) {
+                    return 5;
+                } else if (servicePoints[6].getQueSize() < 4) {
+                    return 6;
+                } else {
+                    return 7;
+                }
+            default:
+                return 4;
+        }
+    }
 
-		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
+    /**
+     * Removes the given enum from the service point list of the given customer.
+     *
+     * @param asiakas    the customer to remove the enum from
+     * @param servedType the enum to remove
+     */
+    private void removeEnumFromservicePointList(Asiakas asiakas, TapahtumanTyyppi servedType) {
+        TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
+        asiakas.getServicePointList().remove(arrmarket);
+        asiakas.getServicePointList().remove(servedType);
+        Trace.out(Trace.Level.INFO, "Asiakkaan " + asiakas.getId() + " servicePointListsta poistettu: " + servedType);
+    }
 
-		servicePoints = new Palvelupiste[8];
+    /**
+     * Tries to execute the next event in the simulation.
+     */
+    @Override
+    protected void yritaCTapahtumat() {
+        controller.updateMeatDepActivity(servicePoints[0].isReserved());
+        controller.updateFishDepActivity(servicePoints[2].isReserved());
+        controller.updateCandyDepActivity(servicePoints[3].isReserved());
+        for (Palvelupiste p : servicePoints) {
+            if (!p.isReserved() && p.inQue()) {
+                p.startService();
+            }
+        }
+    }
 
-		servicePoints[0] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.MEATDEP);
-		servicePoints[1] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.BEERDEP);
-		servicePoints[2] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.FISHDEP);
-		servicePoints[3] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CANDYDEP);
-		servicePoints[4] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP);
-		servicePoints[5] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP2);
-		servicePoints[6] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP3);
-		servicePoints[7] = new Palvelupiste(new Normal(controller.getPalveluaikaMean(), controller.getPalveluaikaVarianssi()), eventList, TapahtumanTyyppi.CHECKOUTDEP4);
+    /**
+     * Updates the simulation statistics.
+     */
+    @Override
+    protected void tulokset() {
+        StringBuilder tulokset = new StringBuilder();
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        //double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+        tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
+        for (Palvelupiste p : servicePoints) {
+            tulokset.append(p.customerReport()).append("\n");
+        }
+        tulokset.append(Asiakas.customersReport()).append("\n");
 
-		arrivalProcess = new Saapumisprosessi(new Negexp(controller.getSaapumisValiaika(), 5), eventList, TapahtumanTyyppi.ARRMARKET);
+        // UUTTA graafista
+        controller.naytaLoppuaika(Kello.getInstance().getAika());
 
-		controller.updateMeatDepActivity(false);
-		controller.updateBeerDepActivity(false);
-		controller.updateFishDepActivity(false);
-		controller.updateCandyDepActivity(false);
-	}
+        controller.naytaTulokset(tulokset.toString());
 
+        // Lisätään simulointiajon numero
+        SimulationRunDAO.addNewRunNumber();
+        persistSimulationData();
+    }
 
-	@Override
-	protected void alustukset() {
-		arrivalProcess.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
-	}
+    /**
+     * Persists the simulation data to the database.
+     */
+    public void persistSimulationData() {
+        try {
+            AsiakasDAO asiakasDao = new AsiakasDAO(MariaDbConnection.getConnection());
+            asiakasDao.saveAllAsiakas(Asiakas.getCustomers(), getSimulationRunNumber());
+            asiakasDao.updateSpentMoney(Asiakas.getCustomers(), getSimulationRunNumber());
+            asiakasDao.updatePoistumisaika(Asiakas.getCustomers(), getSimulationRunNumber());
 
-	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) throws SQLException {  // B-vaiheen tapahtumat
-		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
-		Asiakas customer;
-		amountOfCheckouts = controller.setKassaMaara();
-		System.out.println("Kassojen määrä: " + amountOfCheckouts);
-		int palvelupisteValitsin = 0;
-		switch (t.getTyyppi()) {
-			case ARRMARKET:
-				customer = new Asiakas();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.ARRMARKET);
-				palvelupisteValitsin = checkForEnumType(customer);
-				servicePoints[palvelupisteValitsin].addToQue(customer);
-				arrivalProcess.generoiSeuraava();
-				controller.visualisoiAsiakas(); // UUSI
-				break;
-			case MEATDEP:
-				customer = servicePoints[0].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.MEATDEP);
-				palvelupisteValitsin = checkForEnumType(customer);
-				servicePoints[palvelupisteValitsin].addToQue(customer);
-				break;
-			case BEERDEP:
-				customer = servicePoints[1].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.BEERDEP);
-				palvelupisteValitsin = checkForEnumType(customer);
-				servicePoints[palvelupisteValitsin].addToQue(customer);
-				break;
-			case FISHDEP:
-				customer = servicePoints[2].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.FISHDEP);
-				palvelupisteValitsin = checkForEnumType(customer);
-				servicePoints[palvelupisteValitsin].addToQue(customer);
-				break;
-			case CANDYDEP:
-				customer = servicePoints[3].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CANDYDEP);
-				palvelupisteValitsin = checkForEnumType(customer);
-				servicePoints[palvelupisteValitsin].addToQue(customer);
-				break;
-			case CHECKOUTDEP:
-				customer = servicePoints[4].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
-				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
-				customer.addSoldProducts();
-				customer.setdepartureTime(Kello.getInstance().getAika());
-				customer.report();
-				controller.asiakasPoistuu();
-				break;
-			case CHECKOUTDEP2:
-				customer = servicePoints[5].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
-				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
-				customer.addSoldProducts();
-				customer.setdepartureTime(Kello.getInstance().getAika());
-				customer.report();
-				controller.asiakasPoistuu();
-				break;
-			case CHECKOUTDEP3:
-				customer = servicePoints[6].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
-				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
-				customer.addSoldProducts();
-				customer.setdepartureTime(Kello.getInstance().getAika());
-				customer.report();
-				controller.asiakasPoistuu();
-				break;
-			case CHECKOUTDEP4:
-				customer = servicePoints[7].takeFromQue();
-				removeEnumFromservicePointList(customer, TapahtumanTyyppi.CHECKOUTDEP);
-				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
-				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
-				customer.addSoldProducts();
-				customer.setdepartureTime(Kello.getInstance().getAika());
-				customer.report();
-				controller.asiakasPoistuu();
-				break;
-		}
-	}
-	private int checkForEnumType(Asiakas asiakas) {
-		try {
-			HashSet<TapahtumanTyyppi> servicePointList = asiakas.getservicePointList();
-			int palvelupisteValitsija = 0;
-			if (servicePointList.contains(TapahtumanTyyppi.MEATDEP)) {
-				palvelupisteValitsija = 0;
-			} else if (servicePointList.contains(TapahtumanTyyppi.BEERDEP)) {
-				palvelupisteValitsija = 1;
-			} else if (servicePointList.contains(TapahtumanTyyppi.FISHDEP)) {
-				palvelupisteValitsija = 2;
-			} else if (servicePointList.contains(TapahtumanTyyppi.CANDYDEP)) {
-				palvelupisteValitsija = 3;
-			}
-			else
-			{
-				switch (amountOfCheckouts) {
-					case 1:
-						palvelupisteValitsija = 4;
-						break;
-					case 2:
-						if (servicePoints[4].getQueSize() < 4) {
-							palvelupisteValitsija = 4;
-						} else if (servicePoints[5].getQueSize() < 6) {
-							palvelupisteValitsija = 5;
-						}
-						break;
-					case 3:
-						if (servicePoints[4].getQueSize() < 3) {
-							palvelupisteValitsija = 4;
-						} else if (servicePoints[5].getQueSize() < 4) {
-							palvelupisteValitsija = 5;
-						}
-						else if (servicePoints[6].getQueSize() < 6) {
-							palvelupisteValitsija = 6;
-						}
-						break;
-					case 4:
-						if (servicePoints[4].getQueSize() < 2) {
-							palvelupisteValitsija = 4;
-						} else if (servicePoints[5].getQueSize() < 3) {
-							palvelupisteValitsija = 5;
-						}
-						else if (servicePoints[6].getQueSize() < 4) {
-							palvelupisteValitsija = 6;
-						} else if (servicePoints[7].getQueSize() < 6) {
-							palvelupisteValitsija = 7;
-						}
-						break;
-					default:
-						palvelupisteValitsija = 4;
-						break;
-				}
-			}
-			System.out.println("Current palvelupiste: " + palvelupisteValitsija);
-			return palvelupisteValitsija;
-		} catch (NullPointerException e) {
-			// Virheen näyttääminen
-			System.out.println("Error: ruokalista is null.");
-			e.printStackTrace();
-			return -1; // palauttaa
-		}
-	}
-	private void removeEnumFromservicePointList(Asiakas asiakas, TapahtumanTyyppi servedType) {
-		TapahtumanTyyppi arrmarket = TapahtumanTyyppi.ARRMARKET;
-		asiakas.getservicePointList().remove(arrmarket);
-		asiakas.getservicePointList().remove(servedType);
-		Trace.out(Trace.Level.INFO,"Asiakkaan " + asiakas.getId() + " servicePointListsta poistettu: " + servedType);
-	}
+            AsiakasOstoslistaDAO ostoslistaDao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+            ostoslistaDao.saveAllSoldProducts(Asiakas.getSoldProducts(), getSimulationRunNumber());
 
-	@Override
-	protected void yritaCTapahtumat() {
-		controller.updateMeatDepActivity(servicePoints[0].isReserved());
-		controller.updateFishDepActivity(servicePoints[2].isReserved());
-		controller.updateCandyDepActivity(servicePoints[3].isReserved());
-		for (Palvelupiste p : servicePoints) {
-			if (!p.isReserved() && p.inQue()) {
-				p.startService();
-			}
-		}
-	}
-
-	@Override
-	protected void tulokset() {
-		StringBuilder tulokset = new StringBuilder();
-		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-		//double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
-		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
-		for (Palvelupiste p : servicePoints) {
-			tulokset.append(p.report()).append("\n");
-		}
-		tulokset.append(Asiakas.completeReport()).append("\n");
-
-		// UUTTA graafista
-		controller.naytaLoppuaika(Kello.getInstance().getAika());
-
-		controller.naytaTulokset(tulokset.toString());
-
-		// Lisätään simulointiajon numero
-		SimulationRunDAO.addNewRunNumber();
-		endSimulation();
-	}
-
-	public void endSimulation() {
-		try {
-			AsiakasDAO asiakasDao = new AsiakasDAO(MariaDbConnection.getConnection());
-			asiakasDao.saveAllAsiakas(Asiakas.getCustomers(), getSimulationRunNumber());
-			asiakasDao.updateSpentMoney(Asiakas.getCustomers(), getSimulationRunNumber());
-			asiakasDao.updatePoistumisaika(Asiakas.getCustomers(), getSimulationRunNumber());
-
-			AsiakasOstoslistaDAO ostoslistaDao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
-			ostoslistaDao.saveAllSoldProducts(Asiakas.getSoldProducts(), getSimulationRunNumber());
-
-			PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
-			palvelupisteDAO.saveAllPalvelupisteData(Palvelupiste.getPalvelupisteet(), getSimulationRunNumber());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void setKassojenMaara(int kassaMaara)
-	{
-		this.amountOfCheckouts = kassaMaara;
-	}
-
-	public static int getSimulationRunNumber() {
-		return simulationRunNumber;
-	}
+            PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
+            palvelupisteDAO.saveAllPalvelupisteData(Palvelupiste.getPalvelupisteet(), getSimulationRunNumber());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Gets the simulation run number.
+     *
+     * @return the simulation run number
+     */
+    public static int getSimulationRunNumber() {
+        return simulationRunNumber;
+    }
 }
 

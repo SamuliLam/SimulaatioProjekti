@@ -1,20 +1,17 @@
-package view;
+package view.charts;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
-import simu.model.Palvelupiste;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VisualisointiPalveluajat extends StackPane {
-
+public class PalveluajatChart extends StackPane {
         private PieChart pieChart;
-
-        public VisualisointiPalveluajat(int w, int h) {
+        public PalveluajatChart(int w, int h) {
             super();
             pieChart = new PieChart();
             pieChart.setPrefSize(w, h);

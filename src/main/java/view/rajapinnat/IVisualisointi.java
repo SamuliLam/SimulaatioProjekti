@@ -1,4 +1,4 @@
-package view;
+package view.rajapinnat;
 
 
 public interface IVisualisointi {

@@ -2,8 +2,6 @@ package controller;
 
 public interface IKontrolleriForM {
 
-    // Rajapinta, joka tarjotaan moottorille:
-
     void naytaLoppuaika(double aika);
     void visualisoiAsiakas();
     void asiakasPoistuu();

@@ -1,4 +1,4 @@
-package view;
+package view.charts;
 
 import javafx.scene.Node;
 import javafx.scene.chart.*;
@@ -7,12 +7,11 @@ import simu.model.Asiakas;
 import javafx.scene.chart.AreaChart;
 import java.util.*;
 
-public class VisualisointiRahankaytto extends StackPane {
+public class RahankayttoChart extends StackPane {
     private AreaChart<String, Number> areaChart;;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
-
-    public VisualisointiRahankaytto(int w, int h) {
+    public RahankayttoChart(int w, int h) {
         super();
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();

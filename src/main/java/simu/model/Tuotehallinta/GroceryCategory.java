@@ -4,6 +4,7 @@ package simu.model.Tuotehallinta;
 import simu.model.TapahtumanTyyppi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 

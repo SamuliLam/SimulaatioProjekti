@@ -1,5 +1,4 @@
-package view;
-
+package view.charts;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.CategoryAxis;
@@ -10,13 +9,11 @@ import javafx.scene.layout.StackPane;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
-public class VisualisointiIkajakauma extends StackPane {
+public class IkajakaumaChart extends StackPane {
     private final LineChart<String, Number> lineChart;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
-
-    public VisualisointiIkajakauma(int w, int h) {
+    public IkajakaumaChart(int w, int h) {
         super();
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();

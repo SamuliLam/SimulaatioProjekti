@@ -113,8 +113,11 @@ public class Palvelupiste {
 
 
     }
-
-    public double getAverageServiceTime(){
+    /**
+     * Calculates the average service time.
+     * @return the average service time
+     */
+    public double getAverageServiceTime() {
         double sum = 0;
         for (double d : serviceTimes) {
             sum += d;
@@ -151,15 +154,30 @@ public class Palvelupiste {
         return serviceTimesPerServicePoint;
     }
 
+    /**
+     * Gets the event type to be scheduled at this service point.
+     *
+     * @return the event type to be scheduled
+     */
     public TapahtumanTyyppi getEventTypeToBeScheduled() {
         return eventTypeToBeScheduled;
     }
 
-    public Integer getServiceTimeSize(){
+    /**
+     * Gets the number of service times.
+     *
+     * @return the number of service times
+     */
+    public Integer getServiceTimeSize() {
         return serviceTimes.size();
     }
 
-    public static List<Palvelupiste> getPalvelupisteet(){
+    /**
+     * Returns the list of all service points.
+     *
+     * @return the list of service points
+     */
+    public static List<Palvelupiste> getPalvelupisteet() {
         return palvelupisteet;
     }
 

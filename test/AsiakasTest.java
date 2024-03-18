@@ -31,7 +31,7 @@ public class AsiakasTest {
     }
     @Test
     public void testGenerateRandomRuokalista() {
-        HashSet<TapahtumanTyyppi> servicePointList = asiakas.getservicePointList();
+        HashSet<TapahtumanTyyppi> servicePointList = asiakas.getServicePointList();
         assertTrue(servicePointList.contains(TapahtumanTyyppi.ARRMARKET));
         assertTrue(servicePointList.contains(TapahtumanTyyppi.CHECKOUTDEP));
     }
