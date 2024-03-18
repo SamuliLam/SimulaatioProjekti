@@ -5,9 +5,7 @@ import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
 import simu.model.Tuotehallinta.Item;
-import dao.AsiakasOstoslistaDAO;
 import datasource.MariaDbConnection;
-
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -36,9 +34,9 @@ public class Asiakas {
     private double spentMoney;
 
     public Asiakas() throws SQLException {
-        // Tarkistetaan edellisen asiakkaan id tietokannasta ja lisätään yksi
-        AsiakasDAO dao = new AsiakasDAO(MariaDbConnection.getConnection());
-        this.id = i++;
+        AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
+        i = dao_customer.getMaxId() + 1;
+        id = i++;
         // servicePointList määrätään asiakkaalle
         servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -51,7 +49,6 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printGroceryList());
         updateAgeDistribution(customerAge);
         customers.add(this);
-        AsiakasDAO dao_customer = new AsiakasDAO(MariaDbConnection.getConnection());
     }
 
     // GETTERIT JA SETTERIT

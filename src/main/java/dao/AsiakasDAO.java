@@ -4,6 +4,7 @@ import simu.model.Asiakas;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -56,6 +57,17 @@ public class AsiakasDAO {
                 statement.addBatch();
             }
             statement.executeBatch();
+        }
+    }
+
+    public int getMaxId() throws SQLException {
+        String query = "SELECT MAX(asiakas_id) FROM Asiakas";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        } else {
+            return 0;
         }
     }
 
