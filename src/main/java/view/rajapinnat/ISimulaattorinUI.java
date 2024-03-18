@@ -1,5 +1,4 @@
 package view.rajapinnat;
-import java.util.HashMap;
 
 public interface ISimulaattorinUI {
 	

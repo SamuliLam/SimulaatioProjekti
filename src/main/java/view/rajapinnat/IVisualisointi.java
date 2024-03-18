@@ -15,6 +15,5 @@ public interface IVisualisointi {
 
 	void updateCandyDepActivity(boolean isReserved);
 
-
 }
 
