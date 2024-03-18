@@ -24,4 +24,9 @@ This application is a simulation of a grocery store. The aim is to simulate the 
     - Bottom console displays the final statistics of the simulation.
   - ### Statistics
     - Statistics of the simulation are able to be viewed in various charts by navigating to the "Avaa statistiikka" - button.
-
+## Database connection
+-![Application main view](./src/main/resources/images/DatabaseError.png)
+  - As the Graphical User Interface opens and the application starts at the top right corner, the status of the database connection is displayed. The bottom console also displays a message if the database connection has not been established.
+  - In the above image, the status of the database connection has not been established. The status of the database connection is displayed with red color and an information message.
+-![Application main view](./src/main/resources/images/DatabaseSuccess.png)
+  - In the above image, the status of the database connection has been established. The status of the database connection is displayed with green color and an information message.
