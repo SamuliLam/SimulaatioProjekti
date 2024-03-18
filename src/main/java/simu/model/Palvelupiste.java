@@ -116,8 +116,10 @@ public class Palvelupiste {
 
     public double getAverageServiceTime(){
         double sum = 0;
-        double average = !serviceTimes.isEmpty() ? sum / serviceTimes.size() : 0;
-        return average;
+        for (double d : serviceTimes) {
+            sum += d;
+        }
+        return !serviceTimes.isEmpty() ? sum / serviceTimes.size() : 0;
     }
 
 
