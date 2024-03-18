@@ -1,8 +1,6 @@
 package simu.model;
 
-import java.text.DecimalFormat;
-import java.util.*;
-
+import dao.AsiakasDAO;
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
@@ -10,20 +8,28 @@ import simu.framework.Tapahtumalista;
 import simu.framework.Trace;
 import simu.model.Tuotehallinta.GroceryCategory;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+
 
 public class Palvelupiste {
 
-	private final LinkedList<Asiakas> que = new LinkedList<>(); // Tietorakennetoteutus
-	private final ContinuousGenerator generator;
-	private final Tapahtumalista eventList;
-	private final TapahtumanTyyppi eventTypeToBeScheduled;
-	private static final HashMap<String, Integer> servicePointVisits = new HashMap<>();
-	private ArrayList<Double> serviceTimes = new ArrayList<>();
+    private final LinkedList<Asiakas> que = new LinkedList<>(); // Tietorakennetoteutus
+    private final ContinuousGenerator generator;
+    private final Tapahtumalista eventList;
+    private final TapahtumanTyyppi eventTypeToBeScheduled;
+    private static final HashMap<String, Integer> servicePointVisits = new HashMap<>();
+    private ArrayList<Double> serviceTimes = new ArrayList<>();
+
+    private static List<Palvelupiste> palvelupisteet = new ArrayList<>();
 
     private double totalTimeServiced = 0.0;
     private static final HashMap<String, Double> serviceTimesPerServicePoint = new HashMap<>();
+
+
 
     //JonoStartegia strategia; //optio: asiakkaiden järjestys
 
@@ -34,13 +40,13 @@ public class Palvelupiste {
         this.eventList = eventList;
         this.generator = generator;
         this.eventTypeToBeScheduled = tyyppi;
-
+        palvelupisteet.add(this);
     }
 
-    public void addToQue(Asiakas a) {   // Jonon 1. asiakas aina palvelussa
+    public void addToQue(Asiakas a) {
         que.add(a);
-
     }
+
 
     public Asiakas takeFromQue() {  // Poistetaan palvelussa ollut
         reserved = false;
@@ -48,8 +54,7 @@ public class Palvelupiste {
     }
 
     public void startService() {
-        //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
-
+        // Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
         Trace.out(Trace.Level.INFO, "Aloitetaan uusi palvelu " + eventTypeToBeScheduled.getPalvelupiste() + " asiakkaalle " + que.peek().getId());
 
         reserved = true;
@@ -60,18 +65,21 @@ public class Palvelupiste {
         // Haetaan asiakas jonosta ja tallennetaan se muuttujaan
         Asiakas customer = que.peek();
 
-        if (customer != null){
-            for (GroceryCategory category : customer.getGroceryList()){
-                if (category.getCategory() == eventTypeToBeScheduled){
+        if (customer != null) {
+            for (GroceryCategory category : customer.getGroceryList()) {
+                if (category.getCategory() == eventTypeToBeScheduled) {
                     customer.addSpentMoney(category.getTotalItemPrice());
                 }
+
             }
         }
 
-		serviceTimes.add(serviceTime);
-		servicePointVisits.put(eventTypeToBeScheduled.getPalvelupiste(), serviceTimes.size());
-		eventList.lisaa(new Tapahtuma(eventTypeToBeScheduled, Kello.getInstance().getAika() + serviceTime));
-	}
+        serviceTimes.add(serviceTime);
+        servicePointVisits.put(eventTypeToBeScheduled.getPalvelupiste(), serviceTimes.size());
+        double tapahtumaAika = Kello.getInstance().getAika() + serviceTime;
+
+        eventList.lisaa(new Tapahtuma(eventTypeToBeScheduled, tapahtumaAika));
+    }
 
     public String report() {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
@@ -82,8 +90,8 @@ public class Palvelupiste {
             sum += d;
         }
         calculateTotalTimePerPalvelupiste();
-        double average = !serviceTimes.isEmpty() ? sum / serviceTimes.size() : 0;
-        String formattedAverage = decimalFormat.format(average);
+
+        String formattedAverage = decimalFormat.format(getAverageServiceTime());
 
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + eventTypeToBeScheduled.getPalvelupiste() + " palveltiin " + serviceTimes.size() + " asiakasta");
         Trace.out(Trace.Level.INFO, "Palvelupisteessä " + eventTypeToBeScheduled.getPalvelupiste() + " palveluaikojen keskiarvo oli " + formattedAverage);
@@ -102,16 +110,26 @@ public class Palvelupiste {
                 .append("\n");
 
         return sb.toString();
+
+
+    }
+
+    public double getAverageServiceTime(){
+        double sum = 0;
+        for (double d : serviceTimes) {
+            sum += d;
+        }
+        return !serviceTimes.isEmpty() ? sum / serviceTimes.size() : 0;
     }
 
 
-    public void calculateTotalTimePerPalvelupiste()
-    {
+    public void calculateTotalTimePerPalvelupiste() {
         for (int i = 0; i < serviceTimes.size(); i++) {
             totalTimeServiced += serviceTimes.get(i);
         }
         serviceTimesPerServicePoint.put(eventTypeToBeScheduled.getPalvelupiste(), totalTimeServiced);
     }
+
     public boolean isReserved() {
         return reserved;
     }
@@ -125,11 +143,24 @@ public class Palvelupiste {
         return que.size();
     }
 
-	public static HashMap<String, Integer> getServicePointVisits()
-	{
-		return servicePointVisits;
-	}
+    public static HashMap<String, Integer> getServicePointVisits() {
+        return servicePointVisits;
+    }
 
-    public static HashMap<String, Double> getServiceTimesPerServicePoint() { return serviceTimesPerServicePoint;}
+    public static HashMap<String, Double> getServiceTimesPerServicePoint() {
+        return serviceTimesPerServicePoint;
+    }
+
+    public TapahtumanTyyppi getEventTypeToBeScheduled() {
+        return eventTypeToBeScheduled;
+    }
+
+    public Integer getServiceTimeSize(){
+        return serviceTimes.size();
+    }
+
+    public static List<Palvelupiste> getPalvelupisteet(){
+        return palvelupisteet;
+    }
 
 }

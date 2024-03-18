@@ -68,6 +68,11 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {   // UU
     }
 
     @Override
+    public double allMoney() {
+        return Asiakas.getTotalSpentMoneyAtCheckout();
+    }
+
+    @Override
     public double getPalveluaikaMean() {
         return ui.getPalveluaikaMean();
     }

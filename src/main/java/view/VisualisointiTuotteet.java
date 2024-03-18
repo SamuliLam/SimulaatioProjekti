@@ -1,13 +1,17 @@
 package view;
 
+import dao.AsiakasOstoslistaDAO;
+import datasource.MariaDbConnection;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
+import simu.model.OmaMoottori;
 import simu.model.TapahtumanTyyppi;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class VisualisointiTuotteet extends StackPane {
@@ -16,6 +20,7 @@ public class VisualisointiTuotteet extends StackPane {
     private final NumberAxis yAxis;
     private final int w;
     private final int h;
+
 
     public VisualisointiTuotteet(int w, int h) {
         super();

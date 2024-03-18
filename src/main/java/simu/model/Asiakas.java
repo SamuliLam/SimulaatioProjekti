@@ -1,10 +1,12 @@
 package simu.model;
 
+import dao.AsiakasDAO;
 import eduni.distributions.Normal;
 import simu.framework.*;
 import simu.model.Tuotehallinta.GroceryCategory;
 import simu.model.Tuotehallinta.Item;
-
+import datasource.MariaDbConnection;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -31,8 +33,9 @@ public class Asiakas {
     private int id;
     private double spentMoney;
 
-    public Asiakas() {
+    public Asiakas() throws SQLException {
         id = i++;
+
         // servicePointList määrätään asiakkaalle
         servicePointList = new HashSet<>();
         groceryList = new ArrayList<>();
@@ -122,7 +125,7 @@ public class Asiakas {
         return departureTime;
     }
 
-    public void setdepartureTime(double departureTime) {
+    public void setdepartureTime(double departureTime) throws SQLException {
         this.departureTime = departureTime;
     }
 
@@ -187,12 +190,13 @@ public class Asiakas {
         return sb.toString();
     }
 
-    public void generateRandomRuokalista() {
+    public void generateRandomRuokalista() throws SQLException {
         // lisätään ARRMARKET pakolliseks ja ensimmäiseksi.
         servicePointList.add(TapahtumanTyyppi.ARRMARKET);
         servicePointList.add(TapahtumanTyyppi.CHECKOUTDEP);
         // asetetaan random määrä ruokatyyppejä asiakkaalle
-        int randomservicePointListSize = random.nextInt(3, TapahtumanTyyppi.values().length);
+        // Miinustetaan tapahtumantyyppi määrästä kaikki oikeat palvelupisteet paitsi yksi, jotta vähintään yksi oikea palvlupiste generoitaisiin
+        int randomservicePointListSize = random.nextInt(TapahtumanTyyppi.values().length - 3, TapahtumanTyyppi.values().length);
 
         System.out.println("servicePointList koko: " + randomservicePointListSize);
 
@@ -220,5 +224,13 @@ public class Asiakas {
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " viipyi: " + (departureTime - arrivalTime));
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " kulutti: " + spentMoney);
         Trace.out(Trace.Level.INFO, "Asiakas " + id + " ruokalista: " + printGroceryList());
+    }
+
+    public int getIka() {
+        return customerAge;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

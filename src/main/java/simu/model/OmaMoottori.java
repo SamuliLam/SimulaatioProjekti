@@ -1,9 +1,16 @@
 package simu.model;
 
 import controller.IKontrolleriForM;
+import dao.AsiakasDAO;
+import dao.AsiakasOstoslistaDAO;
+import dao.PalvelupisteDAO;
+import dao.SimulationRunDAO;
+import datasource.MariaDbConnection;
 import simu.framework.*;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
+
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 
@@ -14,6 +21,9 @@ public class OmaMoottori extends Moottori {
 
 	private int amountOfCheckouts = 1;
 	private Palvelupiste[] servicePoints;
+	static SimulationRunDAO SimulationRunDAO = new SimulationRunDAO(MariaDbConnection.getConnection());
+
+	private static int simulationRunNumber = SimulationRunDAO.getLastRunNumber() + 1;
 
 	public OmaMoottori(IKontrolleriForM controller) {
 
@@ -47,7 +57,7 @@ public class OmaMoottori extends Moottori {
 	}
 
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) {  // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t) throws SQLException {  // B-vaiheen tapahtumat
 		// MEATDEP, BEERDEP, FISHDEP, CANDYDEP, CHECKOUTDEP;
 		Asiakas customer;
 		amountOfCheckouts = controller.setKassaMaara();
@@ -92,6 +102,7 @@ public class OmaMoottori extends Moottori {
 				customer.addSpentMoneyAtCheckout(customer.getSpentMoney());
 				Asiakas.addTotalSpentMoneyAtCheckout(customer.getSpentMoney());
 				customer.addSoldProducts();
+				customer.setdepartureTime(Kello.getInstance().getAika());
 				customer.report();
 				controller.asiakasPoistuu();
 				break;
@@ -212,8 +223,8 @@ public class OmaMoottori extends Moottori {
 	protected void tulokset() {
 		StringBuilder tulokset = new StringBuilder();
 		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-		double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
-		tulokset.append("Simulointi päättyi kello ").append(formattedAika).append("\n");
+		//double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+		tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
 		for (Palvelupiste p : servicePoints) {
 			tulokset.append(p.report()).append("\n");
 		}
@@ -223,6 +234,36 @@ public class OmaMoottori extends Moottori {
 		controller.naytaLoppuaika(Kello.getInstance().getAika());
 
 		controller.naytaTulokset(tulokset.toString());
+
+		// Lisätään simulointiajon numero
+		SimulationRunDAO.addNewRunNumber();
+		endSimulation();
+	}
+
+	public void endSimulation() {
+		try {
+			AsiakasDAO asiakasDao = new AsiakasDAO(MariaDbConnection.getConnection());
+			asiakasDao.saveAllAsiakas(Asiakas.getCustomers(), getSimulationRunNumber());
+			asiakasDao.updateSpentMoney(Asiakas.getCustomers(), getSimulationRunNumber());
+			asiakasDao.updatePoistumisaika(Asiakas.getCustomers(), getSimulationRunNumber());
+
+			AsiakasOstoslistaDAO ostoslistaDao = new AsiakasOstoslistaDAO(MariaDbConnection.getConnection());
+			ostoslistaDao.saveAllSoldProducts(Asiakas.getSoldProducts(), getSimulationRunNumber());
+
+			PalvelupisteDAO palvelupisteDAO = new PalvelupisteDAO(MariaDbConnection.getConnection());
+			palvelupisteDAO.saveAllPalvelupisteData(Palvelupiste.getPalvelupisteet(), getSimulationRunNumber());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setKassojenMaara(int kassaMaara)
+	{
+		this.amountOfCheckouts = kassaMaara;
+	}
+
+	public static int getSimulationRunNumber() {
+		return simulationRunNumber;
 	}
 }
 

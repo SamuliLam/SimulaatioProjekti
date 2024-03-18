@@ -7,7 +7,7 @@ import simu.model.Asiakas;
 import javafx.scene.chart.AreaChart;
 import java.util.*;
 
-public class VisualisointiRahankaytto extends StackPane implements IVisualisointi {
+public class VisualisointiRahankaytto extends StackPane {
     private AreaChart<String, Number> areaChart;;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
@@ -25,9 +25,8 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
 
     // rahankäyttö chartti
 
-    public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas) {
-        double moneyUsed = Asiakas.getTotalSpentMoneyAtCheckout();
-        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f €", moneyUsed);
+    public void updateMoneySpentData(HashMap<Asiakas, Double> spentMoneyPerAsiakas, double allMoneyAtCheckout) {
+        String totalSpentMoney =  "Total Money Spent: " + String.format("%.2f €", allMoneyAtCheckout);
         areaChart = new AreaChart<>(xAxis, yAxis);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName(totalSpentMoney + ".   " + "Money spent per asiakas shown above.");
@@ -50,39 +49,6 @@ public class VisualisointiRahankaytto extends StackPane implements IVisualisoint
 
         this.getChildren().clear(); // Siivoa
         this.getChildren().add(areaChart);
-    }
-    @Override
-    public void tyhjennaNaytto() {
-
-    }
-    @Override
-    public void uusiAsiakas() {
-        // Implement adding a new customer if needed
-    }
-
-    @Override
-    public void asiakasPoistuu() {
-
-    }
-
-    @Override
-    public void updateMeatDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateBeerDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateFishDepActivity(boolean isReserved) {
-
-    }
-
-    @Override
-    public void updateCandyDepActivity(boolean isReserved) {
-
     }
 
     @Override
