@@ -29,7 +29,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private IVisualisointi visualisointi = null;
     @FXML
     private Canvas topConsoleCanvas;
-    private IVisualisointi visualisointi = null; // Työjuhta
+
 
     private Connection conn;
 
@@ -172,10 +172,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return visualisointi;
     }
 
-    @Override
-    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
-
-    }
 
     public void setTuloste(String tuloste) {
         bottomConsole.appendText(tuloste);
