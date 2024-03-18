@@ -2,6 +2,7 @@ package view;
 
 import controller.IKontrolleriForV;
 import controller.Kontrolleri;
+import datasource.MariaDbConnection;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +16,8 @@ import simu.framework.Trace;
 import simu.model.Asiakas;
 import simu.model.TapahtumanTyyppi;
 import javafx.scene.image.ImageView;
+
+import java.sql.Connection;
 import view.charts.*;
 import view.rajapinnat.ISimulaattorinUI;
 import view.rajapinnat.IVisualisointi;
@@ -26,6 +29,10 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private IVisualisointi visualisointi = null;
     @FXML
     private Canvas topConsoleCanvas;
+    private IVisualisointi visualisointi = null; // Työjuhta
+
+    private Connection conn;
+
     @FXML
     private Button startButton;
     @FXML
@@ -70,6 +77,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     private Tooltip simuPalveluAikaInfoTooltip;
     @FXML
     private Tooltip simuPoikkeamaInfoTooltip;
+    @FXML
+    private Label connLabel;
     private int kassaValue;
     Scene mainScene;
     MainApp mainApp;
@@ -77,6 +86,20 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     @FXML
     public void initialize() {
         kontrolleri = new Kontrolleri(this);
+
+        try {
+            conn = MariaDbConnection.getConnection();
+            if (conn == null) {
+                throw new Exception();
+            }
+            connLabel.setText("Yhteys muodostettu");
+            connLabel.setStyle("-fx-text-fill: #4cff4c");
+        } catch (Exception e) {
+            connLabel.setText("Yhteyttä ei voitu muodostaa");
+            connLabel.setStyle("-fx-text-fill: #d53e3e");
+            bottomConsole.appendText("Tietokantayhteys epäonnistui. Simulaattori ei voi käynnistyä." + "\n");
+        }
+
         Trace.setTraceLevel(Trace.Level.INFO);
 
         if (visualisointi == null) {
@@ -95,6 +118,9 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         hidastaButton.setOnAction(actionEvent -> handleHidasta());
         avaaStatistiikkaButton.setOnAction(actionEvent -> handleAvaaStatistiikka());
 
+        // Bind the canvas size to the size of the parent AnchorPane
+        // This helps to keep the canvas size in sync when the stage is resized
+        // Subtract the padding amount of parent AnchorPane to get the canvas size and nice borders for the canvas
         topConsoleCanvas.widthProperty().bind(canvasConsole.widthProperty().subtract(canvasConsole.getPadding().getLeft() + canvasConsole.getPadding().getRight()));
         topConsoleCanvas.heightProperty().bind(canvasConsole.heightProperty().subtract(canvasConsole.getPadding().getTop() + canvasConsole.getPadding().getBottom()));
     }
@@ -105,6 +131,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         System.out.println("Start");
         startButton.setDisable(true);
     }
+
 
     @FXML
     public void handleNopeuta() {
@@ -123,6 +150,8 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         openStatisticsPage();
     }
 
+
+
     @Override
     public double getAika() {
         return Double.parseDouble(aikaField.getText());
@@ -134,13 +163,26 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     }
 
     @Override
+    public void setLoppuaika(double aika) {
+        // TODO
+    }
+
+    @Override
     public IVisualisointi getVisualisointi() {
         return visualisointi;
     }
 
+    @Override
+    public void updateAgeDistribution(HashMap<Integer, Integer> ageDistribution) {
+
+    }
 
     public void setTuloste(String tuloste) {
         bottomConsole.appendText(tuloste);
+    }
+
+    public Canvas getTopConsoleCanvas() {
+        return topConsoleCanvas;
     }
 
     @Override
@@ -154,7 +196,7 @@ public class GUIKontrolleri implements ISimulaattorinUI {
     }
 
     @Override
-    public double getSaampumisValiaika() {
+    public double getSaampumisValiaika(){
         return Double.parseDouble(saapumisValiaika.getText());
     }
 
