@@ -23,18 +23,39 @@ public class AsiakasOstoslistaDAO {
 
     // Method to save a shopping list to the database
     public void saveAllSoldProducts(HashMap<TapahtumanTyyppi, HashMap<String, Integer>> soldProducts, int simulationRunNumber) throws SQLException {
-        String sql = "INSERT INTO SoldProducts (item_name, quantity, simulation_run_number) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO SoldProducts (item_name, quantity, price, total, simulation_run_number) VALUES (?, ?, ?, ?, ?)";
+        String updateSql = "UPDATE SoldProducts SET quantity = quantity + ?, total = total + ? WHERE item_name = ? AND simulation_run_number = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
             for (Map.Entry<TapahtumanTyyppi, HashMap<String, Integer>> entry : soldProducts.entrySet()) {
                 for (Map.Entry<String, Integer> itemEntry : entry.getValue().entrySet()) {
-                    statement.setString(1, itemEntry.getKey());
-                    statement.setInt(2, itemEntry.getValue());
-                    statement.setInt(3, simulationRunNumber);
-                    statement.addBatch();
+                    String itemName = itemEntry.getKey();
+                    int quantity = itemEntry.getValue();
+                    double price = getProductPrice(itemName);
+                    double total = quantity * price;
+
+                    if (isRowExists(itemName, simulationRunNumber)) {
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                            updateStatement.setInt(1, quantity);
+                            updateStatement.setDouble(2, total);
+                            updateStatement.setString(3, itemName);
+                            updateStatement.setInt(4, simulationRunNumber);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
+                            insertStatement.setString(1, itemName);
+                            insertStatement.setInt(2, quantity);
+                            insertStatement.setDouble(3, price);
+                            insertStatement.setDouble(4, total);
+                            insertStatement.setInt(5, simulationRunNumber);
+                            insertStatement.executeUpdate();
+                        }
+                    }
                 }
             }
-            statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's requirements
         }
     }
 
@@ -71,9 +92,6 @@ public class AsiakasOstoslistaDAO {
 
         return false;
     }
-
-
-
 
 
     public HashMap<String, Integer> getSoldProducts(int simulationRunNumber) throws SQLException {
