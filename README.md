@@ -4,4 +4,4 @@ This application is a simulation of a grocery store. The aim is to simulate the 
 
 ## Instructions
 - Start the simulation by running the `main.java` file.
-- ![Application main view](resources/images/Main.png)
+  ![Application main view](./resources/images/Main.png)
