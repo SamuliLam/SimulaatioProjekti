@@ -14,6 +14,7 @@ public interface ISimulaattorinUI {
 
     int getKassaValue();
 
+
     IVisualisointi getVisualisointi();
 
     void setTuloste(String tulokset);

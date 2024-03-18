@@ -38,6 +38,7 @@ public class Visualisointi implements IVisualisointi {
         gc.fillText("Kalatiskin aktiivisuus: ", 50, 125);
         gc.fillText("Karkkihyllyn aktiivisuus: ", 50, 150);
         gc.fillText("Palvellut asiakkaat: ", 50, 175);
+        gc.fillText("Loppuaika: ", 50, 200);
     }
 
     public void asiakasPoistuu() {
@@ -91,5 +92,12 @@ public class Visualisointi implements IVisualisointi {
             gc.fillOval(265, 132, 20, 20);
             ;
         }
+    }
+
+    @Override
+    public void naytaLoppuaika(double aika) {
+        gc.setFont(new Font(20));
+        gc.setFill(Color.BLACK);
+        gc.fillText(aika + "", 150, 200);
     }
 }

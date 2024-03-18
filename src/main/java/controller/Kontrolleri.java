@@ -7,11 +7,13 @@ import simu.model.OmaMoottori;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
 import view.rajapinnat.ISimulaattorinUI;
+
 import java.util.HashMap;
 
 public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
     private IMoottori moottori;
     private ISimulaattorinUI ui;
+
     public Kontrolleri(ISimulaattorinUI ui) {
         this.ui = ui;
     }
@@ -81,7 +83,11 @@ public class Kontrolleri implements IKontrolleriForM, IKontrolleriForV {
 
     @Override
     public void naytaLoppuaika(double aika) {
-        Platform.runLater(() -> ui.setLoppuaika(aika));
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ui.getVisualisointi().naytaLoppuaika(aika);
+            }
+        });
     }
 
     @Override
