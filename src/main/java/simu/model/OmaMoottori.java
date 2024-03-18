@@ -249,7 +249,6 @@ public class OmaMoottori extends Moottori {
         }
         tulokset.append(Asiakas.customersReport()).append("\n");
 
-        // UUTTA graafista
         controller.naytaLoppuaika(formattedAika);
 
         controller.naytaTulokset(tulokset.toString());
