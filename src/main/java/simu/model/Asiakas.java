@@ -41,10 +41,14 @@ public class Asiakas {
         customerAge = (int) (ageRandom.sample());
         spentMoney = 0;
         arrivalTime = Kello.getInstance().getAika();
-        Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + arrivalTime + " ja on " + customerAge + " vuotias.");
-        Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printGroceryList());
         updateAgeDistribution(customerAge);
         customers.add(this);
+        customerCreationInfo();
+    }
+
+    public void customerCreationInfo() {
+        Trace.out(Trace.Level.INFO, "Uusi asiakas nro " + id + " saapui klo " + arrivalTime + " ja on " + customerAge + " vuotias.");
+        Trace.out(Trace.Level.INFO, "Asiakkaan " + getId() + " ruokalista: \n" + printGroceryList());
     }
 
     // GETTERIT JA SETTERIT

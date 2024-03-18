@@ -14,7 +14,4 @@ public class Trace {
 			System.out.println(txt);
 		}
 	}
-	
-	
-	
 }
