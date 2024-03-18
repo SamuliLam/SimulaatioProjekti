@@ -12,6 +12,8 @@ import simu.model.Asiakas;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
 
+import java.sql.SQLException;
+
 public class PalvelupisteTest {
     private Palvelupiste palvelupiste;
     private ContinuousGenerator generator;
@@ -19,7 +21,7 @@ public class PalvelupisteTest {
     private Asiakas asiakas;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         Trace.setTraceLevel(Trace.Level.INFO);
         generator = Mockito.mock(ContinuousGenerator.class);
         eventList = new Tapahtumalista();

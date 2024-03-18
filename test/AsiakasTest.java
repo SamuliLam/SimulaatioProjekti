@@ -10,6 +10,7 @@ import simu.model.TapahtumanTyyppi;
 import simu.model.Tuotehallinta.GroceryCategory;
 import simu.model.Tuotehallinta.Item;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -17,7 +18,7 @@ public class AsiakasTest {
     private Asiakas asiakas;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         Trace.setTraceLevel(Trace.Level.INFO);
         asiakas = new Asiakas();
     }
