@@ -16,3 +16,12 @@ This application is a simulation of a grocery store. The aim is to simulate the 
 - ![Application main view](./src/main/resources/images/DuringSimulation.png)
   - "Nopeuta" - button is used to speed up the simulation.
   - "Hidasta" - button is used to slow down the simulation.
+## After the simulation
+- ![Application main view](./src/main/resources/images/AfterSimulation.png)
+  - ### Top Console
+    - Top console displays live data of the simulation.
+  - ### Bottom Console
+    - Bottom console displays the final statistics of the simulation.
+  - ### Statistics
+    - Statistics of the simulation are able to be viewed in various charts by navigating to the "Avaa statistiikka" - button.
+
