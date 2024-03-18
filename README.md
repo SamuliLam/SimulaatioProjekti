@@ -5,4 +5,4 @@ This application is a simulation of a grocery store. The aim is to simulate the 
 ## Instructions
 - Start the simulation by running the `main.java` file.
 - ![Application main view](./src/main/resources/images/Main.png)
-- - Start the simulation by configuring the above fields and selecting the "Käynnistä button".
+  - Start the simulation by configuring the above fields and selecting the "Käynnistä button".
