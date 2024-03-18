@@ -15,8 +15,6 @@ public interface ISimulaattorinUI {
     int getKassaValue();
 
 
-    void setLoppuaika(double aika);
-
     IVisualisointi getVisualisointi();
 
     void setTuloste(String tulokset);

@@ -93,7 +93,6 @@ public class Visualisointi implements IVisualisointi {
             ;
         }
     }
-
     @Override
     public void naytaLoppuaika(double aika) {
         gc.setFont(new Font(20));

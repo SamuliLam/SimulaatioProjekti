@@ -162,10 +162,6 @@ public class GUIKontrolleri implements ISimulaattorinUI {
         return Long.parseLong(viiveField.getText());
     }
 
-    @Override
-    public void setLoppuaika(double aika) {
-        // TODO
-    }
 
     @Override
     public IVisualisointi getVisualisointi() {
