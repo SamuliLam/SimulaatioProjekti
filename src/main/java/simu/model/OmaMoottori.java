@@ -242,14 +242,14 @@ public class OmaMoottori extends Moottori {
     protected void tulokset() {
         StringBuilder tulokset = new StringBuilder();
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-        double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
+        //double formattedAika = Double.parseDouble(decimalFormat.format(Kello.getInstance().getAika()));
         tulokset.append("Simulointi päättyi kello ").append(Kello.getInstance().getAika()).append("\n");
         for (Palvelupiste p : servicePoints) {
             tulokset.append(p.customerReport()).append("\n");
         }
         tulokset.append(Asiakas.customersReport()).append("\n");
 
-        controller.naytaLoppuaika(formattedAika);
+        controller.naytaLoppuaika(Kello.getInstance().getAika());
 
         controller.naytaTulokset(tulokset.toString());
 
